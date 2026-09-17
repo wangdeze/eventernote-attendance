@@ -42,6 +42,9 @@ jobs:
         id: request
         env:
           EVENT_NAME: ${{ github.event_name }}
+          GITHUB_API_URL: ${{ github.api_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ github.token }}
           WORKFLOW_USER_ID: ${{ inputs.user_id }}
           WORKFLOW_ACTOR_NAME: ${{ inputs.actor_name }}
           WORKFLOW_YEAR: ${{ inputs.year }}
@@ -50,6 +53,8 @@ jobs:
           import json
           import os
           import re
+          import urllib.error
+          import urllib.request
 
           def write_output(key: str, value: str) -> None:
               with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
@@ -61,6 +66,29 @@ jobs:
               year = int(value)
               if year < 2000 or year > 2100:
                   raise SystemExit(range_message)
+
+          def has_repository_permission(username: str) -> bool:
+              if not username:
+                  return False
+
+              request = urllib.request.Request(
+                  f"{os.environ['GITHUB_API_URL'].rstrip('/')}/repos/{os.environ['GITHUB_REPOSITORY']}/collaborators/{username}/permission",
+                  headers={
+                      "Accept": "application/vnd.github+json",
+                      "Authorization": "Bearer " + os.environ["GITHUB_TOKEN"],
+                  },
+              )
+              try:
+                  with urllib.request.urlopen(request) as response:
+                      payload = json.load(response)
+              except urllib.error.HTTPError as exc:
+                  if exc.code == 404:
+                      return False
+                  raise
+
+              permission = payload.get("permission") or ""
+              role_name = payload.get("role_name") or ""
+              return permission in {"read", "write", "admin"} or role_name in {"read", "triage", "write", "maintain", "admin"}
 
           event_name = os.environ["EVENT_NAME"]
           if event_name == "workflow_dispatch":
@@ -97,7 +125,11 @@ jobs:
           write_output("request_like", "true")
           author_association = issue.get("author_association") or ""
           trusted_associations = {"OWNER", "COLLABORATOR"}
-          if author_association not in trusted_associations:
+          requester_login = ((issue.get("user") or {}).get("login") or "").strip()
+          has_access = author_association in trusted_associations
+          if author_association == "MEMBER":
+              has_access = has_repository_permission(requester_login)
+          if not has_access:
               write_output("accepted", "false")
               write_output("rejection_reason", "该公开请求入口仅接受受信任的仓库协作者提交。")
               raise SystemExit(0)
