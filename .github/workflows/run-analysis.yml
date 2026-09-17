@@ -55,6 +55,13 @@ jobs:
               with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
                   fh.write(f"{key}={value}\n")
 
+          def validate_year(value: str, digits_message: str, range_message: str) -> None:
+              if not re.fullmatch(r"\d{4}", value):
+                  raise SystemExit(digits_message)
+              year = int(value)
+              if year < 2000 or year > 2100:
+                  raise SystemExit(range_message)
+
           event_name = os.environ["EVENT_NAME"]
           if event_name == "workflow_dispatch":
               payload = {
@@ -66,8 +73,7 @@ jobs:
               if missing:
                   raise SystemExit(f"Missing required request fields: {', '.join(missing)}")
 
-              if not re.fullmatch(r"\d{4}", payload["year"]):
-                  raise SystemExit("Year must be a 4-digit number.")
+              validate_year(payload["year"], "Year must be a 4-digit number.", "Year must be between 2000 and 2100.")
 
               write_output("accepted", "true")
               write_output("request_like", "false")
@@ -90,7 +96,7 @@ jobs:
 
           write_output("request_like", "true")
           author_association = issue.get("author_association") or ""
-          trusted_associations = {"OWNER", "MEMBER", "COLLABORATOR"}
+          trusted_associations = {"OWNER", "COLLABORATOR"}
           if author_association not in trusted_associations:
               write_output("accepted", "false")
               write_output("rejection_reason", "该公开请求入口仅接受受信任的仓库协作者提交。")
@@ -116,9 +122,11 @@ jobs:
               write_output("rejection_reason", f"请求缺少必要参数: {', '.join(missing)}。")
               raise SystemExit(0)
 
-          if not re.fullmatch(r"\d{4}", payload["year"]):
+          try:
+              validate_year(payload["year"], "年份必须是 4 位数字。", "年份必须在 2000 到 2100 之间。")
+          except SystemExit as exc:
               write_output("accepted", "false")
-              write_output("rejection_reason", "年份必须是 4 位数字。")
+              write_output("rejection_reason", str(exc))
               raise SystemExit(0)
 
           write_output("accepted", "true")

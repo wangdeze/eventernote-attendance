@@ -33,6 +33,8 @@ function getRequestError(payload) {
   if (!payload.user_id) return '请填写 Eventernote 用户 ID。';
   if (!payload.actor_name) return '请填写艺人名称。';
   if (!/^\d{4}$/.test(payload.year)) return '请填写 4 位年份。';
+  const year = Number(payload.year);
+  if (year < 2000 || year > 2100) return '请填写 2000-2100 之间的年份。';
   return '';
 }
 
