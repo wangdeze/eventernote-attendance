@@ -11,6 +11,7 @@ const summary = document.getElementById('summary');
 const warnings = document.getElementById('warnings');
 const errorPanel = document.getElementById('error-panel');
 const eventsBody = document.getElementById('events-body');
+const issueBaseUrl = 'https://github.com/wangdeze/eventernote-attendance/issues/new';
 const requestConfigUrl = './data/request-config.json';
 const defaultRequestConfig = {
   request_mode: 'proxy',
@@ -59,6 +60,23 @@ function getProxyRequestUrl() {
   return toSafeUrl(requestConfig.request_proxy_url);
 }
 
+function buildIssueUrl(payload) {
+  const title = `[analysis-request] ${payload.user_id} / ${payload.actor_name} / ${payload.year}`;
+  const body = [
+    '<!-- eventernote-attendance-request -->',
+    `user_id: ${payload.user_id}`,
+    `actor_name: ${payload.actor_name}`,
+    `year: ${payload.year}`,
+    '',
+    '> 请不要修改以上三行参数；提交 issue 后会自动触发分析 workflow。',
+  ].join('\n');
+  const url = new URL(issueBaseUrl);
+  url.searchParams.set('template', 'analysis-request.md');
+  url.searchParams.set('title', title);
+  url.searchParams.set('body', body);
+  return url.toString();
+}
+
 function setRequestFeedback(kind, text, links = []) {
   requestFeedback.innerHTML = '';
   requestFeedback.className = 'request-feedback';
@@ -96,16 +114,22 @@ function clearRequestFeedback() {
 function syncRequestState() {
   const payload = getRequestPayload();
   const error = getRequestError(payload);
+  const issueUrl = error ? '' : buildIssueUrl(payload);
   const proxyUrl = getProxyRequestUrl();
   const directRequestEnabled = Boolean(proxyUrl);
-  openRequestButton.disabled = Boolean(error || !directRequestEnabled);
+  openRequestButton.disabled = Boolean(error);
   openRequestButton.textContent = '提交分析请求';
   requestHint.textContent = error
     || (directRequestEnabled
       ? '点击按钮后将由中间层自动创建 issue 并触发分析。'
-      : '当前未配置中间层请求入口，请联系维护者配置 data/request-config.json。');
+      : '当前未配置中间层请求入口；按钮会跳转到 GitHub 请求页。');
 
-  if (error || !directRequestEnabled) return;
+  if (error) {
+    openRequestButton.removeAttribute('data-href');
+    return;
+  }
+
+  openRequestButton.dataset.href = issueUrl;
 }
 
 async function loadRequestConfig() {
@@ -296,9 +320,10 @@ form.addEventListener('submit', async (event) => {
     return;
   }
 
+  const issueUrl = openRequestButton.dataset.href;
   const proxyUrl = getProxyRequestUrl();
   if (!proxyUrl) {
-    setRequestFeedback('error', '当前未配置中间层请求入口，请联系维护者。');
+    window.location.assign(issueUrl);
     return;
   }
 

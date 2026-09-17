@@ -36,9 +36,9 @@
 - `actor_name`: 艺人名称
 - `year`: 自然年
 
-页面默认通过轻量中间层请求入口（例如 Cloudflare Worker / Vercel Function）提交参数，由中间层在仓库内自动创建请求 issue 并触发分析 workflow，最终结果写入 `data/latest-result.json`。
+页面会优先通过轻量中间层请求入口（例如 Cloudflare Worker / Vercel Function）提交参数，由中间层在仓库内自动创建请求 issue 并触发分析 workflow，最终结果写入 `data/latest-result.json`。
 
-> 对外页面只暴露一个“提交分析请求”按钮，不再直接暴露 GitHub issue 创建链接。
+> 对外页面只暴露一个“提交分析请求”按钮；若未配置中间层，同一个按钮会回退到 GitHub issue 创建页。
 >
 > 如果你是仓库维护者，也可以继续在 **Actions** 页面手动运行 `Run Eventernote attendance analysis`。
 
@@ -53,7 +53,7 @@
 }
 ```
 
-- `request_mode=proxy`：保留兼容字段，当前页面固定使用中间层提交
+- `request_mode=proxy`：保留兼容字段，当前页面始终优先尝试中间层提交
 - `request_proxy_url`：页面把表单 JSON `POST` 到该地址
 
 当使用 `proxy` 模式时，中间层只需要接收：
@@ -123,7 +123,7 @@ python scripts/fetch_attendance.py --user-id <eventernote-user-id> --actor-name 
 
 - 依赖 Eventernote 公开页面，页面结构变化时可能需要更新解析逻辑
 - 每次只处理“单用户 + 单艺人 + 单年份”的低频分析请求
-- GitHub Pages 请求入口依赖已配置的中间层地址；未配置时页面将提示无法提交
+- GitHub Pages 请求入口优先依赖中间层地址；未配置时会回退到 GitHub issue 请求页
 - 当前运行环境如果无法访问 Eventernote，将只生成错误结果 JSON
 
 ## GitHub Pages 配置
