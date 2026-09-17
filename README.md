@@ -67,12 +67,11 @@
 }
 ```
 
-中间层收到请求后，建议执行两步：
+中间层收到请求后，建议执行一步：
 
-1. 使用 GitHub API 创建 `analysis-request` issue（保留模板中的三行参数）  
-2. 再调用 GitHub `repository_dispatch` 事件（`event_type=analysis-request`）触发当前仓库的 `Run Eventernote attendance analysis` workflow
+1. 使用 GitHub API 创建 `analysis-request` issue（保留模板中的三行参数）
 
-这样可以同时保留请求审计记录（issue）和自动触发能力（dispatch）。
+创建该 issue 后会通过 `issues: opened` 自动触发当前仓库的 `Run Eventernote attendance analysis` workflow，同时保留请求审计记录。
 
 ### 2. 查看结果
 

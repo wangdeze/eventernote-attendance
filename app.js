@@ -348,6 +348,7 @@ form.addEventListener('submit', async (event) => {
     setRequestFeedback(
       'error',
       submitError instanceof Error ? submitError.message : '提交失败。',
+      [{ href: issueUrl, label: '改用 GitHub issue 提交' }],
     );
   } finally {
     syncRequestState();
