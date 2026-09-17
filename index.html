@@ -12,8 +12,8 @@
         <p class="eyebrow">GitHub Pages + GitHub Actions</p>
         <h1>Eventernote 出勤率分析</h1>
         <p class="description">
-          输入 Eventernote 用户 ID、艺人名称和年份后，页面会优先通过中间层自动创建分析请求并触发流程；如果未配置中间层，同一按钮会回退到
-          GitHub 请求页。分析完成后，当前页面会读取 <code>data/latest-result.json</code> 展示最新结果。
+          输入 Eventernote 用户 ID、艺人名称和年份后，页面默认会跳转到 GitHub 请求页；配置中间层后，同一按钮会改为自动创建分析请求并触发流程。
+          分析完成后，当前页面会读取 <code>data/latest-result.json</code> 展示最新结果。
         </p>
       </header>
 
@@ -36,10 +36,10 @@
             <button id="open-request" type="submit">提交分析请求</button>
           </div>
           <p id="request-hint" class="form-note">
-            填完参数后将通过中间层提交请求。
+            填完参数后将根据当前配置自动提交请求。
           </p>
           <div id="request-feedback" class="request-feedback hidden"></div>
-          <p class="form-note">优先走中间层自动创建 issue 并触发 workflow；若未配置中间层，同一按钮会回退到 GitHub 请求页。</p>
+          <p class="form-note">对外仅保留一个提交按钮；切换到 proxy 模式后将由中间层自动创建 issue 并触发 workflow。</p>
         </form>
       </section>
 

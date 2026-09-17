@@ -14,7 +14,7 @@ const eventsBody = document.getElementById('events-body');
 const issueBaseUrl = 'https://github.com/wangdeze/eventernote-attendance/issues/new';
 const requestConfigUrl = './data/request-config.json';
 const defaultRequestConfig = {
-  request_mode: 'proxy',
+  request_mode: 'issue',
   request_proxy_url: '',
 };
 let requestConfig = { ...defaultRequestConfig };
@@ -118,12 +118,15 @@ function syncRequestState() {
   const issueUrl = error ? '' : buildIssueUrl(payload);
   const proxyUrl = getProxyRequestUrl();
   const directRequestEnabled = Boolean(proxyUrl);
+  const isProxyMode = requestConfig.request_mode === 'proxy';
   openRequestButton.disabled = Boolean(error);
   openRequestButton.textContent = '提交分析请求';
   requestHint.textContent = error
     || (directRequestEnabled
       ? '点击按钮后将由中间层自动创建 issue 并触发分析。'
-      : '当前未配置中间层请求入口；按钮会跳转到 GitHub 请求页。');
+      : isProxyMode
+      ? '当前 proxy 模式未配置可用中间层地址；按钮会回退到 GitHub 请求页。'
+      : '当前为 issue 模式；按钮会跳转到 GitHub 请求页。');
 
   if (error) {
     openRequestButton.removeAttribute('data-href');
