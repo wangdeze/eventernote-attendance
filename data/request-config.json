@@ -1,4 +1,4 @@
 {
-  "request_mode": "issue",
+  "request_mode": "proxy",
   "request_proxy_url": ""
 }

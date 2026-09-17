@@ -3,7 +3,6 @@ const userIdInput = document.getElementById('user-id');
 const actorNameInput = document.getElementById('actor-name');
 const yearInput = document.getElementById('year');
 const openRequestButton = document.getElementById('open-request');
-const manualRequestLink = document.getElementById('manual-request-link');
 const requestHint = document.getElementById('request-hint');
 const requestFeedback = document.getElementById('request-feedback');
 const statusPill = document.getElementById('status-pill');
@@ -12,10 +11,8 @@ const summary = document.getElementById('summary');
 const warnings = document.getElementById('warnings');
 const errorPanel = document.getElementById('error-panel');
 const eventsBody = document.getElementById('events-body');
-const issueBaseUrl = 'https://github.com/wangdeze/eventernote-attendance/issues/new';
 const requestConfigUrl = './data/request-config.json';
 const defaultRequestConfig = {
-  request_mode: 'issue',
   request_proxy_url: '',
 };
 let requestConfig = { ...defaultRequestConfig };
@@ -52,30 +49,11 @@ function normalizeRequestConfig(value) {
   }
 
   return {
-    request_mode: value.request_mode === 'proxy' ? 'proxy' : 'issue',
     request_proxy_url: typeof value.request_proxy_url === 'string' ? value.request_proxy_url.trim() : '',
   };
 }
 
-function buildIssueUrl(payload) {
-  const title = `[analysis-request] ${payload.user_id} / ${payload.actor_name} / ${payload.year}`;
-  const body = [
-    '<!-- eventernote-attendance-request -->',
-    `user_id: ${payload.user_id}`,
-    `actor_name: ${payload.actor_name}`,
-    `year: ${payload.year}`,
-    '',
-    '> 请不要修改以上三行参数；提交 issue 后会自动触发分析 workflow。',
-  ].join('\n');
-  const url = new URL(issueBaseUrl);
-  url.searchParams.set('template', 'analysis-request.md');
-  url.searchParams.set('title', title);
-  url.searchParams.set('body', body);
-  return url.toString();
-}
-
 function getProxyRequestUrl() {
-  if (requestConfig.request_mode !== 'proxy') return '';
   return toSafeUrl(requestConfig.request_proxy_url);
 }
 
@@ -116,27 +94,16 @@ function clearRequestFeedback() {
 function syncRequestState() {
   const payload = getRequestPayload();
   const error = getRequestError(payload);
-  const issueUrl = error ? '' : buildIssueUrl(payload);
   const proxyUrl = getProxyRequestUrl();
   const directRequestEnabled = Boolean(proxyUrl);
-  openRequestButton.disabled = Boolean(error);
-  openRequestButton.textContent = directRequestEnabled ? '直接提交分析请求' : '打开 GitHub 请求页';
+  openRequestButton.disabled = Boolean(error || !directRequestEnabled);
+  openRequestButton.textContent = '提交分析请求';
   requestHint.textContent = error
     || (directRequestEnabled
-      ? '将直接提交分析请求；如果失败，也可以改用 GitHub 请求页。'
-      : '将在当前页面跳转到 GitHub issue 页面，提交 issue 后会自动运行分析。');
+      ? '点击按钮后将由中间层自动创建 issue 并触发分析。'
+      : '当前未配置中间层请求入口，请联系维护者配置 data/request-config.json。');
 
-  if (error) {
-    openRequestButton.removeAttribute('data-href');
-    manualRequestLink.classList.add('hidden');
-    manualRequestLink.removeAttribute('href');
-    return;
-  }
-
-  openRequestButton.dataset.href = issueUrl;
-  manualRequestLink.href = issueUrl;
-  manualRequestLink.textContent = directRequestEnabled ? '改用 GitHub 请求页' : '直接打开 GitHub 请求页';
-  manualRequestLink.classList.remove('hidden');
+  if (error || !directRequestEnabled) return;
 }
 
 async function loadRequestConfig() {
@@ -327,10 +294,9 @@ form.addEventListener('submit', async (event) => {
     return;
   }
 
-  const issueUrl = openRequestButton.dataset.href;
   const proxyUrl = getProxyRequestUrl();
   if (!proxyUrl) {
-    window.location.assign(issueUrl);
+    setRequestFeedback('error', '当前未配置中间层请求入口，请联系维护者。');
     return;
   }
 
@@ -350,10 +316,7 @@ form.addEventListener('submit', async (event) => {
   } catch (submitError) {
     setRequestFeedback(
       'error',
-      `${submitError instanceof Error ? submitError.message : '提交失败。'} 你也可以改用 GitHub 请求页继续提交。`,
-      [
-        { href: issueUrl, label: '打开 GitHub 请求页' },
-      ],
+      submitError instanceof Error ? submitError.message : '提交失败。',
     );
   } finally {
     syncRequestState();

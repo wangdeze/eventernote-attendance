@@ -36,27 +36,25 @@
 - `actor_name`: 艺人名称
 - `year`: 自然年
 
-默认情况下，点击“打开 GitHub 请求页”后会在当前页跳转到 GitHub issue 创建页，提交该 issue 后，仓库 workflow 会自动运行分析并将结果写入 `data/latest-result.json`。
+页面默认通过轻量中间层请求入口（例如 Cloudflare Worker / Vercel Function）提交参数，由中间层在仓库内自动创建请求 issue 并触发分析 workflow，最终结果写入 `data/latest-result.json`。
 
-如果后续给页面配置了轻量中间层请求入口（例如 Cloudflare Worker / Vercel Function），页面也可以直接提交请求，再由中间层触发同一个 workflow，而不需要改动分析主流程。
-
-> 出于仓库安全考虑，issue 触发的自动分析只接受受信任的仓库协作者提交。
+> 对外页面只暴露一个“提交分析请求”按钮，不再直接暴露 GitHub issue 创建链接。
 >
 > 如果你是仓库维护者，也可以继续在 **Actions** 页面手动运行 `Run Eventernote attendance analysis`。
 
-### 1.1 可选的直接提交入口配置
+### 1.1 中间层提交入口配置
 
 仓库内置了 `data/request-config.json`：
 
 ```json
 {
-  "request_mode": "issue",
+  "request_mode": "proxy",
   "request_proxy_url": ""
 }
 ```
 
-- `request_mode=issue`：页面使用 GitHub issue 作为请求入口
-- `request_mode=proxy`：页面把表单 JSON `POST` 到 `request_proxy_url`
+- `request_mode=proxy`：保留兼容字段，当前页面固定使用中间层提交
+- `request_proxy_url`：页面把表单 JSON `POST` 到该地址
 
 当使用 `proxy` 模式时，中间层只需要接收：
 
@@ -68,7 +66,12 @@
 }
 ```
 
-然后再调用 GitHub `repository_dispatch` 事件（`event_type=analysis-request`）触发当前仓库的 `Run Eventernote attendance analysis` workflow。
+中间层收到请求后，建议执行两步：
+
+1. 使用 GitHub API 创建 `analysis-request` issue（保留模板中的三行参数）  
+2. 再调用 GitHub `repository_dispatch` 事件（`event_type=analysis-request`）触发当前仓库的 `Run Eventernote attendance analysis` workflow
+
+这样可以同时保留请求审计记录（issue）和自动触发能力（dispatch）。
 
 ### 2. 查看结果
 
@@ -120,7 +123,7 @@ python scripts/fetch_attendance.py --user-id <eventernote-user-id> --actor-name 
 
 - 依赖 Eventernote 公开页面，页面结构变化时可能需要更新解析逻辑
 - 每次只处理“单用户 + 单艺人 + 单年份”的低频分析请求
-- GitHub Pages 默认会把参数带到 GitHub issue 请求页；如果配置了轻量中间层，也可以改为由中间层直接触发 GitHub Actions
+- GitHub Pages 请求入口依赖已配置的中间层地址；未配置时页面将提示无法提交
 - 当前运行环境如果无法访问 Eventernote，将只生成错误结果 JSON
 
 ## GitHub Pages 配置
