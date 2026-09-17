@@ -36,7 +36,7 @@
 - `actor_name`: 艺人名称
 - `year`: 自然年
 
-页面会优先通过轻量中间层请求入口（例如 Cloudflare Worker / Vercel Function）提交参数，由中间层在仓库内自动创建请求 issue 并触发分析 workflow，最终结果写入 `data/latest-result.json`。
+页面会优先通过轻量中间层请求入口（例如 Cloudflare Worker / Vercel Function）提交参数，由中间层在仓库内自动创建请求 issue 并触发分析 workflow，最终结果写入 `data/latest-result.json`；如果未配置中间层，同一个按钮会回退到 GitHub issue 创建页。
 
 > 对外页面只暴露一个“提交分析请求”按钮；若未配置中间层，同一个按钮会回退到 GitHub issue 创建页。
 >

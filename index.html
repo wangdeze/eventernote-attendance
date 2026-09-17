@@ -12,8 +12,8 @@
         <p class="eyebrow">GitHub Pages + GitHub Actions</p>
         <h1>Eventernote 出勤率分析</h1>
         <p class="description">
-          输入 Eventernote 用户 ID、艺人名称和年份后，页面会通过中间层自动创建分析请求并触发流程。分析完成后，当前页面会读取
-          <code>data/latest-result.json</code> 展示最新结果。
+          输入 Eventernote 用户 ID、艺人名称和年份后，页面会优先通过中间层自动创建分析请求并触发流程；如果未配置中间层，同一按钮会回退到
+          GitHub 请求页。分析完成后，当前页面会读取 <code>data/latest-result.json</code> 展示最新结果。
         </p>
       </header>
 
