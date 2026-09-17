@@ -27,6 +27,8 @@ PAGE_SIZE = 100
 MAX_PAGES = 30
 REQUEST_DELAY_RANGE = (2.0, 5.0)
 REQUEST_TIMEOUT = 30
+MIN_YEAR = 2000
+MAX_YEAR = 2100
 
 
 class AnalyzerError(Exception):
@@ -374,7 +376,10 @@ def build_error_result(user_id: str, actor_name: str, year: int | str, exc: Exce
 def parse_year(value: str) -> int:
     if not re.fullmatch(r"\d{4}", value.strip()):
         raise AnalyzerError("年份必须是 4 位数字，例如 2025。")
-    return int(value)
+    year = int(value)
+    if year < MIN_YEAR or year > MAX_YEAR:
+        raise AnalyzerError(f"年份必须在 {MIN_YEAR} 到 {MAX_YEAR} 之间。")
+    return year
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

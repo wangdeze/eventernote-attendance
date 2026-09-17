@@ -5,13 +5,16 @@ from pathlib import Path
 
 from scripts.fetch_attendance import (
     ActorCandidate,
+    AnalyzerError,
     EventRecord,
     EventernoteClient,
     main,
     match_events,
+    parse_year,
     parse_actor_search_results,
     parse_event_list,
 )
+from v2.backend.api import build_analysis_response
 
 
 class ParseActorSearchResultsTests(unittest.TestCase):
@@ -254,6 +257,71 @@ class MainTests(unittest.TestCase):
         self.assertEqual(result["status"], "error")
         self.assertEqual(result["year"], "20xx")
         self.assertEqual(result["error"]["type"], "AnalyzerError")
+
+
+class ParseYearTests(unittest.TestCase):
+    def test_rejects_year_out_of_supported_range(self) -> None:
+        with self.assertRaises(AnalyzerError):
+            parse_year("1999")
+
+
+class StubAnalyzeClient(EventernoteClient):
+    def __init__(self) -> None:
+        super().__init__(min_delay=0, max_delay=0)
+
+    def resolve_actor(self, actor_name: str) -> ActorCandidate:
+        return ActorCandidate(id="11198", name=actor_name, url="https://www.eventernote.com/actors/suzuki-aina/11198")
+
+    def fetch_actor_events(self, actor: ActorCandidate, year: int) -> tuple[list[EventRecord], list[str]]:
+        return (
+            [
+                EventRecord(
+                    id="100",
+                    date=f"{year}-03-15",
+                    title="Aqours Event",
+                    venue="Tokyo Dome",
+                    url="https://www.eventernote.com/events/100",
+                    actors=(actor.name,),
+                )
+            ],
+            [],
+        )
+
+    def fetch_user_events(self, user_id: str, year: int) -> tuple[list[EventRecord], list[str]]:
+        return (
+            [
+                EventRecord(
+                    id="100",
+                    date=f"{year}-03-15",
+                    title="Aqours Event",
+                    venue="Tokyo Dome",
+                    url="https://www.eventernote.com/events/100",
+                    actors=("鈴木愛奈",),
+                )
+            ],
+            [],
+        )
+
+
+class ApiResponseTests(unittest.TestCase):
+    def test_rejects_missing_request_fields(self) -> None:
+        status_code, result = build_analysis_response({"user_id": "", "actor_name": "鈴木愛奈", "year": "2025"})
+
+        self.assertEqual(status_code, 400)
+        self.assertEqual(result["status"], "error")
+        self.assertEqual(result["error"]["type"], "AnalyzerError")
+
+    def test_returns_live_analysis_payload(self) -> None:
+        status_code, result = build_analysis_response(
+            {"user_id": "Tokuzawa353567", "actor_name": "鈴木愛奈", "year": "2025"},
+            client=StubAnalyzeClient(),
+        )
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(result["status"], "success")
+        self.assertEqual(result["attended_events"], 1)
+        self.assertEqual(result["total_actor_events"], 1)
+        self.assertEqual(result["attendance_rate"], 1.0)
 
 
 if __name__ == "__main__":

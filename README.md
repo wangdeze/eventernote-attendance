@@ -2,6 +2,11 @@
 
 最小可用版 Eventernote 出勤率分析工具。
 
+当前仓库根目录实现冻结为 **v1.0** 基线（`VERSION` = `1.0.0`）：
+
+- 根目录页面与 workflow 继续保留 GitHub Pages + GitHub Actions 的 v1 流程
+- `v2/` 目录开始承载“动态网页 + 直接分析接口”的升级实现
+
 ## 功能
 
 - 从 GitHub Pages 网页发起一次分析请求
@@ -16,14 +21,17 @@
 ```text
 .
 ├── .github/workflows/run-analysis.yml
+├── VERSION
 ├── app.js
 ├── data/latest-result.json
 ├── doc/requirements-and-plan.md
+├── doc/v2-dynamic-frontend-plan.md
 ├── index.html
 ├── requirements.txt
 ├── scripts/fetch_attendance.py
 ├── style.css
-└── tests/test_fetch_attendance.py
+├── tests/test_fetch_attendance.py
+└── v2/
 ```
 
 ## 使用方式
@@ -87,6 +95,15 @@
 
 页面本身不会直接抓取 Eventernote，而是读取仓库中的最新 JSON 结果。
 
+## v2 升级入口
+
+`v2/` 目录开始实现文档中的动态版本：
+
+- `v2/index.html`：前端直接提交实时分析请求
+- `v2/backend/api.py`：复用现有 Python 抓取逻辑，输出统一 JSON 响应
+- `v2/backend/server.py`：本地/轻量部署可直接运行的 HTTP API
+- `v2/data/runtime-config.json`：可配置 v2 前端要调用的分析接口地址
+
 ## 本地开发
 
 ```bash
@@ -96,6 +113,18 @@ pip install -r requirements.txt
 python -m unittest discover -s tests
 python scripts/fetch_attendance.py --user-id <eventernote-user-id> --actor-name <actor-name> --year <year>
 ```
+
+### 本地体验 v2
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python -m unittest discover -s tests
+python -m v2.backend.server --host 127.0.0.1 --port 8000
+```
+
+然后打开 `v2/index.html`，或把静态文件发布到任意站点，并在 `v2/data/runtime-config.json` 里配置 `analyze_api_url`。
 
 ## 结果格式
 
