@@ -26,6 +26,8 @@ python -m v2.backend.server --host 127.0.0.1 --port 8000
 - `<当前站点>/api/analyze`（同域部署时）
 - `v2/data/runtime-config.json` 中配置的 `analyze_api_url`（显式覆盖时）
 
+如果页面本身通过 HTTPS 打开，则 `analyze_api_url` 也必须是 HTTPS 地址。
+
 如果前端和 API 分域部署，请在 API 启动时显式配置：
 
 ```bash

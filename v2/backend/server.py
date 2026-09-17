@@ -74,6 +74,7 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
             )
             return
         if content_length > MAX_REQUEST_BODY_BYTES:
+            self.close_connection = True
             self._send_json(
                 HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
                 build_error_result("", "", "", AnalyzerError("请求体过大。")),

@@ -57,13 +57,18 @@ function normalizeRuntimeConfig(value) {
 
 function resolveAnalyzeApiUrl() {
   const configured = runtimeConfig.analyze_api_url;
+  let candidate = '';
   if (configured) {
-    return toSafeUrl(configured);
+    candidate = toSafeUrl(configured);
+  } else if (window.location.protocol === 'file:') {
+    candidate = 'http://127.0.0.1:8000/api/analyze';
+  } else {
+    candidate = `${window.location.origin}/api/analyze`;
   }
-  if (window.location.protocol === 'file:') {
-    return 'http://127.0.0.1:8000/api/analyze';
+  if (window.location.protocol === 'https:' && candidate.startsWith('http://')) {
+    return '';
   }
-  return `${window.location.origin}/api/analyze`;
+  return candidate;
 }
 
 function setFeedback(kind, text) {
@@ -90,8 +95,10 @@ function setStatus(kind, text) {
 function syncRequestState() {
   const payload = getRequestPayload();
   const error = getRequestError(payload);
-  runAnalysisButton.disabled = Boolean(error);
-  apiHint.textContent = error || `当前分析接口：${resolveAnalyzeApiUrl() || '未配置'}`;
+  const apiUrl = resolveAnalyzeApiUrl();
+  const apiError = apiUrl ? '' : '当前页面为 HTTPS，请配置 HTTPS 的分析接口地址。';
+  runAnalysisButton.disabled = Boolean(error || apiError);
+  apiHint.textContent = error || apiError || `当前分析接口：${apiUrl}`;
 }
 
 async function loadRuntimeConfig() {
