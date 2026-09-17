@@ -38,6 +38,8 @@
 
 点击“打开 GitHub 请求页”后，会跳转到 GitHub issue 创建页。提交该 issue 后，仓库 workflow 会自动运行分析并将结果写入 `data/latest-result.json`。
 
+> 出于仓库安全考虑，issue 触发的自动分析只接受受信任的仓库协作者提交。
+>
 > 如果你是仓库维护者，也可以继续在 **Actions** 页面手动运行 `Run Eventernote attendance analysis`。
 
 ### 2. 查看结果
