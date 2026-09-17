@@ -1,0 +1,11 @@
+{
+  "status": "idle",
+  "generated_at": null,
+  "requested_actor_name": "",
+  "user_id": "",
+  "actor_name": "",
+  "year": null,
+  "warnings": [],
+  "events": [],
+  "message": "No analysis has been run yet. Trigger the GitHub Actions workflow to generate a result."
+}
