@@ -108,7 +108,7 @@ class EventernoteClient:
     def resolve_actor(self, actor_name: str) -> ActorCandidate:
         search_url = f"{self.base_url}/actors/search?{urlencode({'keyword': actor_name})}"
         html = self.fetch_text(search_url)
-        candidates = parse_actor_search_results(html)
+        candidates = parse_actor_search_results(html, base_url=self.base_url)
         if not candidates:
             raise ActorResolutionError(f'无法解析艺人名称："{actor_name}"')
 
@@ -133,19 +133,25 @@ class EventernoteClient:
     def _fetch_event_pages(self, page_url: str, year: int, *, label: str) -> tuple[list[EventRecord], list[str]]:
         events: list[EventRecord] = []
         warnings: list[str] = []
-        seen: set[tuple[str, ...]] = set()
+        seen_ids: set[str] = set()
+        seen_fallbacks: set[tuple[str, ...]] = set()
 
         for page in range(1, self.max_pages + 1):
             html = self.fetch_text(page_url, params={"page": page, "limit": PAGE_SIZE, "year": year})
             raw_event_count = count_event_blocks(html)
             if raw_event_count == 0:
                 break
-            page_events = parse_event_list(html, year)
+            page_events = parse_event_list(html, year, base_url=self.base_url)
 
             for event in page_events:
-                if any(key in seen for key in event.match_keys):
-                    continue
-                seen.update(event.match_keys)
+                if event.id:
+                    if event.id in seen_ids:
+                        continue
+                    seen_ids.add(event.id)
+                else:
+                    if event.fallback_key in seen_fallbacks:
+                        continue
+                    seen_fallbacks.add(event.fallback_key)
                 events.append(event)
 
             if raw_event_count < PAGE_SIZE:
@@ -177,7 +183,7 @@ class EventernoteClient:
         time.sleep(random.uniform(self.min_delay, self.max_delay))
 
 
-def parse_actor_search_results(html: str) -> list[ActorCandidate]:
+def parse_actor_search_results(html: str, *, base_url: str = BASE_URL) -> list[ActorCandidate]:
     soup = BeautifulSoup(html, "html.parser")
     candidates: list[ActorCandidate] = []
     seen_ids: set[str] = set()
@@ -199,7 +205,7 @@ def parse_actor_search_results(html: str) -> list[ActorCandidate]:
             ActorCandidate(
                 id=actor_id,
                 name=name,
-                url=urljoin(BASE_URL, href),
+                url=urljoin(base_url, href),
             )
         )
     return candidates
@@ -210,7 +216,7 @@ def direct_text(element) -> str:
     return " ".join(part for part in parts if part).strip()
 
 
-def parse_event_list(html: str, year: int) -> list[EventRecord]:
+def parse_event_list(html: str, year: int, *, base_url: str = BASE_URL) -> list[EventRecord]:
     soup = BeautifulSoup(html, "html.parser")
     items = select_event_blocks(soup)
     events: list[EventRecord] = []
@@ -238,7 +244,7 @@ def parse_event_list(html: str, year: int) -> list[EventRecord]:
                 date=date,
                 title=title,
                 venue=venue,
-                url=urljoin(BASE_URL, href),
+                url=urljoin(base_url, href),
                 actors=actors,
             )
         )
@@ -284,9 +290,19 @@ def parse_venue(item) -> str:
 
 
 def match_events(actor_events: Iterable[EventRecord], user_events: Iterable[EventRecord]) -> list[dict[str, object]]:
-    user_keys = {key for event in user_events for key in event.match_keys}
+    user_event_list = list(user_events)
     rows: list[dict[str, object]] = []
     for event in actor_events:
+        attended = False
+        for user_event in user_event_list:
+            if event.id and user_event.id:
+                if event.id == user_event.id:
+                    attended = True
+                    break
+                continue
+            if event.fallback_key == user_event.fallback_key:
+                attended = True
+                break
         rows.append(
             {
                 "id": event.id,
@@ -295,7 +311,7 @@ def match_events(actor_events: Iterable[EventRecord], user_events: Iterable[Even
                 "venue": event.venue,
                 "url": event.url,
                 "actors": list(event.actors),
-                "attended": any(key in user_keys for key in event.match_keys),
+                "attended": attended,
             }
         )
     return rows

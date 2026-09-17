@@ -38,6 +38,19 @@ class ParseActorSearchResultsTests(unittest.TestCase):
             ],
         )
 
+    def test_builds_candidate_urls_from_provided_base_url(self) -> None:
+        html = """
+        <html><body>
+          <ul>
+            <li><a href="/actors/suzuki-aina/11198">鈴木愛奈</a></li>
+          </ul>
+        </body></html>
+        """
+
+        candidates = parse_actor_search_results(html, base_url="https://staging.example")
+
+        self.assertEqual(candidates[0].url, "https://staging.example/actors/suzuki-aina/11198")
+
 
 class ParseEventListTests(unittest.TestCase):
     def test_parses_only_requested_year(self) -> None:
@@ -77,6 +90,25 @@ class ParseEventListTests(unittest.TestCase):
             ],
         )
 
+    def test_builds_event_urls_from_provided_base_url(self) -> None:
+        html = """
+        <html><body>
+          <div class="gb_event_list clearfix">
+            <ul>
+              <li class="clearfix">
+                <div class="date"><p>2025-03-15(土)</p></div>
+                <div class="event"><h4><a href="/events/100">Aqours Event</a></h4></div>
+                <div class="place"><a href="/places/1">Tokyo Dome</a></div>
+              </li>
+            </ul>
+          </div>
+        </body></html>
+        """
+
+        events = parse_event_list(html, 2025, base_url="https://staging.example")
+
+        self.assertEqual(events[0].url, "https://staging.example/events/100")
+
 
 class MatchEventsTests(unittest.TestCase):
     def test_marks_attended_by_event_id(self) -> None:
@@ -115,6 +147,18 @@ class MatchEventsTests(unittest.TestCase):
         rows = match_events(actor_events, user_events)
 
         self.assertEqual([row["attended"] for row in rows], [True])
+
+    def test_does_not_use_fallback_when_both_sides_have_different_ids(self) -> None:
+        actor_events = [
+            EventRecord(id="100", date="2025-03-15", title="Same Event", venue="Tokyo", url="https://www.eventernote.com/events/100", actors=()),
+        ]
+        user_events = [
+            EventRecord(id="200", date="2025-03-15", title="Same Event", venue="Tokyo", url="https://www.eventernote.com/events/200", actors=()),
+        ]
+
+        rows = match_events(actor_events, user_events)
+
+        self.assertEqual([row["attended"] for row in rows], [False])
 
 
 def build_events_html(entries) -> str:
@@ -163,6 +207,26 @@ class EventernoteClientTests(unittest.TestCase):
 
         self.assertEqual([event.title for event in events], ["Target Page 1", "Target Page 2"])
         self.assertEqual(client.pages_requested, [1, 2])
+        self.assertEqual(warnings, [])
+
+    def test_keeps_distinct_events_with_different_ids(self) -> None:
+        client = FakeEventernoteClient(
+            {
+                1: build_events_html(
+                    [
+                        (100, "2025-03-15(土)", "Duplicate Title", "Same Venue"),
+                        (200, "2025-03-15(土)", "Duplicate Title", "Same Venue"),
+                    ]
+                )
+            }
+        )
+
+        events, warnings = client.fetch_actor_events(
+            ActorCandidate(id="11198", name="鈴木愛奈", url="https://www.eventernote.com/actors/suzuki-aina/11198"),
+            2025,
+        )
+
+        self.assertEqual([event.id for event in events], ["100", "200"])
         self.assertEqual(warnings, [])
 
 
