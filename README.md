@@ -4,7 +4,7 @@
 
 ## 功能
 
-- GitHub Actions 手动触发一次分析（`workflow_dispatch`）
+- 从 GitHub Pages 网页发起一次分析请求
 - 输入 Eventernote 用户 ID、艺人名称、年份
 - 内部自动解析艺人名称到 Eventernote 艺人页/ID
 - 抓取用户活动页与艺人活动页，过滤指定年份并匹配活动
@@ -28,15 +28,17 @@
 
 ## 使用方式
 
-### 1. 手动运行分析
+### 1. 从网页提交分析请求
 
-在 GitHub 仓库的 **Actions** 页面运行 `Run Eventernote attendance analysis`，填写：
+打开 GitHub Pages 首页，填写：
 
 - `user_id`: Eventernote 用户 ID
 - `actor_name`: 艺人名称
 - `year`: 自然年
 
-工作流会安装依赖、运行抓取脚本，并将结果写入 `data/latest-result.json`。
+点击“打开 GitHub 请求页”后，会跳转到 GitHub issue 创建页。提交该 issue 后，仓库 workflow 会自动运行分析并将结果写入 `data/latest-result.json`。
+
+> 如果你是仓库维护者，也可以继续在 **Actions** 页面手动运行 `Run Eventernote attendance analysis`。
 
 ### 2. 查看结果
 
@@ -59,7 +61,7 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python -m unittest discover -s tests
-python scripts/fetch_attendance.py --user-id Tokuzawa353567 --actor-name 鈴木愛奈 --year 2025
+python scripts/fetch_attendance.py --user-id <eventernote-user-id> --actor-name <actor-name> --year <year>
 ```
 
 ## 结果格式
@@ -69,10 +71,10 @@ python scripts/fetch_attendance.py --user-id Tokuzawa353567 --actor-name 鈴木�
 ```json
 {
   "status": "success",
-  "user_id": "Tokuzawa353567",
-  "requested_actor_name": "鈴木愛奈",
-  "actor_name": "鈴木愛奈",
-  "actor_id": "11198",
+  "user_id": "<user-id>",
+  "requested_actor_name": "<actor-name>",
+  "actor_name": "<resolved-actor-name>",
+  "actor_id": "<actor-id>",
   "year": 2025,
   "total_actor_events": 48,
   "attended_events": 18,
@@ -87,11 +89,11 @@ python scripts/fetch_attendance.py --user-id Tokuzawa353567 --actor-name 鈴木�
 ## 限制
 
 - 依赖 Eventernote 公开页面，页面结构变化时可能需要更新解析逻辑
-- 首版只面向“单用户 + 单艺人 + 单年份”的低频手动分析
-- GitHub Pages 只是展示层，不负责触发抓取
+- 每次只处理“单用户 + 单艺人 + 单年份”的低频分析请求
+- GitHub Pages 会把参数带到 GitHub issue 请求页，真正执行仍由 GitHub Actions 完成
 - 当前运行环境如果无法访问 Eventernote，将只生成错误结果 JSON
 
 ## GitHub Pages 配置
 
 建议在仓库设置中将 GitHub Pages 指向默认分支根目录（root）。
-启用后，首页会读取 `data/latest-result.json` 并展示最新一次分析结果。
+启用后，首页会读取 `data/latest-result.json` 并展示最新一次分析结果，同时提供公开分析请求入口。

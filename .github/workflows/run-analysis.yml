@@ -6,18 +6,19 @@ on:
       user_id:
         description: Eventernote 用户 ID
         required: true
-        default: Tokuzawa353567
       actor_name:
         description: 艺人名称（会自动解析到 Eventernote 艺人页）
         required: true
-        default: 鈴木愛奈
       year:
         description: 统计年份
         required: true
-        default: '2025'
+  issues:
+    types:
+      - opened
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: eventernote-attendance-analysis
@@ -25,17 +26,68 @@ concurrency:
 
 jobs:
   analyze:
+    if: github.event_name != 'issues' || startsWith(github.event.issue.title, '[analysis-request]')
     runs-on: ubuntu-latest
 
     steps:
       - name: Resolve target branch
         id: target-branch
         run: |
-          branch="${GITHUB_REF_NAME}"
-          if [ "${GITHUB_REF_TYPE}" != "branch" ]; then
-            branch="${{ github.event.repository.default_branch }}"
+          branch="${{ github.event.repository.default_branch }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${GITHUB_REF_TYPE}" = "branch" ]; then
+            branch="${GITHUB_REF_NAME}"
           fi
           echo "branch=${branch}" >> "${GITHUB_OUTPUT}"
+
+      - name: Resolve request inputs
+        id: request
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          WORKFLOW_USER_ID: ${{ inputs.user_id }}
+          WORKFLOW_ACTOR_NAME: ${{ inputs.actor_name }}
+          WORKFLOW_YEAR: ${{ inputs.year }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+
+          def write_output(key: str, value: str) -> None:
+              with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+                  fh.write(f"{key}={value}\n")
+
+          event_name = os.environ["EVENT_NAME"]
+          if event_name == "workflow_dispatch":
+              payload = {
+                  "user_id": os.environ["WORKFLOW_USER_ID"].strip(),
+                  "actor_name": os.environ["WORKFLOW_ACTOR_NAME"].strip(),
+                  "year": os.environ["WORKFLOW_YEAR"].strip(),
+              }
+          else:
+              with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as fh:
+                  issue = json.load(fh)["issue"]
+              body = issue.get("body") or ""
+              if "<!-- eventernote-attendance-request -->" not in body:
+                  raise SystemExit("Issue body is not a supported analysis request.")
+              payload = {}
+              for line in body.splitlines():
+                  if ":" not in line:
+                      continue
+                  key, value = line.split(":", 1)
+                  key = key.strip()
+                  if key in {"user_id", "actor_name", "year"}:
+                      payload[key] = value.strip()
+
+          missing = [key for key in ("user_id", "actor_name", "year") if not payload.get(key)]
+          if missing:
+              raise SystemExit(f"Missing required request fields: {', '.join(missing)}")
+
+          if not re.fullmatch(r"\d{4}", payload["year"]):
+              raise SystemExit("Year must be a 4-digit number.")
+
+          for key, value in payload.items():
+              write_output(key, value)
+          PY
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -52,9 +104,9 @@ jobs:
 
       - name: Run analyzer
         env:
-          USER_ID: ${{ inputs.user_id }}
-          ACTOR_NAME: ${{ inputs.actor_name }}
-          YEAR: ${{ inputs.year }}
+          USER_ID: ${{ steps.request.outputs.user_id }}
+          ACTOR_NAME: ${{ steps.request.outputs.actor_name }}
+          YEAR: ${{ steps.request.outputs.year }}
         run: |
           python scripts/fetch_attendance.py \
             --user-id "${USER_ID}" \
@@ -64,9 +116,9 @@ jobs:
 
       - name: Commit latest result
         env:
-          USER_ID: ${{ inputs.user_id }}
-          ACTOR_NAME: ${{ inputs.actor_name }}
-          YEAR: ${{ inputs.year }}
+          USER_ID: ${{ steps.request.outputs.user_id }}
+          ACTOR_NAME: ${{ steps.request.outputs.actor_name }}
+          YEAR: ${{ steps.request.outputs.year }}
           TARGET_BRANCH: ${{ steps.target-branch.outputs.branch }}
         run: |
           if git diff --quiet -- data/latest-result.json; then
@@ -78,3 +130,43 @@ jobs:
           git add data/latest-result.json
           git commit -m "Update attendance result for ${USER_ID} / ${ACTOR_NAME} / ${YEAR}"
           git push origin "HEAD:${TARGET_BRANCH}"
+
+      - name: Comment on analysis request
+        if: always() && github.event_name == 'issues'
+        uses: actions/github-script@v7
+        env:
+          JOB_STATUS: ${{ job.status }}
+          TARGET_BRANCH: ${{ steps.target-branch.outputs.branch }}
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const resultUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/blob/${process.env.TARGET_BRANCH}/data/latest-result.json`;
+            const isSuccess = process.env.JOB_STATUS === 'success';
+            const body = isSuccess
+              ? [
+                  '分析请求已处理完成。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                  `- Result JSON: ${resultUrl}`,
+                ].join('\n')
+              : [
+                  '分析请求执行失败，请打开 workflow 日志查看详情。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                ].join('\n');
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body,
+            });
+
+            if (isSuccess) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.issue.number,
+                state: 'closed',
+              });
+            }
