@@ -1,6 +1,10 @@
 import json
+import http.client
+import socket
 import tempfile
+import threading
 import unittest
+from http.server import ThreadingHTTPServer
 from pathlib import Path
 
 from scripts.fetch_attendance import (
@@ -15,6 +19,7 @@ from scripts.fetch_attendance import (
     parse_event_list,
 )
 from v2.backend.api import build_analysis_response
+from v2.backend.server import AnalyzeHandler
 
 
 class ParseActorSearchResultsTests(unittest.TestCase):
@@ -347,6 +352,59 @@ class ApiResponseTests(unittest.TestCase):
         self.assertEqual(status_code, 502)
         self.assertEqual(result["status"], "error")
         self.assertEqual(result["error"]["type"], "AnalyzerError")
+
+
+class AnalyzeHandlerTests(unittest.TestCase):
+    def start_server(self) -> tuple[ThreadingHTTPServer, threading.Thread]:
+        server = ThreadingHTTPServer(("127.0.0.1", 0), AnalyzeHandler)
+        server.allow_origin = ""
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        return server, thread
+
+    def stop_server(self, server: ThreadingHTTPServer, thread: threading.Thread) -> None:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)
+
+    def test_returns_json_error_for_malformed_json_body(self) -> None:
+        server, thread = self.start_server()
+        try:
+            connection = http.client.HTTPConnection(*server.server_address)
+            connection.request("POST", "/api/analyze", body="{", headers={"Content-Type": "application/json"})
+            response = connection.getresponse()
+            body = json.loads(response.read().decode("utf-8"))
+        finally:
+            connection.close()
+            self.stop_server(server, thread)
+
+        self.assertEqual(response.status, 400)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "请求体不是合法 JSON。")
+
+    def test_returns_json_error_for_invalid_content_length(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with socket.create_connection(server.server_address, timeout=5) as sock:
+                sock.sendall(
+                    (
+                        "POST /api/analyze HTTP/1.1\r\n"
+                        f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                        "Content-Type: application/json\r\n"
+                        "Content-Length: abc\r\n"
+                        "Connection: close\r\n\r\n"
+                    ).encode("utf-8")
+                )
+                response = b""
+                while chunk := sock.recv(4096):
+                    response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"400 Bad Request", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "Content-Length 请求头无效。")
 
 
 if __name__ == "__main__":

@@ -124,7 +124,7 @@ python -m unittest discover -s tests
 python -m v2.backend.server --host 127.0.0.1 --port 8000
 ```
 
-然后打开 `v2/index.html`，或把静态文件发布到任意站点，并在 `v2/data/runtime-config.json` 里配置 `analyze_api_url`。
+然后打开 `v2/index.html`，或把静态文件发布到任意站点，并在 `v2/data/runtime-config.json` 里配置 `analyze_api_url`。如果前端和 API 不同域，再额外启动服务时传入 `--allow-origin <前端站点 Origin>`。
 
 ## 结果格式
 

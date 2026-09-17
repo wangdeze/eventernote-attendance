@@ -11,9 +11,9 @@ from v2.backend.api import build_analysis_response
 
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
+DEFAULT_ALLOW_ORIGIN = ""
 API_PATH = "/api/analyze"
 CORS_HEADERS = {
-    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
 }
@@ -26,9 +26,16 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
     def request_path(self) -> str:
         return urlsplit(self.path).path.rstrip("/") or "/"
 
+    @property
+    def allowed_origin(self) -> str:
+        return getattr(self.server, "allow_origin", "")
+
     def do_OPTIONS(self) -> None:  # noqa: N802 - stdlib handler name.
         if self.request_path != API_PATH:
             self._send_json(HTTPStatus.NOT_FOUND, build_error_result("", "", "", AnalyzerError("接口不存在。")))
+            return
+        if not self._is_origin_allowed():
+            self._send_json(HTTPStatus.FORBIDDEN, build_error_result("", "", "", AnalyzerError("当前来源未被允许访问该接口。")))
             return
         self.send_response(HTTPStatus.NO_CONTENT)
         self._send_common_headers(content_type="application/json; charset=utf-8")
@@ -45,7 +52,24 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
             self._send_json(HTTPStatus.NOT_FOUND, build_error_result("", "", "", AnalyzerError("接口不存在。")))
             return
 
-        content_length = int(self.headers.get("Content-Length", "0"))
+        if not self._is_origin_allowed():
+            self._send_json(HTTPStatus.FORBIDDEN, build_error_result("", "", "", AnalyzerError("当前来源未被允许访问该接口。")))
+            return
+
+        try:
+            content_length = int(self.headers.get("Content-Length", "0"))
+        except ValueError:
+            self._send_json(
+                HTTPStatus.BAD_REQUEST,
+                build_error_result("", "", "", AnalyzerError("Content-Length 请求头无效。")),
+            )
+            return
+        if content_length < 0:
+            self._send_json(
+                HTTPStatus.BAD_REQUEST,
+                build_error_result("", "", "", AnalyzerError("Content-Length 请求头无效。")),
+            )
+            return
         raw_body = self.rfile.read(content_length)
 
         try:
@@ -63,10 +87,21 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
     def log_message(self, format: str, *args) -> None:  # noqa: A003 - stdlib signature.
         return
 
+    def _is_origin_allowed(self) -> bool:
+        origin = (self.headers.get("Origin") or "").strip()
+        if not origin:
+            return True
+        return bool(self.allowed_origin) and origin == self.allowed_origin
+
     def _send_common_headers(self, *, content_type: str) -> None:
         self.send_header("Content-Type", content_type)
-        for key, value in CORS_HEADERS.items():
-            self.send_header(key, value)
+        if self.allowed_origin:
+            self.send_header("Vary", "Origin")
+        origin = (self.headers.get("Origin") or "").strip()
+        if self.allowed_origin and origin == self.allowed_origin:
+            self.send_header("Access-Control-Allow-Origin", self.allowed_origin)
+            for key, value in CORS_HEADERS.items():
+                self.send_header(key, value)
 
     def _send_json(self, status_code: int, payload: dict[str, object]) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -81,12 +116,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Serve the v2 Eventernote attendance analysis API.")
     parser.add_argument("--host", default=DEFAULT_HOST, help="Host to bind")
     parser.add_argument("--port", type=int, default=DEFAULT_PORT, help="Port to bind")
+    parser.add_argument("--allow-origin", default=DEFAULT_ALLOW_ORIGIN, help="Allowed browser Origin for CORS")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     server = ThreadingHTTPServer((args.host, args.port), AnalyzeHandler)
+    server.allow_origin = args.allow_origin.strip()
     print(f"Serving Eventernote v2 API on http://{args.host}:{args.port}{API_PATH}")
     try:
         server.serve_forever()
