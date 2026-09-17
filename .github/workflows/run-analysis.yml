@@ -241,7 +241,7 @@ jobs:
                   `- Result JSON: ${resultUrl}`,
                 ].join('\n')
               : [
-                  '分析请求已处理完成；本次结果与当前最新结果一致，因此未生成新的提交，也不会自动关闭此 issue。',
+                  '分析请求已处理完成；本次结果与当前最新结果一致，因此未生成新的提交，但该请求会按已完成自动关闭。',
                   '',
                   `- Workflow: ${runUrl}`,
                   `- Current Result JSON: ${resultUrl}`,
@@ -254,7 +254,7 @@ jobs:
               body,
             });
 
-            if (requestAccepted && isSuccess && analysisStatus === 'success' && resultChanged) {
+            if (requestAccepted && isSuccess && analysisStatus === 'success') {
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
