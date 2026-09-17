@@ -3,7 +3,6 @@ const userIdInput = document.getElementById('user-id');
 const actorNameInput = document.getElementById('actor-name');
 const yearInput = document.getElementById('year');
 const openRequestButton = document.getElementById('open-request');
-const manualRequestLink = document.getElementById('manual-request-link');
 const requestHint = document.getElementById('request-hint');
 const requestFeedback = document.getElementById('request-feedback');
 const statusPill = document.getElementById('status-pill');
@@ -57,6 +56,11 @@ function normalizeRequestConfig(value) {
   };
 }
 
+function getProxyRequestUrl() {
+  if (requestConfig.request_mode !== 'proxy') return '';
+  return toSafeUrl(requestConfig.request_proxy_url);
+}
+
 function buildIssueUrl(payload) {
   const title = `[analysis-request] ${payload.user_id} / ${payload.actor_name} / ${payload.year}`;
   const body = [
@@ -72,11 +76,6 @@ function buildIssueUrl(payload) {
   url.searchParams.set('title', title);
   url.searchParams.set('body', body);
   return url.toString();
-}
-
-function getProxyRequestUrl() {
-  if (requestConfig.request_mode !== 'proxy') return '';
-  return toSafeUrl(requestConfig.request_proxy_url);
 }
 
 function setRequestFeedback(kind, text, links = []) {
@@ -119,24 +118,22 @@ function syncRequestState() {
   const issueUrl = error ? '' : buildIssueUrl(payload);
   const proxyUrl = getProxyRequestUrl();
   const directRequestEnabled = Boolean(proxyUrl);
+  const isProxyMode = requestConfig.request_mode === 'proxy';
   openRequestButton.disabled = Boolean(error);
-  openRequestButton.textContent = directRequestEnabled ? '直接提交分析请求' : '打开 GitHub 请求页';
+  openRequestButton.textContent = '提交分析请求';
   requestHint.textContent = error
     || (directRequestEnabled
-      ? '将直接提交分析请求；如果失败，也可以改用 GitHub 请求页。'
-      : '将在当前页面跳转到 GitHub issue 页面，提交 issue 后会自动运行分析。');
+      ? '点击按钮后将由中间层自动创建 issue 并触发分析。'
+      : isProxyMode
+      ? '当前 proxy 模式未配置可用中间层地址；按钮会回退到 GitHub 请求页。'
+      : '当前为 issue 模式；按钮会跳转到 GitHub 请求页。');
 
   if (error) {
     openRequestButton.removeAttribute('data-href');
-    manualRequestLink.classList.add('hidden');
-    manualRequestLink.removeAttribute('href');
     return;
   }
 
   openRequestButton.dataset.href = issueUrl;
-  manualRequestLink.href = issueUrl;
-  manualRequestLink.textContent = directRequestEnabled ? '改用 GitHub 请求页' : '直接打开 GitHub 请求页';
-  manualRequestLink.classList.remove('hidden');
 }
 
 async function loadRequestConfig() {
@@ -350,10 +347,8 @@ form.addEventListener('submit', async (event) => {
   } catch (submitError) {
     setRequestFeedback(
       'error',
-      `${submitError instanceof Error ? submitError.message : '提交失败。'} 你也可以改用 GitHub 请求页继续提交。`,
-      [
-        { href: issueUrl, label: '打开 GitHub 请求页' },
-      ],
+      submitError instanceof Error ? submitError.message : '提交失败。',
+      [{ href: issueUrl, label: '改用 GitHub issue 提交' }],
     );
   } finally {
     syncRequestState();
