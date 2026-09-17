@@ -1,11 +1,422 @@
 {
-  "status": "idle",
-  "generated_at": null,
-  "requested_actor_name": "",
-  "user_id": "",
-  "actor_name": "",
-  "year": null,
+  "status": "success",
+  "generated_at": "2026-09-17T03:02:23+00:00",
+  "requested_actor_name": "鈴木愛奈",
+  "user_id": "Tokuzawa353567",
+  "actor_name": "鈴木愛奈",
+  "actor_id": "11198",
+  "actor_url": "https://www.eventernote.com/actors/%E9%88%B4%E6%9C%A8%E6%84%9B%E5%A5%88/11198",
+  "year": 2025,
+  "total_actor_events": 26,
+  "attended_events": 19,
+  "attendance_rate": 0.7308,
   "warnings": [],
-  "events": [],
-  "message": "No analysis has been run yet. Trigger the GitHub Actions workflow to generate a result."
+  "events": [
+    {
+      "id": "406248",
+      "date": "2025-01-18",
+      "title": "勇者との密会 〜5th Anniversary〜【1部】",
+      "venue": "飛行船シアター(スタァライト劇場)",
+      "url": "https://www.eventernote.com/events/406248",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "406249",
+      "date": "2025-01-18",
+      "title": "勇者との密会 〜5th Anniversary〜【2部】",
+      "venue": "飛行船シアター(スタァライト劇場)",
+      "url": "https://www.eventernote.com/events/406249",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "406139",
+      "date": "2025-02-07",
+      "title": "鈴木愛奈｜【2月7日】 ベストアルバム「ほんのスパークル」リリースイベント@タワーレコード新宿店",
+      "venue": "タワーレコード新宿店",
+      "url": "https://www.eventernote.com/events/406139",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "406137",
+      "date": "2025-02-16",
+      "title": "鈴木愛奈│【2月16日】 ベストアルバム「ほんのスパークル」リリースイベント@AKIHABARAゲーマーズ本店",
+      "venue": "開場 12:40 開演 13:00 終演 14:00",
+      "url": "https://www.eventernote.com/events/406137",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "406138",
+      "date": "2025-02-23",
+      "title": "鈴木愛奈｜【2月23日】 ベストアルバム「ほんのスパークル」リリースイベント@イオンレイクタウンmori",
+      "venue": "イオンレイクタウンmori 1F木の広場",
+      "url": "https://www.eventernote.com/events/406138",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "392063",
+      "date": "2025-03-02",
+      "title": "鈴木愛奈のring A radio 2025 ～この世の沙汰はダーツ次第！？～ 1部(くまの部)",
+      "venue": "音楽の友ホール",
+      "url": "https://www.eventernote.com/events/392063",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "410277",
+      "date": "2025-03-02",
+      "title": "鈴木愛奈のring A radio 2025 ～この世の沙汰はダーツ次第！？～ 2部(きりんの部)",
+      "venue": "音楽の友ホール",
+      "url": "https://www.eventernote.com/events/410277",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "419125",
+      "date": "2025-03-08",
+      "title": "TVアニメ「ある魔女が死ぬまで」キャストトーク付き第1話～第3話先行上映会",
+      "venue": "ユナイテッド・シネマ豊洲",
+      "url": "https://www.eventernote.com/events/419125",
+      "actors": [
+        "青山吉能",
+        "羊宮妃那",
+        "花井美春",
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "421601",
+      "date": "2025-03-15",
+      "title": "舞台「邪神ちゃんドロップキック・新」アフターサバト",
+      "venue": "なんばMILULARI",
+      "url": "https://www.eventernote.com/events/421601",
+      "actors": [
+        "鈴木愛奈",
+        "柴田柚巴",
+        "栁瀬一樹"
+      ],
+      "attended": true
+    },
+    {
+      "id": "417444",
+      "date": "2025-03-15",
+      "title": "舞台「邪神ちゃんドロップキック・新」終演後スペシャル 鈴木愛奈さん×柴田柚巴さん×柳瀬一樹さん スペシャルトークイベント！",
+      "venue": "YES THEATER",
+      "url": "https://www.eventernote.com/events/417444",
+      "actors": [
+        "鈴木愛奈",
+        "柴田柚巴",
+        "栁瀬一樹"
+      ],
+      "attended": true
+    },
+    {
+      "id": "401188",
+      "date": "2025-06-21",
+      "title": "ラブライブ！サンシャイン!! Aqours Finale LoveLive! ～永久stage～ Day.1",
+      "venue": "ベルーナドーム(西武ドーム)",
+      "url": "https://www.eventernote.com/events/401188",
+      "actors": [
+        "Aqours",
+        "伊波杏樹",
+        "逢田梨香子",
+        "諏訪ななか",
+        "小宮有紗",
+        "斉藤朱夏",
+        "小林愛香",
+        "高槻かなこ",
+        "鈴木愛奈",
+        "降幡愛"
+      ],
+      "attended": true
+    },
+    {
+      "id": "401189",
+      "date": "2025-06-22",
+      "title": "ラブライブ！サンシャイン!! Aqours Finale LoveLive! ～永久stage～ Day.2",
+      "venue": "ベルーナドーム(西武ドーム)",
+      "url": "https://www.eventernote.com/events/401189",
+      "actors": [
+        "Aqours",
+        "伊波杏樹",
+        "逢田梨香子",
+        "諏訪ななか",
+        "小宮有紗",
+        "斉藤朱夏",
+        "小林愛香",
+        "高槻かなこ",
+        "鈴木愛奈",
+        "降幡愛"
+      ],
+      "attended": true
+    },
+    {
+      "id": "434647",
+      "date": "2025-06-28",
+      "title": "第43回大阪大学夏まつり 鈴木愛奈と行く邪神ちゃん史",
+      "venue": "大阪大学 箕面キャンパス",
+      "url": "https://www.eventernote.com/events/434647",
+      "actors": [
+        "鈴木愛奈",
+        "栁瀬一樹",
+        "石川翼"
+      ],
+      "attended": false
+    },
+    {
+      "id": "438105",
+      "date": "2025-07-28",
+      "title": "【会場変更】邪神ちゃん×書泉グランデ 新企画発表会",
+      "venue": "オチャノバ",
+      "url": "https://www.eventernote.com/events/438105",
+      "actors": [
+        "鈴木愛奈",
+        "栁瀬一樹"
+      ],
+      "attended": false
+    },
+    {
+      "id": "434710",
+      "date": "2025-08-02",
+      "title": "勇者との密会 ～2025 BIRTHDAY SPECIAL～ 【1部】",
+      "venue": "飛行船シアター(スタァライト劇場)",
+      "url": "https://www.eventernote.com/events/434710",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "434711",
+      "date": "2025-08-02",
+      "title": "勇者との密会 ～2025 BIRTHDAY SPECIAL～ 【2部】",
+      "venue": "飛行船シアター(スタァライト劇場)",
+      "url": "https://www.eventernote.com/events/434711",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "405240",
+      "date": "2025-08-30",
+      "title": "【出演者変更】Animelo Summer Live 2025 -ThanXX!- Day2",
+      "venue": "GMOアリーナさいたま(さいたまスーパーアリーナ)",
+      "url": "https://www.eventernote.com/events/405240",
+      "actors": [
+        "Ave Mujica",
+        "佐々木李子",
+        "渡瀬結月",
+        "岡田夢以",
+        "米澤茜",
+        "高尾奏音",
+        "angela",
+        "atsuko(angela)",
+        "KATSU(angela)",
+        "GRANRODEO",
+        "谷山紀章",
+        "飯塚昌明",
+        "ZAQ",
+        "JAM Project",
+        "影山ヒロノブ",
+        "遠藤正明",
+        "きただにひろし",
+        "奥井雅美",
+        "福山芳樹",
+        "TrySail",
+        "雨宮天",
+        "麻倉もも",
+        "夏川椎菜",
+        "FLOW",
+        "宮野真守",
+        "ミルキィホームズ",
+        "三森すずこ",
+        "橘田いずみ",
+        "佐々木未来",
+        "徳井青空",
+        "森口博子",
+        "Guilty Kiss",
+        "小林愛香",
+        "逢田梨香子",
+        "鈴木愛奈",
+        "Saint Snow",
+        "田野アサミ",
+        "佐藤日向",
+        "Lia",
+        "アイドルマスターミリオンライブ！ミリオンスターズ",
+        "Machico",
+        "伊藤美来",
+        "愛美",
+        "田所あずさ",
+        "諏訪彩花",
+        "渡部優衣",
+        "山崎淳",
+        "IMAJO(サイキックラバー)",
+        "村上聖",
+        "今井隼",
+        "菊嶋亮一",
+        "Atsuki(FIRE HORNS)",
+        "ヒロムーチョ(髙橋弥歩)",
+        "Tocchi(FIRE HORNS)",
+        "スフィア",
+        "戸松遥",
+        "高垣彩陽",
+        "寿美菜子",
+        "ミルキィホームズ フェザーズ",
+        "伊藤彩沙",
+        "ミルキィホームズ シスターズ"
+      ],
+      "attended": true
+    },
+    {
+      "id": "438591",
+      "date": "2025-09-06",
+      "title": "小樽アニメパーティー2025 アニパビンゴ大会 9月6日",
+      "venue": "小樽サンモール一番街商店街 特設ステージ",
+      "url": "https://www.eventernote.com/events/438591",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "436644",
+      "date": "2025-09-06",
+      "title": "小樽アニメパーティー2025「インターネットラジオステーション＜音泉＞」鈴木愛奈の ring A radio",
+      "venue": "小樽サンモール一番街商店街 特設ステージ",
+      "url": "https://www.eventernote.com/events/436644",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "441758",
+      "date": "2025-09-13",
+      "title": "邪神ちゃんフェス３",
+      "venue": "すみだ産業会館 8Fサンライズホール",
+      "url": "https://www.eventernote.com/events/441758",
+      "actors": [
+        "鈴木愛奈",
+        "大森日雅",
+        "小見川千明",
+        "小坂井祐莉絵",
+        "飯田里穂",
+        "朝ノ瑠璃",
+        "長谷川玲奈",
+        "原奈津子",
+        "柴田柚巴",
+        "山田親之條",
+        "白那美アンジュ",
+        "月海つくね",
+        "夏目公一朗",
+        "栁瀬一樹",
+        "伊藤ゆいな",
+        "MoeMi(尾高もえみ)",
+        "原田彩楓",
+        "小森未彩"
+      ],
+      "attended": false
+    },
+    {
+      "id": "435088",
+      "date": "2025-11-02",
+      "title": "沼津地元愛まつり2025 Day2＜夜公演＞",
+      "venue": "キラメッセぬまづ(プラサヴェルデ内)",
+      "url": "https://www.eventernote.com/events/435088",
+      "actors": [
+        "伊波杏樹",
+        "逢田梨香子",
+        "鈴木愛奈",
+        "Aqours"
+      ],
+      "attended": true
+    },
+    {
+      "id": "427603",
+      "date": "2025-11-02",
+      "title": "沼津地元愛まつり2025 Day2＜昼公演＞",
+      "venue": "キラメッセぬまづ(プラサヴェルデ内)",
+      "url": "https://www.eventernote.com/events/427603",
+      "actors": [
+        "伊波杏樹",
+        "逢田梨香子",
+        "鈴木愛奈",
+        "Aqours"
+      ],
+      "attended": true
+    },
+    {
+      "id": "440572",
+      "date": "2025-11-08",
+      "title": "第1部 高野麻里佳のスーパーマリカクラブイベント＜コウノブラック＞",
+      "venue": "横浜市教育会館(エコーレ)",
+      "url": "https://www.eventernote.com/events/440572",
+      "actors": [
+        "高野麻里佳",
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "440574",
+      "date": "2025-11-08",
+      "title": "第3部 にじリンクラブイベント",
+      "venue": "横浜市教育会館(エコーレ)",
+      "url": "https://www.eventernote.com/events/440574",
+      "actors": [
+        "松井恵理子",
+        "鈴木愛奈",
+        "高野麻里佳"
+      ],
+      "attended": true
+    },
+    {
+      "id": "442428",
+      "date": "2025-11-16",
+      "title": "『声優 縁かうんと るんるん日記』合同イベント【夜の部】『花井美春 るんるん日記 2ページ目』イベント",
+      "venue": "全電通労働会館 多目的ホール",
+      "url": "https://www.eventernote.com/events/442428",
+      "actors": [
+        "鈴木みのり",
+        "花井美春",
+        "鈴木絵理",
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "442427",
+      "date": "2025-11-16",
+      "title": "『声優 縁かうんと るんるん日記』合同イベント【昼の部】『声優 縁かうんと Vol.3』イベント",
+      "venue": "全電通労働会館 多目的ホール",
+      "url": "https://www.eventernote.com/events/442427",
+      "actors": [
+        "鈴木みのり",
+        "花井美春",
+        "鈴木絵理",
+        "鈴木愛奈"
+      ],
+      "attended": true
+    }
+  ]
 }
