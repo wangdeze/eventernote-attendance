@@ -93,6 +93,13 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
             return
         finally:
             self.connection.settimeout(original_timeout)
+        if len(raw_body) != content_length:
+            self.close_connection = True
+            self._send_json(
+                HTTPStatus.BAD_REQUEST,
+                build_error_result("", "", "", AnalyzerError("请求体长度与 Content-Length 不一致。")),
+            )
+            return
 
         try:
             payload = json.loads(raw_body.decode("utf-8") or "{}")
@@ -110,10 +117,10 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
         return
 
     def _is_origin_allowed(self) -> bool:
-        origin = (self.headers.get("Origin") or "").strip()
-        if not origin:
+        if not self.allowed_origin:
             return True
-        return bool(self.allowed_origin) and origin == self.allowed_origin
+        origin = (self.headers.get("Origin") or "").strip()
+        return bool(origin) and origin == self.allowed_origin
 
     def _send_common_headers(self, *, content_type: str) -> None:
         self.send_header("Content-Type", content_type)

@@ -355,9 +355,9 @@ class ApiResponseTests(unittest.TestCase):
 
 
 class AnalyzeHandlerTests(unittest.TestCase):
-    def start_server(self) -> tuple[ThreadingHTTPServer, threading.Thread]:
+    def start_server(self, *, allow_origin: str = "") -> tuple[ThreadingHTTPServer, threading.Thread]:
         server = ThreadingHTTPServer(("127.0.0.1", 0), AnalyzeHandler)
-        server.allow_origin = ""
+        server.allow_origin = allow_origin
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
         return server, thread
@@ -451,6 +451,47 @@ class AnalyzeHandlerTests(unittest.TestCase):
         self.assertIn(b"400 Bad Request", response)
         self.assertEqual(body["status"], "error")
         self.assertEqual(body["error"]["message"], "请求体不是合法 JSON。")
+
+    def test_rejects_missing_origin_when_origin_is_configured(self) -> None:
+        server, thread = self.start_server(allow_origin="https://frontend.example")
+        try:
+            connection = http.client.HTTPConnection(*server.server_address)
+            connection.request("POST", "/api/analyze", body="{}", headers={"Content-Type": "application/json"})
+            response = connection.getresponse()
+            body = json.loads(response.read().decode("utf-8"))
+        finally:
+            connection.close()
+            self.stop_server(server, thread)
+
+        self.assertEqual(response.status, 403)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "当前来源未被允许访问该接口。")
+
+    def test_rejects_truncated_request_body(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with socket.create_connection(server.server_address, timeout=5) as sock:
+                sock.sendall(
+                    (
+                        "POST /api/analyze HTTP/1.1\r\n"
+                        f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                        "Content-Type: application/json\r\n"
+                        "Content-Length: 20\r\n"
+                        "Connection: close\r\n\r\n"
+                        "{\"user_id\":"
+                    ).encode("utf-8")
+                )
+                sock.shutdown(socket.SHUT_WR)
+                response = b""
+                while chunk := sock.recv(4096):
+                    response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"400 Bad Request", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "请求体长度与 Content-Length 不一致。")
 
 
 if __name__ == "__main__":
