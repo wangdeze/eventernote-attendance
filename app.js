@@ -70,7 +70,11 @@ function renderEvents(items) {
   eventsBody.innerHTML = '';
   if (!items || items.length === 0) {
     const row = document.createElement('tr');
-    row.innerHTML = '<td colspan="4" class="muted">当前结果没有活动明细。</td>';
+    const cell = document.createElement('td');
+    cell.colSpan = 4;
+    cell.className = 'muted';
+    cell.textContent = '当前结果没有活动明细。';
+    row.appendChild(cell);
     eventsBody.appendChild(row);
     return;
   }
@@ -79,17 +83,44 @@ function renderEvents(items) {
     const row = document.createElement('tr');
     const badgeClass = event.attended ? 'attended' : 'missed';
     const badgeText = event.attended ? '已出席' : '未出席';
-    const title = event.url
-      ? `<a href="${event.url}" target="_blank" rel="noreferrer">${event.title}</a>`
-      : event.title;
-    row.innerHTML = `
-      <td><span class="status-badge ${badgeClass}">${badgeText}</span></td>
-      <td>${event.date ?? '-'}</td>
-      <td>${title}</td>
-      <td>${event.venue ?? '-'}</td>
-    `;
+    const statusCell = document.createElement('td');
+    const statusBadge = document.createElement('span');
+    statusBadge.className = `status-badge ${badgeClass}`;
+    statusBadge.textContent = badgeText;
+    statusCell.appendChild(statusBadge);
+
+    const dateCell = document.createElement('td');
+    dateCell.textContent = event.date ?? '-';
+
+    const titleCell = document.createElement('td');
+    const safeUrl = toSafeUrl(event.url);
+    if (safeUrl) {
+      const link = document.createElement('a');
+      link.href = safeUrl;
+      link.target = '_blank';
+      link.rel = 'noreferrer';
+      link.textContent = event.title ?? '-';
+      titleCell.appendChild(link);
+    } else {
+      titleCell.textContent = event.title ?? '-';
+    }
+
+    const venueCell = document.createElement('td');
+    venueCell.textContent = event.venue ?? '-';
+
+    row.append(statusCell, dateCell, titleCell, venueCell);
     eventsBody.appendChild(row);
   });
+}
+
+function toSafeUrl(value) {
+  if (typeof value !== 'string' || !value.trim()) return '';
+  try {
+    const url = new URL(value, window.location.origin);
+    return ['http:', 'https:'].includes(url.protocol) ? url.toString() : '';
+  } catch (error) {
+    return '';
+  }
 }
 
 function renderSummary(result) {

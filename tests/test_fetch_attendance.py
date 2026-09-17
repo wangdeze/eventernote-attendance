@@ -81,6 +81,18 @@ class MatchEventsTests(unittest.TestCase):
 
         self.assertEqual([row["attended"] for row in rows], [False, True])
 
+    def test_marks_attended_by_fallback_key_without_event_id(self) -> None:
+        actor_events = [
+            EventRecord(id=None, date="2025-08-10", title="Special Live", venue="Zepp Haneda", url="https://www.eventernote.com/events/special", actors=("鈴木愛奈",)),
+        ]
+        user_events = [
+            EventRecord(id=None, date="2025-08-10", title="Special   Live", venue="Zepp Haneda", url="", actors=()),
+        ]
+
+        rows = match_events(actor_events, user_events)
+
+        self.assertEqual([row["attended"] for row in rows], [True])
+
 
 if __name__ == "__main__":
     unittest.main()
