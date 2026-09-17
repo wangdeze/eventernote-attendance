@@ -62,15 +62,20 @@ class EventRecord:
     actors: tuple[str, ...]
 
     @property
-    def match_key(self) -> tuple[str, ...]:
-        if self.id:
-            return ("id", self.id)
+    def fallback_key(self) -> tuple[str, ...]:
         return (
             "fallback",
             self.date,
             normalize_text(self.title),
             normalize_text(self.venue),
         )
+
+    @property
+    def match_keys(self) -> tuple[tuple[str, ...], ...]:
+        keys: list[tuple[str, ...]] = [self.fallback_key]
+        if self.id:
+            keys.insert(0, ("id", self.id))
+        return tuple(keys)
 
 
 def normalize_text(value: str) -> str:
@@ -132,23 +137,25 @@ class EventernoteClient:
 
         for page in range(1, self.max_pages + 1):
             html = self.fetch_text(page_url, params={"page": page, "limit": PAGE_SIZE, "year": year})
-            page_events = parse_event_list(html, year)
-            if not page_events:
-                if page == 1:
-                    warnings.append(f"{label} 在 {year} 年没有解析到活动，或页面结构已变化。")
+            raw_event_count = count_event_blocks(html)
+            if raw_event_count == 0:
                 break
+            page_events = parse_event_list(html, year)
 
             for event in page_events:
-                if event.match_key in seen:
+                if any(key in seen for key in event.match_keys):
                     continue
-                seen.add(event.match_key)
+                seen.update(event.match_keys)
                 events.append(event)
 
-            if len(page_events) < PAGE_SIZE:
+            if raw_event_count < PAGE_SIZE:
                 break
             self.polite_sleep()
         else:
             warnings.append(f"{label} 超过最大分页数 {self.max_pages}，结果可能不完整。")
+
+        if not events:
+            warnings.append(f"{label} 在 {year} 年没有解析到活动，或页面结构已变化。")
 
         return sorted(events, key=lambda event: (event.date, event.title, event.venue)), warnings
 
@@ -205,7 +212,7 @@ def direct_text(element) -> str:
 
 def parse_event_list(html: str, year: int) -> list[EventRecord]:
     soup = BeautifulSoup(html, "html.parser")
-    items = soup.select("div.gb_event_list li.clearfix") or soup.select("div.gb_event_list > ul > li")
+    items = select_event_blocks(soup)
     events: list[EventRecord] = []
 
     for item in items:
@@ -239,6 +246,15 @@ def parse_event_list(html: str, year: int) -> list[EventRecord]:
     return events
 
 
+def select_event_blocks(soup: BeautifulSoup) -> list:
+    return soup.select("div.gb_event_list li.clearfix") or soup.select("div.gb_event_list > ul > li")
+
+
+def count_event_blocks(html: str) -> int:
+    soup = BeautifulSoup(html, "html.parser")
+    return len(select_event_blocks(soup))
+
+
 def parse_event_date(item) -> str | None:
     node = item.select_one("div.date") or item.find(class_=re.compile("date"))
     if node is None:
@@ -268,7 +284,7 @@ def parse_venue(item) -> str:
 
 
 def match_events(actor_events: Iterable[EventRecord], user_events: Iterable[EventRecord]) -> list[dict[str, object]]:
-    user_keys = {event.match_key for event in user_events}
+    user_keys = {key for event in user_events for key in event.match_keys}
     rows: list[dict[str, object]] = []
     for event in actor_events:
         rows.append(
@@ -279,7 +295,7 @@ def match_events(actor_events: Iterable[EventRecord], user_events: Iterable[Even
                 "venue": event.venue,
                 "url": event.url,
                 "actors": list(event.actors),
-                "attended": event.match_key in user_keys,
+                "attended": any(key in user_keys for key in event.match_keys),
             }
         )
     return rows
@@ -322,7 +338,7 @@ def write_result(path: Path, result: dict[str, object]) -> None:
     path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def build_error_result(user_id: str, actor_name: str, year: int, exc: Exception) -> dict[str, object]:
+def build_error_result(user_id: str, actor_name: str, year: int | str, exc: Exception) -> dict[str, object]:
     return {
         "status": "error",
         "generated_at": current_timestamp(),
@@ -339,11 +355,17 @@ def build_error_result(user_id: str, actor_name: str, year: int, exc: Exception)
     }
 
 
+def parse_year(value: str) -> int:
+    if not re.fullmatch(r"\d{4}", value.strip()):
+        raise AnalyzerError("年份必须是 4 位数字，例如 2025。")
+    return int(value)
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Analyze Eventernote attendance for one user, one actor, and one year.")
     parser.add_argument("--user-id", required=True, help="Eventernote user ID")
     parser.add_argument("--actor-name", required=True, help="Eventernote actor name")
-    parser.add_argument("--year", required=True, type=int, help="Target year")
+    parser.add_argument("--year", required=True, help="Target year")
     parser.add_argument("--output", default="data/latest-result.json", help="JSON output path")
     parser.add_argument("--min-delay", type=float, default=REQUEST_DELAY_RANGE[0], help="Minimum request delay in seconds")
     parser.add_argument("--max-delay", type=float, default=REQUEST_DELAY_RANGE[1], help="Maximum request delay in seconds")
@@ -354,18 +376,19 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    client = EventernoteClient(
-        min_delay=args.min_delay,
-        max_delay=args.max_delay,
-        timeout=args.timeout,
-        max_pages=args.max_pages,
-    )
 
     try:
+        year = parse_year(args.year)
+        client = EventernoteClient(
+            min_delay=args.min_delay,
+            max_delay=args.max_delay,
+            timeout=args.timeout,
+            max_pages=args.max_pages,
+        )
         result = analyze_attendance(
             user_id=args.user_id,
             actor_name=args.actor_name,
-            year=args.year,
+            year=year,
             client=client,
         )
         print(

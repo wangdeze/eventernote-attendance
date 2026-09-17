@@ -51,14 +51,23 @@ jobs:
         run: python -m pip install --upgrade pip && pip install -r requirements.txt
 
       - name: Run analyzer
+        env:
+          USER_ID: ${{ inputs.user_id }}
+          ACTOR_NAME: ${{ inputs.actor_name }}
+          YEAR: ${{ inputs.year }}
         run: |
           python scripts/fetch_attendance.py \
-            --user-id "${{ inputs.user_id }}" \
-            --actor-name "${{ inputs.actor_name }}" \
-            --year "${{ inputs.year }}" \
+            --user-id "${USER_ID}" \
+            --actor-name "${ACTOR_NAME}" \
+            --year "${YEAR}" \
             --output data/latest-result.json
 
       - name: Commit latest result
+        env:
+          USER_ID: ${{ inputs.user_id }}
+          ACTOR_NAME: ${{ inputs.actor_name }}
+          YEAR: ${{ inputs.year }}
+          TARGET_BRANCH: ${{ steps.target-branch.outputs.branch }}
         run: |
           if git diff --quiet -- data/latest-result.json; then
             echo "No result changes to commit."
@@ -67,5 +76,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/latest-result.json
-          git commit -m "Update attendance result for ${{ inputs.user_id }} / ${{ inputs.actor_name }} / ${{ inputs.year }}"
-          git push origin HEAD:${{ steps.target-branch.outputs.branch }}
+          git commit -m "Update attendance result for ${USER_ID} / ${ACTOR_NAME} / ${YEAR}"
+          git push origin "HEAD:${TARGET_BRANCH}"
