@@ -36,11 +36,39 @@
 - `actor_name`: 艺人名称
 - `year`: 自然年
 
-点击“打开 GitHub 请求页”后，会跳转到 GitHub issue 创建页。提交该 issue 后，仓库 workflow 会自动运行分析并将结果写入 `data/latest-result.json`。
+默认情况下，点击“打开 GitHub 请求页”后会在当前页跳转到 GitHub issue 创建页，提交该 issue 后，仓库 workflow 会自动运行分析并将结果写入 `data/latest-result.json`。
+
+如果后续给页面配置了轻量中间层请求入口（例如 Cloudflare Worker / Vercel Function），页面也可以直接提交请求，再由中间层触发同一个 workflow，而不需要改动分析主流程。
 
 > 出于仓库安全考虑，issue 触发的自动分析只接受受信任的仓库协作者提交。
 >
 > 如果你是仓库维护者，也可以继续在 **Actions** 页面手动运行 `Run Eventernote attendance analysis`。
+
+### 1.1 可选的直接提交入口配置
+
+仓库内置了 `data/request-config.json`：
+
+```json
+{
+  "request_mode": "issue",
+  "request_proxy_url": ""
+}
+```
+
+- `request_mode=issue`：页面使用 GitHub issue 作为请求入口
+- `request_mode=proxy`：页面把表单 JSON `POST` 到 `request_proxy_url`
+
+当使用 `proxy` 模式时，中间层只需要接收：
+
+```json
+{
+  "user_id": "<eventernote-user-id>",
+  "actor_name": "<actor-name>",
+  "year": "2025"
+}
+```
+
+然后再调用 GitHub `repository_dispatch` 事件（`event_type=analysis-request`）触发当前仓库的 `Run Eventernote attendance analysis` workflow。
 
 ### 2. 查看结果
 
@@ -92,7 +120,7 @@ python scripts/fetch_attendance.py --user-id <eventernote-user-id> --actor-name 
 
 - 依赖 Eventernote 公开页面，页面结构变化时可能需要更新解析逻辑
 - 每次只处理“单用户 + 单艺人 + 单年份”的低频分析请求
-- GitHub Pages 会把参数带到 GitHub issue 请求页，真正执行仍由 GitHub Actions 完成
+- GitHub Pages 默认会把参数带到 GitHub issue 请求页；如果配置了轻量中间层，也可以改为由中间层直接触发 GitHub Actions
 - 当前运行环境如果无法访问 Eventernote，将只生成错误结果 JSON
 
 ## GitHub Pages 配置

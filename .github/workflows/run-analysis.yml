@@ -15,6 +15,9 @@ on:
   issues:
     types:
       - opened
+  repository_dispatch:
+    types:
+      - analysis-request
 
 permissions:
   contents: write
@@ -48,6 +51,9 @@ jobs:
           WORKFLOW_USER_ID: ${{ inputs.user_id }}
           WORKFLOW_ACTOR_NAME: ${{ inputs.actor_name }}
           WORKFLOW_YEAR: ${{ inputs.year }}
+          DISPATCH_USER_ID: ${{ github.event.client_payload.user_id }}
+          DISPATCH_ACTOR_NAME: ${{ github.event.client_payload.actor_name }}
+          DISPATCH_YEAR: ${{ github.event.client_payload.year }}
         run: |
           python - <<'PY'
           import json
@@ -91,11 +97,11 @@ jobs:
               return permission in {"read", "write", "admin"} or role_name in {"read", "triage", "write", "maintain", "admin"}
 
           event_name = os.environ["EVENT_NAME"]
-          if event_name == "workflow_dispatch":
+          if event_name in {"workflow_dispatch", "repository_dispatch"}:
               payload = {
-                  "user_id": os.environ["WORKFLOW_USER_ID"].strip(),
-                  "actor_name": os.environ["WORKFLOW_ACTOR_NAME"].strip(),
-                  "year": os.environ["WORKFLOW_YEAR"].strip(),
+                  "user_id": (os.environ["WORKFLOW_USER_ID"] if event_name == "workflow_dispatch" else os.environ["DISPATCH_USER_ID"]).strip(),
+                  "actor_name": (os.environ["WORKFLOW_ACTOR_NAME"] if event_name == "workflow_dispatch" else os.environ["DISPATCH_ACTOR_NAME"]).strip(),
+                  "year": (os.environ["WORKFLOW_YEAR"] if event_name == "workflow_dispatch" else os.environ["DISPATCH_YEAR"]).strip(),
               }
               missing = [key for key in ("user_id", "actor_name", "year") if not payload.get(key)]
               if missing:

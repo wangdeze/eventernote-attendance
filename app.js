@@ -3,7 +3,9 @@ const userIdInput = document.getElementById('user-id');
 const actorNameInput = document.getElementById('actor-name');
 const yearInput = document.getElementById('year');
 const openRequestButton = document.getElementById('open-request');
+const manualRequestLink = document.getElementById('manual-request-link');
 const requestHint = document.getElementById('request-hint');
+const requestFeedback = document.getElementById('request-feedback');
 const statusPill = document.getElementById('status-pill');
 const statusMessage = document.getElementById('status-message');
 const summary = document.getElementById('summary');
@@ -11,6 +13,12 @@ const warnings = document.getElementById('warnings');
 const errorPanel = document.getElementById('error-panel');
 const eventsBody = document.getElementById('events-body');
 const issueBaseUrl = 'https://github.com/wangdeze/eventernote-attendance/issues/new';
+const requestConfigUrl = './data/request-config.json';
+const defaultRequestConfig = {
+  request_mode: 'issue',
+  request_proxy_url: '',
+};
+let requestConfig = { ...defaultRequestConfig };
 
 const summaryFields = {
   userId: document.getElementById('summary-user-id'),
@@ -38,6 +46,17 @@ function getRequestError(payload) {
   return '';
 }
 
+function normalizeRequestConfig(value) {
+  if (!value || typeof value !== 'object') {
+    return { ...defaultRequestConfig };
+  }
+
+  return {
+    request_mode: value.request_mode === 'proxy' ? 'proxy' : 'issue',
+    request_proxy_url: typeof value.request_proxy_url === 'string' ? value.request_proxy_url.trim() : '',
+  };
+}
+
 function buildIssueUrl(payload) {
   const title = `[analysis-request] ${payload.user_id} / ${payload.actor_name} / ${payload.year}`;
   const body = [
@@ -55,16 +74,115 @@ function buildIssueUrl(payload) {
   return url.toString();
 }
 
+function getProxyRequestUrl() {
+  if (requestConfig.request_mode !== 'proxy') return '';
+  return toSafeUrl(requestConfig.request_proxy_url);
+}
+
+function setRequestFeedback(kind, text, links = []) {
+  requestFeedback.innerHTML = '';
+  requestFeedback.className = 'request-feedback';
+  if (kind) {
+    requestFeedback.classList.add(kind);
+  }
+
+  const paragraph = document.createElement('p');
+  paragraph.textContent = text;
+  requestFeedback.appendChild(paragraph);
+
+  const safeLinks = links.filter((item) => item && item.href && item.label);
+  if (safeLinks.length > 0) {
+    const list = document.createElement('div');
+    list.className = 'request-feedback-links';
+    safeLinks.forEach((item) => {
+      const link = document.createElement('a');
+      link.href = item.href;
+      link.target = '_blank';
+      link.rel = 'noreferrer';
+      link.textContent = item.label;
+      list.appendChild(link);
+    });
+    requestFeedback.appendChild(list);
+  }
+
+  requestFeedback.classList.remove('hidden');
+}
+
+function clearRequestFeedback() {
+  requestFeedback.innerHTML = '';
+  requestFeedback.className = 'request-feedback hidden';
+}
+
 function syncRequestState() {
   const payload = getRequestPayload();
   const error = getRequestError(payload);
+  const issueUrl = error ? '' : buildIssueUrl(payload);
+  const proxyUrl = getProxyRequestUrl();
+  const directRequestEnabled = Boolean(proxyUrl);
   openRequestButton.disabled = Boolean(error);
-  requestHint.textContent = error || '将打开 GitHub issue 页面；提交 issue 后会自动运行分析。';
+  openRequestButton.textContent = directRequestEnabled ? '直接提交分析请求' : '打开 GitHub 请求页';
+  requestHint.textContent = error
+    || (directRequestEnabled
+      ? '将直接提交分析请求；如果失败，也可以改用 GitHub 请求页。'
+      : '将在当前页面跳转到 GitHub issue 页面，提交 issue 后会自动运行分析。');
+
   if (error) {
     openRequestButton.removeAttribute('data-href');
+    manualRequestLink.classList.add('hidden');
+    manualRequestLink.removeAttribute('href');
     return;
   }
-  openRequestButton.dataset.href = buildIssueUrl(payload);
+
+  openRequestButton.dataset.href = issueUrl;
+  manualRequestLink.href = issueUrl;
+  manualRequestLink.textContent = directRequestEnabled ? '改用 GitHub 请求页' : '直接打开 GitHub 请求页';
+  manualRequestLink.classList.remove('hidden');
+}
+
+async function loadRequestConfig() {
+  try {
+    const response = await fetch(`${requestConfigUrl}?ts=${Date.now()}`, { cache: 'no-store' });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const rawConfig = await response.json();
+    requestConfig = normalizeRequestConfig(rawConfig);
+  } catch (error) {
+    requestConfig = { ...defaultRequestConfig };
+  } finally {
+    syncRequestState();
+  }
+}
+
+async function submitProxyRequest(payload) {
+  const proxyUrl = getProxyRequestUrl();
+  if (!proxyUrl) {
+    throw new Error('未配置可用的直接提交入口。');
+  }
+
+  const response = await fetch(proxyUrl, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  const responseText = await response.text();
+  let result = null;
+  if (responseText) {
+    try {
+      result = JSON.parse(responseText);
+    } catch (error) {
+      result = null;
+    }
+  }
+
+  if (!response.ok) {
+    throw new Error(result?.error || result?.message || `HTTP ${response.status}`);
+  }
+
+  return result || {};
 }
 
 function setStatus(kind, text) {
@@ -198,14 +316,49 @@ async function loadLatestResult() {
 }
 
 form.addEventListener('input', syncRequestState);
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
-  const url = openRequestButton.dataset.href;
-  if (!url) {
+  clearRequestFeedback();
+
+  const payload = getRequestPayload();
+  const error = getRequestError(payload);
+  if (error) {
     syncRequestState();
     return;
   }
-  window.open(url, '_blank', 'noopener,noreferrer');
+
+  const issueUrl = openRequestButton.dataset.href;
+  const proxyUrl = getProxyRequestUrl();
+  if (!proxyUrl) {
+    window.location.assign(issueUrl);
+    return;
+  }
+
+  openRequestButton.disabled = true;
+  openRequestButton.textContent = '提交中...';
+
+  try {
+    const result = await submitProxyRequest(payload);
+    setRequestFeedback(
+      'success',
+      result.message || '分析请求已提交，GitHub Actions 即将开始处理。',
+      [
+        { href: toSafeUrl(result.run_url), label: '查看 Workflow' },
+        { href: toSafeUrl(result.result_url), label: '查看结果 JSON' },
+      ],
+    );
+  } catch (submitError) {
+    setRequestFeedback(
+      'error',
+      `${submitError instanceof Error ? submitError.message : '提交失败。'} 你也可以改用 GitHub 请求页继续提交。`,
+      [
+        { href: issueUrl, label: '打开 GitHub 请求页' },
+      ],
+    );
+  } finally {
+    syncRequestState();
+  }
 });
 syncRequestState();
+void loadRequestConfig();
 void loadLatestResult();
