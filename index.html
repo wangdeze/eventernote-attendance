@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventernote 出勤率分析</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <header class="hero">
+        <p class="eyebrow">GitHub Pages + GitHub Actions</p>
+        <h1>Eventernote 出勤率分析</h1>
+        <p class="description">
+          输入 Eventernote 用户 ID、艺人名称和年份，然后到仓库的 Actions 页面手动运行工作流。分析完成后，当前页面会读取
+          <code>data/latest-result.json</code> 展示结果。
+        </p>
+      </header>
+
+      <section class="card">
+        <h2>分析参数</h2>
+        <form id="request-form" class="grid-form">
+          <label>
+            <span>Eventernote 用户 ID</span>
+            <input id="user-id" name="user_id" type="text" placeholder="Tokuzawa353567" />
+          </label>
+          <label>
+            <span>艺人名称</span>
+            <input id="actor-name" name="actor_name" type="text" placeholder="鈴木愛奈" />
+          </label>
+          <label>
+            <span>年份</span>
+            <input id="year" name="year" type="number" min="2000" max="2100" placeholder="2025" />
+          </label>
+        </form>
+        <div class="actions">
+          <button id="copy-inputs" type="button">复制 workflow 输入</button>
+          <a
+            class="secondary-button"
+            id="workflow-link"
+            href="https://github.com/wangdeze/eventernote-attendance/actions/workflows/run-analysis.yml"
+            target="_blank"
+            rel="noreferrer"
+            >打开 GitHub Actions 手动运行</a
+          >
+        </div>
+        <pre id="workflow-input-preview" class="preview"></pre>
+      </section>
+
+      <section class="card" id="status-card">
+        <div class="section-title-row">
+          <h2>最新结果</h2>
+          <span id="status-pill" class="pill">读取中</span>
+        </div>
+        <p id="status-message" class="muted">正在加载最新分析结果…</p>
+        <div id="summary" class="summary hidden">
+          <div>
+            <span>用户 ID</span>
+            <strong id="summary-user-id">-</strong>
+          </div>
+          <div>
+            <span>艺人名称</span>
+            <strong id="summary-actor-name">-</strong>
+          </div>
+          <div>
+            <span>年份</span>
+            <strong id="summary-year">-</strong>
+          </div>
+          <div>
+            <span>全年活动总数</span>
+            <strong id="summary-total">-</strong>
+          </div>
+          <div>
+            <span>已出席活动数</span>
+            <strong id="summary-attended">-</strong>
+          </div>
+          <div>
+            <span>出勤率</span>
+            <strong id="summary-rate">-</strong>
+          </div>
+        </div>
+        <div id="error-panel" class="error-panel hidden"></div>
+        <ul id="warnings" class="warnings hidden"></ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title-row">
+          <h2>活动明细</h2>
+          <a href="./data/latest-result.json" target="_blank" rel="noreferrer">查看原始 JSON</a>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>状态</th>
+                <th>日期</th>
+                <th>活动</th>
+                <th>会场</th>
+              </tr>
+            </thead>
+            <tbody id="events-body">
+              <tr>
+                <td colspan="4" class="muted">尚无分析结果。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
