@@ -36,7 +36,7 @@
 - `actor_name`: 艺人名称
 - `year`: 自然年
 
-页面会优先通过轻量中间层请求入口（例如 Cloudflare Worker / Vercel Function）提交参数，由中间层在仓库内自动创建请求 issue 并触发分析 workflow，最终结果写入 `data/latest-result.json`；如果未配置中间层，同一个按钮会回退到 GitHub issue 创建页。
+页面会优先通过轻量中间层请求入口（例如 Cloudflare Worker / Vercel Function）提交参数，由中间层在仓库内自动创建请求 issue 并触发分析 workflow，最终结果写入 `data/latest-result.json`；如果未配置中间层或显式设为 `request_mode=issue`，同一个按钮会回退到 GitHub issue 创建页。
 
 > 对外页面只暴露一个“提交分析请求”按钮；若未配置中间层，同一个按钮会回退到 GitHub issue 创建页。
 >
@@ -53,7 +53,8 @@
 }
 ```
 
-- `request_mode=proxy`：保留兼容字段，当前页面始终优先尝试中间层提交
+- `request_mode=proxy`：页面优先走中间层提交；若 `request_proxy_url` 为空则回退到 GitHub issue 请求页
+- `request_mode=issue`：页面直接使用同一个按钮跳转到 GitHub issue 请求页
 - `request_proxy_url`：页面把表单 JSON `POST` 到该地址
 
 当使用 `proxy` 模式时，中间层只需要接收：

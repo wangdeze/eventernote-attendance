@@ -51,12 +51,13 @@ function normalizeRequestConfig(value) {
   }
 
   return {
-    request_mode: 'proxy',
+    request_mode: value.request_mode === 'issue' ? 'issue' : 'proxy',
     request_proxy_url: typeof value.request_proxy_url === 'string' ? value.request_proxy_url.trim() : '',
   };
 }
 
 function getProxyRequestUrl() {
+  if (requestConfig.request_mode !== 'proxy') return '';
   return toSafeUrl(requestConfig.request_proxy_url);
 }
 
