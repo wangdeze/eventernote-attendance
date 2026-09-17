@@ -4,6 +4,7 @@ import argparse
 import json
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import urlsplit
 
 from scripts.fetch_attendance import AnalyzerError, build_error_result
 from v2.backend.api import build_analysis_response
@@ -21,23 +22,27 @@ CORS_HEADERS = {
 class AnalyzeHandler(BaseHTTPRequestHandler):
     server_version = "EventernoteAttendanceV2/0.1"
 
+    @property
+    def request_path(self) -> str:
+        return urlsplit(self.path).path.rstrip("/") or "/"
+
     def do_OPTIONS(self) -> None:  # noqa: N802 - stdlib handler name.
-        if self.path.rstrip("/") != API_PATH:
-            self.send_error(HTTPStatus.NOT_FOUND, "Not Found")
+        if self.request_path != API_PATH:
+            self._send_json(HTTPStatus.NOT_FOUND, build_error_result("", "", "", AnalyzerError("接口不存在。")))
             return
         self.send_response(HTTPStatus.NO_CONTENT)
         self._send_common_headers(content_type="application/json; charset=utf-8")
         self.end_headers()
 
     def do_GET(self) -> None:  # noqa: N802 - stdlib handler name.
-        if self.path.rstrip("/") == "/health":
+        if self.request_path == "/health":
             self._send_json(HTTPStatus.OK, {"status": "ok"})
             return
-        self.send_error(HTTPStatus.NOT_FOUND, "Not Found")
+        self._send_json(HTTPStatus.NOT_FOUND, build_error_result("", "", "", AnalyzerError("接口不存在。")))
 
     def do_POST(self) -> None:  # noqa: N802 - stdlib handler name.
-        if self.path.rstrip("/") != API_PATH:
-            self.send_error(HTTPStatus.NOT_FOUND, "Not Found")
+        if self.request_path != API_PATH:
+            self._send_json(HTTPStatus.NOT_FOUND, build_error_result("", "", "", AnalyzerError("接口不存在。")))
             return
 
         content_length = int(self.headers.get("Content-Length", "0"))

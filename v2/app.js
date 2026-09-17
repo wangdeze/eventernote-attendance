@@ -209,7 +209,21 @@ async function submitAnalysis(payload) {
   });
 
   const resultText = await response.text();
-  const result = resultText ? JSON.parse(resultText) : {};
+  let result = {};
+  if (resultText) {
+    try {
+      result = JSON.parse(resultText);
+    } catch (error) {
+      result = {
+        status: 'error',
+        error: {
+          message: `分析接口返回了非 JSON 响应（HTTP ${response.status}）。`,
+        },
+        warnings: [],
+        events: [],
+      };
+    }
+  }
   if (!response.ok) {
     return result;
   }

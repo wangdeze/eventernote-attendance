@@ -303,6 +303,14 @@ class StubAnalyzeClient(EventernoteClient):
         )
 
 
+class BrokenAnalyzeClient(EventernoteClient):
+    def __init__(self) -> None:
+        super().__init__(min_delay=0, max_delay=0)
+
+    def resolve_actor(self, actor_name: str) -> ActorCandidate:
+        raise AnalyzerError("上游抓取失败")
+
+
 class ApiResponseTests(unittest.TestCase):
     def test_rejects_missing_request_fields(self) -> None:
         status_code, result = build_analysis_response({"user_id": "", "actor_name": "鈴木愛奈", "year": "2025"})
@@ -322,6 +330,23 @@ class ApiResponseTests(unittest.TestCase):
         self.assertEqual(result["attended_events"], 1)
         self.assertEqual(result["total_actor_events"], 1)
         self.assertEqual(result["attendance_rate"], 1.0)
+
+    def test_rejects_non_object_payload(self) -> None:
+        status_code, result = build_analysis_response("not-a-dict")
+
+        self.assertEqual(status_code, 400)
+        self.assertEqual(result["status"], "error")
+        self.assertEqual(result["error"]["type"], "AnalyzerError")
+
+    def test_returns_bad_gateway_for_upstream_failure(self) -> None:
+        status_code, result = build_analysis_response(
+            {"user_id": "Tokuzawa353567", "actor_name": "鈴木愛奈", "year": "2025"},
+            client=BrokenAnalyzeClient(),
+        )
+
+        self.assertEqual(status_code, 502)
+        self.assertEqual(result["status"], "error")
+        self.assertEqual(result["error"]["type"], "AnalyzerError")
 
 
 if __name__ == "__main__":
