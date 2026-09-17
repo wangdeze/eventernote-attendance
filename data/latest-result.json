@@ -1,6 +1,954 @@
 {
-  "status": "idle",
-  "message": "公开站点不再内置预设结果，请先从页面提交一次分析请求。",
+  "status": "success",
+  "generated_at": "2026-09-17T08:04:39+00:00",
+  "requested_actor_name": "鈴木愛奈",
+  "user_id": "Tokuzawa353567",
+  "actor_name": "鈴木愛奈",
+  "actor_id": "11198",
+  "actor_url": "https://www.eventernote.com/actors/%E9%88%B4%E6%9C%A8%E6%84%9B%E5%A5%88/11198",
+  "year": 2024,
+  "total_actor_events": 47,
+  "attended_events": 21,
+  "attendance_rate": 0.4468,
   "warnings": [],
-  "events": []
+  "events": [
+    {
+      "id": "363398",
+      "date": "2024-01-13",
+      "title": "鈴木愛奈｜【1月13日】鈴木愛奈 リリース記念抽選会イベント@AKIHABARAゲーマーズ本店",
+      "venue": "開場 11:40 開演 12:00 終演 13:00",
+      "url": "https://www.eventernote.com/events/363398",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "355484",
+      "date": "2024-02-25",
+      "title": "オダイバ!!超次元音楽祭 フユフェス2024 2日目",
+      "venue": "ぴあアリーナMM",
+      "url": "https://www.eventernote.com/events/355484",
+      "actors": [
+        "バナナマン",
+        "日村勇紀(バナナマン)",
+        "設楽統(バナナマン)",
+        "鬼頭明里",
+        "鈴木愛奈",
+        "ももいろクローバーZ",
+        "百田夏菜子",
+        "玉井詩織",
+        "佐々木彩夏",
+        "高城れに",
+        "Liella!",
+        "伊達さゆり",
+        "Liyuu(黎獄)",
+        "岬なこ",
+        "ペイトン尚未",
+        "青山なぎさ",
+        "鈴原希実",
+        "薮島朱音",
+        "大熊和奏",
+        "絵森彩",
+        "結那",
+        "坂倉花",
+        "内田雄馬",
+        "仲村宗悟",
+        "畠中祐",
+        "フジコーズ"
+      ],
+      "attended": true
+    },
+    {
+      "id": "355984",
+      "date": "2024-03-09",
+      "title": "【出演者変更】LoveLive! Series Presents ユニット甲子園 2024 ＜Day.1＞",
+      "venue": "Kアリーナ横浜",
+      "url": "https://www.eventernote.com/events/355984",
+      "actors": [
+        "CYaRon!",
+        "伊波杏樹",
+        "斉藤朱夏",
+        "降幡愛",
+        "AZALEA",
+        "諏訪ななか",
+        "小宮有紗",
+        "Guilty Kiss",
+        "逢田梨香子",
+        "小林愛香",
+        "鈴木愛奈",
+        "わいわいわい",
+        "Saint Snow",
+        "田野アサミ",
+        "佐藤日向",
+        "A・ZU・NA",
+        "大西亜玖璃",
+        "前田佳織里",
+        "林鼓子",
+        "QU4RTZ",
+        "指出毬亜",
+        "田中ちえ美",
+        "DiverDiva",
+        "久保田未夢",
+        "村上奈津実",
+        "R3BIRTH",
+        "内田秀",
+        "法元明菜",
+        "CatChu!",
+        "伊達さゆり",
+        "ペイトン尚未",
+        "薮島朱音",
+        "KALEIDOSCORE",
+        "Liyuu(黎獄)",
+        "青山なぎさ",
+        "結那",
+        "5yncri5e!",
+        "岬なこ",
+        "鈴原希実",
+        "大熊和奏",
+        "絵森彩",
+        "坂倉花",
+        "Sunny Passion",
+        "結木ゆな",
+        "吉武千颯",
+        "スリーズブーケ",
+        "楡井希実",
+        "花宮初奈",
+        "DOLLCHESTRA",
+        "野中ここな",
+        "佐々木琴子",
+        "みらくらぱーく！",
+        "菅叶和",
+        "月音こな",
+        "小泉萌香",
+        "藤井康生",
+        "矢野妃菜喜",
+        "樋田かおり"
+      ],
+      "attended": true
+    },
+    {
+      "id": "355985",
+      "date": "2024-03-10",
+      "title": "【出演者変更】LoveLive! Series Presents ユニット甲子園 2024 ＜Day.2＞",
+      "venue": "Kアリーナ横浜",
+      "url": "https://www.eventernote.com/events/355985",
+      "actors": [
+        "CYaRon!",
+        "伊波杏樹",
+        "斉藤朱夏",
+        "降幡愛",
+        "AZALEA",
+        "諏訪ななか",
+        "小宮有紗",
+        "Guilty Kiss",
+        "小林愛香",
+        "鈴木愛奈",
+        "わいわいわい",
+        "Saint Snow",
+        "田野アサミ",
+        "佐藤日向",
+        "A・ZU・NA",
+        "大西亜玖璃",
+        "前田佳織里",
+        "林鼓子",
+        "QU4RTZ",
+        "指出毬亜",
+        "田中ちえ美",
+        "DiverDiva",
+        "久保田未夢",
+        "村上奈津実",
+        "R3BIRTH",
+        "内田秀",
+        "法元明菜",
+        "CatChu!",
+        "伊達さゆり",
+        "ペイトン尚未",
+        "薮島朱音",
+        "KALEIDOSCORE",
+        "Liyuu(黎獄)",
+        "青山なぎさ",
+        "結那",
+        "5yncri5e!",
+        "岬なこ",
+        "鈴原希実",
+        "大熊和奏",
+        "絵森彩",
+        "坂倉花",
+        "Sunny Passion",
+        "結木ゆな",
+        "吉武千颯",
+        "スリーズブーケ",
+        "楡井希実",
+        "花宮初奈",
+        "DOLLCHESTRA",
+        "野中ここな",
+        "佐々木琴子",
+        "みらくらぱーく！",
+        "菅叶和",
+        "月音こな",
+        "相良茉優",
+        "藤井康生",
+        "矢野妃菜喜",
+        "樋田かおり",
+        "逢田梨香子"
+      ],
+      "attended": true
+    },
+    {
+      "id": "370236",
+      "date": "2024-03-16",
+      "title": "SABLE HILLS Odyssey Pre-Debut Show",
+      "venue": "恵比寿LIQUIDROOM(リキッドルーム)",
+      "url": "https://www.eventernote.com/events/370236",
+      "actors": [
+        "Sable Hills",
+        "Crossfaith",
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "371829",
+      "date": "2024-03-16",
+      "title": "「最弱テイマーはゴミ拾いの旅を始めました。」POP UP SHOP 鈴木愛奈さん来店イベント",
+      "venue": "錦糸町マルイ 5F特設スペース",
+      "url": "https://www.eventernote.com/events/371829",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "365707",
+      "date": "2024-03-17",
+      "title": "「鈴木愛奈のring A radio」イベント～あいなの日だよ！全員集合！～ 1部",
+      "venue": "SHIDAXカルチャーホール",
+      "url": "https://www.eventernote.com/events/365707",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "368622",
+      "date": "2024-03-17",
+      "title": "「鈴木愛奈のring A radio」イベント～あいなの日だよ！全員集合！～ 2部",
+      "venue": "SHIDAXカルチャーホール",
+      "url": "https://www.eventernote.com/events/368622",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "368624",
+      "date": "2024-03-17",
+      "title": "「鈴木愛奈のring A radio」イベント～あいなの日だよ！全員集合！～ 3部",
+      "venue": "SHIDAXカルチャーホール",
+      "url": "https://www.eventernote.com/events/368624",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "373972",
+      "date": "2024-03-20",
+      "title": "「最弱テイマーはゴミ拾いの旅を始めました。」POP UP SHOP アイビー役 鈴木愛奈さん お渡し会イベント",
+      "venue": "錦糸町マルイ 5F特設スペース",
+      "url": "https://www.eventernote.com/events/373972",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "372648",
+      "date": "2024-03-24",
+      "title": "AnimeJapan2024 ABCアニメーションブース『最弱テイマーはゴミ拾いの旅を始めました。』",
+      "venue": "東京ビッグサイト(東京国際展示場)",
+      "url": "https://www.eventernote.com/events/372648",
+      "actors": [
+        "鈴木愛奈",
+        "栁瀬一樹"
+      ],
+      "attended": false
+    },
+    {
+      "id": "373460",
+      "date": "2024-03-24",
+      "title": "AnimeJapan2024 TOKYO MXブース「『魔王様、リトライ!R』スペシャルステージ」",
+      "venue": "東京ビッグサイト(東京国際展示場)",
+      "url": "https://www.eventernote.com/events/373460",
+      "actors": [
+        "麻倉もも",
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "358375",
+      "date": "2024-03-30",
+      "title": "鈴木愛奈ライブ2024 in OSAKA 〜Apocalypse Day〜",
+      "venue": "Zepp Osaka Bayside",
+      "url": "https://www.eventernote.com/events/358375",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "358886",
+      "date": "2024-03-31",
+      "title": "鈴木愛奈 「Apocalypse Day」&「果てのない旅」発売記念イベント 大阪【第1部】",
+      "venue": "アニメイト大阪日本橋 5Fイベントホール",
+      "url": "https://www.eventernote.com/events/358886",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "358887",
+      "date": "2024-03-31",
+      "title": "鈴木愛奈 「Apocalypse Day」&「果てのない旅」発売記念イベント 大阪【第2部】",
+      "venue": "アニメイト大阪日本橋 5Fイベントホール",
+      "url": "https://www.eventernote.com/events/358887",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "362336",
+      "date": "2024-04-14",
+      "title": "「アリス・ギア・アイギス Expansion」 成子坂製作所(仮) 定時株主総会 夜の部",
+      "venue": "有楽町よみうりホール",
+      "url": "https://www.eventernote.com/events/362336",
+      "actors": [
+        "儀武ゆう子",
+        "沼倉愛美",
+        "根本京里",
+        "谷口夢奈",
+        "松井恵理子",
+        "大和田仁美",
+        "田澤茉純",
+        "鈴木愛奈",
+        "堀内まり菜",
+        "花井宏和"
+      ],
+      "attended": false
+    },
+    {
+      "id": "362335",
+      "date": "2024-04-14",
+      "title": "「アリス・ギア・アイギス Expansion」 成子坂製作所(仮) 定時株主総会 昼の部",
+      "venue": "有楽町よみうりホール",
+      "url": "https://www.eventernote.com/events/362335",
+      "actors": [
+        "儀武ゆう子",
+        "沼倉愛美",
+        "根本京里",
+        "谷口夢奈",
+        "松井恵理子",
+        "大和田仁美",
+        "田澤茉純",
+        "鈴木愛奈",
+        "堀内まり菜",
+        "花井宏和"
+      ],
+      "attended": false
+    },
+    {
+      "id": "358888",
+      "date": "2024-04-29",
+      "title": "鈴木愛奈 「Apocalypse Day」&「果てのない旅」発売記念イベント 東京",
+      "venue": "アニメイト池袋本店 9F animate hall BLACK",
+      "url": "https://www.eventernote.com/events/358888",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "358376",
+      "date": "2024-05-04",
+      "title": "鈴木愛奈ライブ2024 in TOKYO 〜果てのない旅〜",
+      "venue": "豊洲PIT",
+      "url": "https://www.eventernote.com/events/358376",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "381343",
+      "date": "2024-06-01",
+      "title": "邪神ちゃんフェス2「邪神ちゃんインパクトヒーローショー」",
+      "venue": "すみだ産業会館 8Fサンライズホール",
+      "url": "https://www.eventernote.com/events/381343",
+      "actors": [
+        "鈴木愛奈",
+        "大森日雅"
+      ],
+      "attended": false
+    },
+    {
+      "id": "377828",
+      "date": "2024-06-01",
+      "title": "邪神ちゃんフェス2「開会式」",
+      "venue": "すみだ産業会館 8Fサンライズホール",
+      "url": "https://www.eventernote.com/events/377828",
+      "actors": [
+        "鈴木愛奈",
+        "夏目公一朗",
+        "大森日雅",
+        "栁瀬一樹"
+      ],
+      "attended": false
+    },
+    {
+      "id": "377829",
+      "date": "2024-06-01",
+      "title": "邪神ちゃんフェス2『「異世界ゆるり紀行 子育てしながら冒険者します」コラボステージ』",
+      "venue": "すみだ産業会館 8Fサンライズホール",
+      "url": "https://www.eventernote.com/events/377829",
+      "actors": [
+        "鈴木愛奈",
+        "花井美春",
+        "手羽先センセーション",
+        "ゴホウビ",
+        "栁瀬一樹"
+      ],
+      "attended": false
+    },
+    {
+      "id": "381351",
+      "date": "2024-06-02",
+      "title": "邪神ちゃんフェス2「邪神ちゃんマッチング」",
+      "venue": "すみだ産業会館 8Fサンライズホール",
+      "url": "https://www.eventernote.com/events/381351",
+      "actors": [
+        "鈴木愛奈",
+        "飯田里穂",
+        "花井美春",
+        "山田麻莉奈",
+        "栁瀬一樹",
+        "小坂井祐莉絵"
+      ],
+      "attended": false
+    },
+    {
+      "id": "381350",
+      "date": "2024-06-02",
+      "title": "邪神ちゃんフェス2「邪神ちゃん人狼2」",
+      "venue": "すみだ産業会館 8Fサンライズホール",
+      "url": "https://www.eventernote.com/events/381350",
+      "actors": [
+        "眞形隆之",
+        "鈴木愛奈",
+        "小坂井祐莉絵",
+        "飯田里穂",
+        "山田麻莉奈",
+        "花井美春",
+        "柴田柚巴",
+        "山田親之條",
+        "白那美アンジュ"
+      ],
+      "attended": false
+    },
+    {
+      "id": "381353",
+      "date": "2024-06-02",
+      "title": "邪神ちゃんフェス2「閉会式（特報＆遠征メンバー発表）」",
+      "venue": "すみだ産業会館 8Fサンライズホール",
+      "url": "https://www.eventernote.com/events/381353",
+      "actors": [
+        "鈴木愛奈",
+        "小坂井祐莉絵",
+        "花井美春",
+        "齋藤光二",
+        "栁瀬一樹"
+      ],
+      "attended": false
+    },
+    {
+      "id": "377712",
+      "date": "2024-06-08",
+      "title": "「音泉祭り2024 推しアニラジフェス」鈴木愛奈のring A radio",
+      "venue": "MBS毎日放送本社1F ちゃやまちプラザ",
+      "url": "https://www.eventernote.com/events/377712",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "380655",
+      "date": "2024-07-20",
+      "title": "鈴木愛奈 オフィシャルファンクラブ Ai catwalk 「勇者との密会 ～2024 BIRTHDAY SPECIAL～」 1部",
+      "venue": "飛行船シアター(スタァライト劇場)",
+      "url": "https://www.eventernote.com/events/380655",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "380980",
+      "date": "2024-07-20",
+      "title": "鈴木愛奈 オフィシャルファンクラブ Ai catwalk 「勇者との密会 ～2024 BIRTHDAY SPECIAL～」 2部",
+      "venue": "飛行船シアター(スタァライト劇場)",
+      "url": "https://www.eventernote.com/events/380980",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "383486",
+      "date": "2024-07-23",
+      "title": "鈴木愛奈｜【7月23日】 1stミニアルバム「initium」リリースイベント@タワーレコード渋谷店",
+      "venue": "タワーレコード渋谷店9F屋上 SKY GARDEN",
+      "url": "https://www.eventernote.com/events/383486",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "386527",
+      "date": "2024-08-09",
+      "title": "令和6年 神田明神 納涼祭り アニソン盆踊り",
+      "venue": "神田明神",
+      "url": "https://www.eventernote.com/events/386527",
+      "actors": [
+        "小坂井祐莉絵",
+        "髙橋彩音",
+        "尾崎明日香",
+        "小見川千明",
+        "孝藤右近",
+        "μ’s",
+        "新田恵海",
+        "飯田里穂",
+        "楠田亜衣奈",
+        "鈴木愛奈",
+        "茶風林"
+      ],
+      "attended": false
+    },
+    {
+      "id": "362387",
+      "date": "2024-09-01",
+      "title": "【出演者変更】Animelo Summer Live 2024 -Stargazer- DAY3",
+      "venue": "GMOアリーナさいたま(さいたまスーパーアリーナ)",
+      "url": "https://www.eventernote.com/events/362387",
+      "actors": [
+        "アイドルマスターシャイニーカラーズ",
+        "illumination STARS",
+        "関根瞳",
+        "峯田茉優",
+        "ALSTROEMERIA",
+        "黒木ほの香",
+        "前川涼子",
+        "芝崎典子",
+        "noctchill",
+        "和久井優",
+        "土屋李央",
+        "田嶌紗蘭",
+        "岡咲美保",
+        "亜咲花",
+        "ZAQ",
+        "鈴木愛奈",
+        "茅原実里",
+        "東山奈央",
+        "TRUE(唐沢美帆)",
+        "南條愛乃",
+        "花澤香菜",
+        "ブレイバーン",
+        "ReoNa",
+        "北宇治カルテット",
+        "黒沢ともよ",
+        "朝井彩加",
+        "豊田萌絵",
+        "安済知佳",
+        "B小町",
+        "潘めぐみ",
+        "大久保瑠美",
+        "蒼井翔太",
+        "fripSide",
+        "八木沼悟志",
+        "上杉真央(mAO)",
+        "阿部寿世",
+        "イサミ・アオ",
+        "ルイス・スミス",
+        "邪神ガールズ",
+        "花井美春",
+        "久保田未夢",
+        "小見川千明",
+        "佐々木李子",
+        "小坂井祐莉絵",
+        "大森日雅",
+        "内田雄馬",
+        "近藤玲奈",
+        "鈴木崚汰",
+        "阿座上洋平",
+        "鈴村健一",
+        "山崎淳",
+        "IMAJO(サイキックラバー)",
+        "村上聖",
+        "今井隼",
+        "菊嶋亮一",
+        "毛利泰士",
+        "ヒロムーチョ(髙橋弥歩)",
+        "Tocchi(FIRE HORNS)",
+        "SAK.",
+        "地行美穂",
+        "伊駒ゆりえ",
+        "テトテ(手鞠沢高校アカペラ部)",
+        "綾瀬未来",
+        "夏吉ゆうこ",
+        "須藤叶希",
+        "松岡美里",
+        "相川遥花"
+      ],
+      "attended": true
+    },
+    {
+      "id": "377717",
+      "date": "2024-09-07",
+      "title": "音泉祭り2024  ～アニラジといえば、音泉だね！～",
+      "venue": "TACHIKAWA STAGE GARDEN",
+      "url": "https://www.eventernote.com/events/377717",
+      "actors": [
+        "下野紘",
+        "松井恵理子",
+        "鈴木愛奈",
+        "種田梨沙",
+        "石見舞菜香",
+        "岬なこ",
+        "篠原侑",
+        "守屋亨香",
+        "稲垣好",
+        "希水しお",
+        "前田佳織里",
+        "高野麻里佳",
+        "南早紀",
+        "礒部花凜",
+        "土屋李央",
+        "結川あさき",
+        "浅野真澄",
+        "天津飯大郎",
+        "川島零士",
+        "檜山修之",
+        "鈴代紗弓",
+        "和泉風花",
+        "林鼓子"
+      ],
+      "attended": false
+    },
+    {
+      "id": "384585",
+      "date": "2024-09-14",
+      "title": "ラブライブ！サンシャイン!! 沼津地元愛まつり 2024 ＜Day.1＞ 夜公演",
+      "venue": "キラメッセぬまづ(プラサヴェルデ内)",
+      "url": "https://www.eventernote.com/events/384585",
+      "actors": [
+        "Aqours",
+        "小林愛香",
+        "高槻かなこ",
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "384579",
+      "date": "2024-09-14",
+      "title": "ラブライブ！サンシャイン!! 沼津地元愛まつり 2024 ＜Day.1＞ 昼公演",
+      "venue": "キラメッセぬまづ(プラサヴェルデ内)",
+      "url": "https://www.eventernote.com/events/384579",
+      "actors": [
+        "Aqours",
+        "小林愛香",
+        "高槻かなこ",
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "378282",
+      "date": "2024-09-21",
+      "title": "NAGANO ANIERA FESTA 2024 Day1",
+      "venue": "佐久市駒場公園",
+      "url": "https://www.eventernote.com/events/378282",
+      "actors": [
+        "井口裕香",
+        "奥井雅美",
+        "岸田教団&THE明星ロケッツ",
+        "岸田(岸田教団&THE明星ロケッツ)",
+        "ichigo(岸田教団&THE明星ロケッツ)",
+        "みっちゃん(岸田教団&THE明星ロケッツ)",
+        "はやぴ〜(岸田教団&THE明星ロケッツ)",
+        "斉藤朱夏",
+        "TRUE(唐沢美帆)",
+        "MYTH&ROID",
+        "Tom-H@ck",
+        "KIHOW(MYTH&ROID)",
+        "ASCA",
+        "サンドリオン",
+        "黒木ほの香",
+        "小峯愛未",
+        "小山百代",
+        "汐入あすか",
+        "プリキュアシンガーズ",
+        "石井あみ(歌手)",
+        "北川理恵",
+        "後本萌葉",
+        "吉武千颯",
+        "松永依織",
+        "相羽あいな",
+        "鈴木愛奈",
+        "ライブレボルト",
+        "dubstar",
+        "田口華有",
+        "秋場ゆり",
+        "茜音カンナ",
+        "涼海ネモ",
+        "潮成実",
+        "MEDA",
+        "上月せれな",
+        "温泉むすめ",
+        "新田ひより",
+        "岩井映美里",
+        "南早紀",
+        "AYa-NATiON",
+        "chefoba",
+        "DJ masato"
+      ],
+      "attended": false
+    },
+    {
+      "id": "390842",
+      "date": "2024-09-23",
+      "title": "「ABEMAアニメ祭」スペシャルトークショー付きアニメ上映会『魔王様リトライ！R』①",
+      "venue": "109シネマズプレミアム新宿",
+      "url": "https://www.eventernote.com/events/390842",
+      "actors": [
+        "鈴木愛奈",
+        "駒田航"
+      ],
+      "attended": false
+    },
+    {
+      "id": "390843",
+      "date": "2024-09-23",
+      "title": "「ABEMAアニメ祭」スペシャルトークショー付きアニメ上映会『魔王様リトライ！R』②",
+      "venue": "109シネマズプレミアム新宿",
+      "url": "https://www.eventernote.com/events/390843",
+      "actors": [
+        "鈴木愛奈",
+        "駒田航"
+      ],
+      "attended": false
+    },
+    {
+      "id": "384048",
+      "date": "2024-09-28",
+      "title": "『異世界ゆるり』がYATTEKURU【第1部】",
+      "venue": "あるあるCity 7Fホール",
+      "url": "https://www.eventernote.com/events/384048",
+      "actors": [
+        "鈴木愛奈",
+        "花井美春"
+      ],
+      "attended": true
+    },
+    {
+      "id": "384049",
+      "date": "2024-09-28",
+      "title": "『異世界ゆるり』がYATTEKURU【第2部】",
+      "venue": "あるあるCity 7Fホール",
+      "url": "https://www.eventernote.com/events/384049",
+      "actors": [
+        "鈴木愛奈",
+        "花井美春"
+      ],
+      "attended": true
+    },
+    {
+      "id": "386480",
+      "date": "2024-10-13",
+      "title": "アスルクラロ沼津×ラブライブ！サンシャイン!! コラボマッチ",
+      "venue": "愛鷹広域公園多目的競技場",
+      "url": "https://www.eventernote.com/events/386480",
+      "actors": [
+        "逢田梨香子",
+        "鈴木愛奈",
+        "Aqours",
+        "アスルクラロ沼津",
+        "カマタマーレ讃岐"
+      ],
+      "attended": true
+    },
+    {
+      "id": "395438",
+      "date": "2024-11-02",
+      "title": "早稲田大学 早稲田祭2024「StarryCube ANIME FES powered by 早稲田大学アニメ声優会」「魔王様、リトライ！R」トークショー",
+      "venue": "早稲田大学 早稲田キャンパス15号館",
+      "url": "https://www.eventernote.com/events/395438",
+      "actors": [
+        "野口衣織",
+        "藍沢亮",
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "378853",
+      "date": "2024-11-10",
+      "title": "Aina Suzuki Live Tour 2024 -initium- ＜東京公演＞",
+      "venue": "The Garden Hall(恵比寿ザ・ガーデンホール)",
+      "url": "https://www.eventernote.com/events/378853",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "378854",
+      "date": "2024-11-17",
+      "title": "Aina Suzuki Live Tour 2024 -initium- ＜愛知公演＞",
+      "venue": "名古屋ボトムライン(THE BOTTOM LINE)",
+      "url": "https://www.eventernote.com/events/378854",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "375201",
+      "date": "2024-11-23",
+      "title": "Lemino presents ANIMAX MUSIX 2024 FALL",
+      "venue": "横浜アリーナ",
+      "url": "https://www.eventernote.com/events/375201",
+      "actors": [
+        "KOTOKO",
+        "中川翔子",
+        "Ave Mujica",
+        "佐々木李子",
+        "渡瀬結月",
+        "岡田夢以",
+        "米澤茜",
+        "高尾奏音",
+        "蒼井翔太",
+        "ASCA",
+        "ASOBI同盟",
+        "内田雄馬",
+        "ウマ娘 プリティーダービー(gal’up!)",
+        "大石昌良(オーイシマサヨシ)",
+        "GARNiDELiA",
+        "MARiA/美依礼芽(水橋舞)",
+        "toku(GARNiDELiA)",
+        "sajou no hana",
+        "sana(37/sajou no hana)",
+        "鈴木このみ",
+        "TRUE(唐沢美帆)",
+        "南條愛乃",
+        "Poppin'Party",
+        "愛美",
+        "大塚紗英",
+        "西本りみ",
+        "大橋彩香",
+        "伊藤彩沙",
+        "MADKID",
+        "Liella!",
+        "伊達さゆり",
+        "Liyuu(黎獄)",
+        "ペイトン尚未",
+        "岬なこ",
+        "青山なぎさ",
+        "鈴原希実",
+        "薮島朱音",
+        "大熊和奏",
+        "絵森彩",
+        "結那",
+        "坂倉花",
+        "吉田尚記",
+        "津田美波",
+        "矢野妃菜喜",
+        "春川芽生",
+        "福嶋晴菜",
+        "藤本侑里",
+        "秋奈",
+        "吉岡茉祐",
+        "Sizuk",
+        "AYAME(AliA)",
+        "上坂すみれ",
+        "本渡楓",
+        "若山詩音",
+        "大渕野々花",
+        "鈴木愛奈",
+        "ウタヒメドリーム オールスターズ",
+        "花耶",
+        "LINKL PLANET",
+        "天川れみ",
+        "荒井芽依",
+        "石田悠佳",
+        "尾本侑樹奈",
+        "佐藤咲菜",
+        "鈴木華凜",
+        "高柳光花",
+        "東恩納瑠花",
+        "宮﨑菜々",
+        "みみみ(3)",
+        "乃々花りあら",
+        "嶺夢(レム)",
+        "井口裕香",
+        "平野綾",
+        "Tom-H@ck",
+        "八木沼悟志",
+        "西川進",
+        "青山英樹",
+        "浅倉高昭",
+        "ジョー(JOE)",
+        "二木元太郎",
+        "市川知子"
+      ],
+      "attended": false
+    },
+    {
+      "id": "378856",
+      "date": "2024-11-30",
+      "title": "Aina Suzuki Live Tour 2024 -initium- ＜大阪公演＞",
+      "venue": "GORILLA HALL OSAKA",
+      "url": "https://www.eventernote.com/events/378856",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": true
+    },
+    {
+      "id": "400826",
+      "date": "2024-12-08",
+      "title": "「鈴木愛奈 POP UP STORE アイナコレクション 5th Anniversary」フリーイベント＆「Aina Suzuki 5th Anniversary Book あいらしく。」抽選サイン会 夜公演",
+      "venue": "新宿マルイメン 8Fイベントスペース",
+      "url": "https://www.eventernote.com/events/400826",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "400825",
+      "date": "2024-12-08",
+      "title": "「鈴木愛奈 POP UP STORE アイナコレクション 5th Anniversary」フリーイベント＆「Aina Suzuki 5th Anniversary Book あいらしく。」抽選サイン会 昼公演",
+      "venue": "新宿マルイメン 8Fイベントスペース",
+      "url": "https://www.eventernote.com/events/400825",
+      "actors": [
+        "鈴木愛奈"
+      ],
+      "attended": false
+    }
+  ]
 }
