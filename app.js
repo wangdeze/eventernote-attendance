@@ -98,7 +98,7 @@ function setRequestFeedback(kind, text, links = []) {
       const link = document.createElement('a');
       link.href = item.href;
       link.target = '_blank';
-      link.rel = 'noreferrer';
+      link.rel = 'noopener noreferrer';
       link.textContent = item.label;
       list.appendChild(link);
     });
@@ -239,7 +239,7 @@ function renderEvents(items) {
       const link = document.createElement('a');
       link.href = safeUrl;
       link.target = '_blank';
-      link.rel = 'noreferrer';
+      link.rel = 'noopener noreferrer';
       link.textContent = event.title ?? '-';
       titleCell.appendChild(link);
     } else {
