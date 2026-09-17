@@ -51,7 +51,7 @@ function normalizeRequestConfig(value) {
   }
 
   return {
-    request_mode: value.request_mode === 'issue' ? 'issue' : 'proxy',
+    request_mode: value.request_mode === 'proxy' ? 'proxy' : 'issue',
     request_proxy_url: typeof value.request_proxy_url === 'string' ? value.request_proxy_url.trim() : '',
   };
 }
