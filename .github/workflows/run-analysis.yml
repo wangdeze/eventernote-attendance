@@ -26,7 +26,6 @@ concurrency:
 
 jobs:
   analyze:
-    if: github.event_name != 'issues' || ((github.event.issue.author_association == 'OWNER' || github.event.issue.author_association == 'MEMBER' || github.event.issue.author_association == 'COLLABORATOR') && startsWith(github.event.issue.title, '[analysis-request]') && github.event.issue.body && contains(github.event.issue.body, '<!-- eventernote-attendance-request -->'))
     runs-on: ubuntu-latest
 
     steps:
@@ -39,7 +38,7 @@ jobs:
           fi
           echo "branch=${branch}" >> "${GITHUB_OUTPUT}"
 
-      - name: Resolve request inputs
+      - name: Validate and resolve request inputs
         id: request
         env:
           EVENT_NAME: ${{ github.event_name }}
@@ -63,46 +62,80 @@ jobs:
                   "actor_name": os.environ["WORKFLOW_ACTOR_NAME"].strip(),
                   "year": os.environ["WORKFLOW_YEAR"].strip(),
               }
-          else:
-              with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as fh:
-                  issue = json.load(fh)["issue"]
-              body = issue.get("body") or ""
-              if "<!-- eventernote-attendance-request -->" not in body:
-                  raise SystemExit("Issue body is not a supported analysis request.")
-              payload = {}
-              for line in body.splitlines():
-                  if ":" not in line:
-                      continue
-                  key, value = line.split(":", 1)
-                  key = key.strip()
-                  if key in {"user_id", "actor_name", "year"}:
-                      payload[key] = value.strip()
+              missing = [key for key in ("user_id", "actor_name", "year") if not payload.get(key)]
+              if missing:
+                  raise SystemExit(f"Missing required request fields: {', '.join(missing)}")
+
+              if not re.fullmatch(r"\d{4}", payload["year"]):
+                  raise SystemExit("Year must be a 4-digit number.")
+
+              write_output("accepted", "true")
+              write_output("rejection_reason", "")
+              for key, value in payload.items():
+                  write_output(key, value)
+              raise SystemExit(0)
+
+          with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as fh:
+              issue = json.load(fh)["issue"]
+
+          author_association = issue.get("author_association") or ""
+          trusted_associations = {"OWNER", "MEMBER", "COLLABORATOR"}
+          if author_association not in trusted_associations:
+              write_output("accepted", "false")
+              write_output("rejection_reason", "该公开请求入口仅接受受信任的仓库协作者提交。")
+              raise SystemExit(0)
+
+          title = issue.get("title") or ""
+          body = issue.get("body") or ""
+          if not title.startswith("[analysis-request]") or "<!-- eventernote-attendance-request -->" not in body:
+              write_output("accepted", "false")
+              write_output("rejection_reason", "请从 GitHub Pages 页面生成请求，并保留 issue 标题和参数格式。")
+              raise SystemExit(0)
+
+          payload = {}
+          for line in body.splitlines():
+              if ":" not in line:
+                  continue
+              key, value = line.split(":", 1)
+              key = key.strip()
+              if key in {"user_id", "actor_name", "year"}:
+                  payload[key] = value.strip()
 
           missing = [key for key in ("user_id", "actor_name", "year") if not payload.get(key)]
           if missing:
-              raise SystemExit(f"Missing required request fields: {', '.join(missing)}")
+              write_output("accepted", "false")
+              write_output("rejection_reason", f"请求缺少必要参数: {', '.join(missing)}。")
+              raise SystemExit(0)
 
           if not re.fullmatch(r"\d{4}", payload["year"]):
-              raise SystemExit("Year must be a 4-digit number.")
+              write_output("accepted", "false")
+              write_output("rejection_reason", "年份必须是 4 位数字。")
+              raise SystemExit(0)
 
+          write_output("accepted", "true")
+          write_output("rejection_reason", "")
           for key, value in payload.items():
               write_output(key, value)
           PY
 
       - name: Checkout repository
+        if: steps.request.outputs.accepted == 'true'
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.target-branch.outputs.branch }}
 
       - name: Set up Python
+        if: steps.request.outputs.accepted == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Install dependencies
+        if: steps.request.outputs.accepted == 'true'
         run: python -m pip install --upgrade pip && pip install -r requirements.txt
 
       - name: Run analyzer
+        if: steps.request.outputs.accepted == 'true'
         env:
           USER_ID: ${{ steps.request.outputs.user_id }}
           ACTOR_NAME: ${{ steps.request.outputs.actor_name }}
@@ -114,40 +147,53 @@ jobs:
             --year "${YEAR}" \
             --output data/latest-result.json
 
+      - name: Detect result changes
+        if: steps.request.outputs.accepted == 'true'
+        id: detect-result
+        run: |
+          if git diff --quiet -- data/latest-result.json; then
+            echo "changed=false" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+          echo "changed=true" >> "${GITHUB_OUTPUT}"
+
       - name: Commit latest result
-        id: commit-result
+        if: steps.request.outputs.accepted == 'true' && steps.detect-result.outputs.changed == 'true'
         env:
           USER_ID: ${{ steps.request.outputs.user_id }}
           ACTOR_NAME: ${{ steps.request.outputs.actor_name }}
           YEAR: ${{ steps.request.outputs.year }}
           TARGET_BRANCH: ${{ steps.target-branch.outputs.branch }}
         run: |
-          if git diff --quiet -- data/latest-result.json; then
-            echo "No result changes to commit."
-            echo "changed=false" >> "${GITHUB_OUTPUT}"
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/latest-result.json
           git commit -m "Update attendance result for ${USER_ID} / ${ACTOR_NAME} / ${YEAR}"
           git push origin "HEAD:${TARGET_BRANCH}"
-          echo "changed=true" >> "${GITHUB_OUTPUT}"
 
       - name: Comment on analysis request
         if: always() && github.event_name == 'issues'
         uses: actions/github-script@v7
         env:
           JOB_STATUS: ${{ job.status }}
-          RESULT_CHANGED: ${{ steps.commit-result.outputs.changed }}
+          REQUEST_ACCEPTED: ${{ steps.request.outputs.accepted }}
+          REJECTION_REASON: ${{ steps.request.outputs.rejection_reason }}
+          RESULT_CHANGED: ${{ steps.detect-result.outputs.changed }}
           TARGET_BRANCH: ${{ steps.target-branch.outputs.branch }}
         with:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const resultUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/blob/${process.env.TARGET_BRANCH}/data/latest-result.json`;
+            const requestAccepted = process.env.REQUEST_ACCEPTED === 'true';
             const isSuccess = process.env.JOB_STATUS === 'success';
             const resultChanged = process.env.RESULT_CHANGED === 'true';
-            const body = isSuccess
+            const body = !requestAccepted
+              ? [
+                  process.env.REJECTION_REASON || '该请求未被接受。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                ].join('\n')
+              : isSuccess
               ? resultChanged
                 ? [
                     '分析请求已处理完成，并已更新结果文件。',
@@ -174,7 +220,7 @@ jobs:
               body,
             });
 
-            if (isSuccess) {
+            if (requestAccepted && isSuccess) {
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
