@@ -406,6 +406,26 @@ class AnalyzeHandlerTests(unittest.TestCase):
         self.assertEqual(body["status"], "error")
         self.assertEqual(body["error"]["message"], "Content-Length 请求头无效。")
 
+    def test_rejects_oversized_request_body(self) -> None:
+        server, thread = self.start_server()
+        try:
+            connection = http.client.HTTPConnection(*server.server_address)
+            connection.request(
+                "POST",
+                "/api/analyze",
+                body="x" * (16 * 1024 + 1),
+                headers={"Content-Type": "application/json"},
+            )
+            response = connection.getresponse()
+            body = json.loads(response.read().decode("utf-8"))
+        finally:
+            connection.close()
+            self.stop_server(server, thread)
+
+        self.assertEqual(response.status, 413)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "请求体过大。")
+
 
 if __name__ == "__main__":
     unittest.main()

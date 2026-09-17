@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import socket
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
@@ -13,6 +14,8 @@ DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
 DEFAULT_ALLOW_ORIGIN = ""
 API_PATH = "/api/analyze"
+MAX_REQUEST_BODY_BYTES = 16 * 1024
+REQUEST_BODY_TIMEOUT_SECONDS = 15
 CORS_HEADERS = {
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -70,7 +73,22 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
                 build_error_result("", "", "", AnalyzerError("Content-Length 请求头无效。")),
             )
             return
-        raw_body = self.rfile.read(content_length)
+        if content_length > MAX_REQUEST_BODY_BYTES:
+            self._send_json(
+                HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
+                build_error_result("", "", "", AnalyzerError("请求体过大。")),
+            )
+            return
+
+        self.connection.settimeout(REQUEST_BODY_TIMEOUT_SECONDS)
+        try:
+            raw_body = self.rfile.read(content_length)
+        except socket.timeout:
+            self._send_json(
+                HTTPStatus.REQUEST_TIMEOUT,
+                build_error_result("", "", "", AnalyzerError("读取请求体超时。")),
+            )
+            return
 
         try:
             payload = json.loads(raw_body.decode("utf-8") or "{}")
