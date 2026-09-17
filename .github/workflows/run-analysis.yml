@@ -70,6 +70,7 @@ jobs:
                   raise SystemExit("Year must be a 4-digit number.")
 
               write_output("accepted", "true")
+              write_output("request_like", "false")
               write_output("rejection_reason", "")
               for key, value in payload.items():
                   write_output(key, value)
@@ -78,6 +79,16 @@ jobs:
           with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as fh:
               issue = json.load(fh)["issue"]
 
+          title = issue.get("title") or ""
+          body = issue.get("body") or ""
+          request_like = title.startswith("[analysis-request]") or "<!-- eventernote-attendance-request -->" in body
+          if not request_like:
+              write_output("accepted", "false")
+              write_output("request_like", "false")
+              write_output("rejection_reason", "")
+              raise SystemExit(0)
+
+          write_output("request_like", "true")
           author_association = issue.get("author_association") or ""
           trusted_associations = {"OWNER", "MEMBER", "COLLABORATOR"}
           if author_association not in trusted_associations:
@@ -85,8 +96,6 @@ jobs:
               write_output("rejection_reason", "该公开请求入口仅接受受信任的仓库协作者提交。")
               raise SystemExit(0)
 
-          title = issue.get("title") or ""
-          body = issue.get("body") or ""
           if not title.startswith("[analysis-request]") or "<!-- eventernote-attendance-request -->" not in body:
               write_output("accepted", "false")
               write_output("rejection_reason", "请从 GitHub Pages 页面生成请求，并保留 issue 标题和参数格式。")
@@ -157,6 +166,21 @@ jobs:
           fi
           echo "changed=true" >> "${GITHUB_OUTPUT}"
 
+      - name: Read analysis result status
+        if: steps.request.outputs.accepted == 'true'
+        id: result-status
+        run: |
+          python - <<'PY'
+          import json
+          import os
+
+          with open("data/latest-result.json", encoding="utf-8") as fh:
+              result = json.load(fh)
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"status={result.get('status', '')}\n")
+          PY
+
       - name: Commit latest result
         if: steps.request.outputs.accepted == 'true' && steps.detect-result.outputs.changed == 'true'
         env:
@@ -172,13 +196,15 @@ jobs:
           git push origin "HEAD:${TARGET_BRANCH}"
 
       - name: Comment on analysis request
-        if: always() && github.event_name == 'issues'
+        if: always() && github.event_name == 'issues' && steps.request.outputs.request_like == 'true'
         uses: actions/github-script@v7
         env:
           JOB_STATUS: ${{ job.status }}
           REQUEST_ACCEPTED: ${{ steps.request.outputs.accepted }}
+          REQUEST_LIKE: ${{ steps.request.outputs.request_like }}
           REJECTION_REASON: ${{ steps.request.outputs.rejection_reason }}
           RESULT_CHANGED: ${{ steps.detect-result.outputs.changed }}
+          ANALYSIS_STATUS: ${{ steps.result-status.outputs.status }}
           TARGET_BRANCH: ${{ steps.target-branch.outputs.branch }}
         with:
           script: |
@@ -187,30 +213,38 @@ jobs:
             const requestAccepted = process.env.REQUEST_ACCEPTED === 'true';
             const isSuccess = process.env.JOB_STATUS === 'success';
             const resultChanged = process.env.RESULT_CHANGED === 'true';
+            const analysisStatus = process.env.ANALYSIS_STATUS;
             const body = !requestAccepted
               ? [
                   process.env.REJECTION_REASON || '该请求未被接受。',
                   '',
                   `- Workflow: ${runUrl}`,
                 ].join('\n')
-              : isSuccess
-              ? resultChanged
-                ? [
-                    '分析请求已处理完成，并已更新结果文件。',
-                    '',
-                    `- Workflow: ${runUrl}`,
-                    `- Result JSON: ${resultUrl}`,
-                  ].join('\n')
-                : [
-                    '分析请求已处理完成；本次结果与当前最新结果一致，因此未生成新的提交。',
-                    '',
-                    `- Workflow: ${runUrl}`,
-                    `- Current Result JSON: ${resultUrl}`,
-                  ].join('\n')
-              : [
+              : !isSuccess
+              ? [
                   '分析请求执行失败，请打开 workflow 日志查看详情。',
                   '',
                   `- Workflow: ${runUrl}`,
+                ].join('\n')
+              : analysisStatus !== 'success'
+              ? [
+                  '分析请求已执行完成，但抓取失败，结果文件中记录了错误信息。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                  `- Result JSON: ${resultUrl}`,
+                ].join('\n')
+              : resultChanged
+              ? [
+                  '分析请求已处理完成，并已更新结果文件。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                  `- Result JSON: ${resultUrl}`,
+                ].join('\n')
+              : [
+                  '分析请求已处理完成；本次结果与当前最新结果一致，因此未生成新的提交。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                  `- Current Result JSON: ${resultUrl}`,
                 ].join('\n');
 
             await github.rest.issues.createComment({
@@ -220,7 +254,7 @@ jobs:
               body,
             });
 
-            if (requestAccepted && isSuccess) {
+            if (requestAccepted && isSuccess && analysisStatus === 'success') {
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
