@@ -47,6 +47,7 @@ function buildIssueUrl(payload) {
     '> 请不要修改以上三行参数；提交 issue 后会自动触发分析 workflow。',
   ].join('\n');
   const url = new URL(issueBaseUrl);
+  url.searchParams.set('template', 'analysis-request.md');
   url.searchParams.set('title', title);
   url.searchParams.set('body', body);
   return url.toString();
