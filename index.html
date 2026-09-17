@@ -12,42 +12,38 @@
         <p class="eyebrow">GitHub Pages + GitHub Actions</p>
         <h1>Eventernote 出勤率分析</h1>
         <p class="description">
-          输入 Eventernote 用户 ID、艺人名称和年份，然后到仓库的 Actions 页面手动运行工作流。分析完成后，当前页面会读取
-          <code>data/latest-result.json</code> 展示结果。
+          输入 Eventernote 用户 ID、艺人名称和年份，页面会打开 GitHub 请求页；提交后会自动触发分析 workflow。分析完成后，当前页面会读取
+          <code>data/latest-result.json</code> 展示最新结果。
         </p>
       </header>
 
       <section class="card">
-        <h2>分析参数</h2>
+        <h2>提交分析请求</h2>
         <form id="request-form" class="grid-form">
           <label>
             <span>Eventernote 用户 ID</span>
-            <input id="user-id" name="user_id" type="text" placeholder="Tokuzawa353567" />
+            <input id="user-id" name="user_id" type="text" autocomplete="off" required />
           </label>
           <label>
             <span>艺人名称</span>
-            <input id="actor-name" name="actor_name" type="text" placeholder="鈴木愛奈" />
+            <input id="actor-name" name="actor_name" type="text" autocomplete="off" required />
           </label>
           <label>
             <span>年份</span>
-            <input id="year" name="year" type="number" min="2000" max="2100" placeholder="2025" />
+            <input id="year" name="year" type="number" min="2000" max="2100" inputmode="numeric" required />
           </label>
+          <div class="actions">
+            <button id="open-request" type="submit">打开 GitHub 请求页</button>
+          </div>
+          <p id="request-hint" class="form-note">
+            填完参数后会打开 GitHub issue 页面；提交 issue 后将自动运行分析。
+          </p>
+          <p class="form-note">出于仓库安全考虑，只有受信任的仓库协作者提交后才会真正执行 workflow。</p>
+          <p class="form-note">公开仓库不再内置任何预设参数或预填充结果。</p>
         </form>
-        <div class="actions">
-          <button id="copy-inputs" type="button">复制 workflow 输入</button>
-          <a
-            class="secondary-button"
-            id="workflow-link"
-            href="https://github.com/wangdeze/eventernote-attendance/actions/workflows/run-analysis.yml"
-            target="_blank"
-            rel="noreferrer"
-            >打开 GitHub Actions 手动运行</a
-          >
-        </div>
-        <pre id="workflow-input-preview" class="preview"></pre>
       </section>
 
-      <section class="card" id="status-card">
+      <section class="card">
         <div class="section-title-row">
           <h2>最新结果</h2>
           <span id="status-pill" class="pill">读取中</span>

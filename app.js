@@ -2,14 +2,15 @@ const form = document.getElementById('request-form');
 const userIdInput = document.getElementById('user-id');
 const actorNameInput = document.getElementById('actor-name');
 const yearInput = document.getElementById('year');
-const preview = document.getElementById('workflow-input-preview');
-const copyButton = document.getElementById('copy-inputs');
+const openRequestButton = document.getElementById('open-request');
+const requestHint = document.getElementById('request-hint');
 const statusPill = document.getElementById('status-pill');
 const statusMessage = document.getElementById('status-message');
 const summary = document.getElementById('summary');
 const warnings = document.getElementById('warnings');
 const errorPanel = document.getElementById('error-panel');
 const eventsBody = document.getElementById('events-body');
+const issueBaseUrl = 'https://github.com/wangdeze/eventernote-attendance/issues/new';
 
 const summaryFields = {
   userId: document.getElementById('summary-user-id'),
@@ -20,28 +21,50 @@ const summaryFields = {
   rate: document.getElementById('summary-rate'),
 };
 
-function updatePreview() {
-  const payload = {
+function getRequestPayload() {
+  return {
     user_id: userIdInput.value.trim(),
     actor_name: actorNameInput.value.trim(),
     year: yearInput.value.trim(),
   };
-  preview.textContent = JSON.stringify(payload, null, 2);
 }
 
-async function copyPreview() {
-  try {
-    await navigator.clipboard.writeText(preview.textContent || '');
-    copyButton.textContent = '已复制';
-    window.setTimeout(() => {
-      copyButton.textContent = '复制 workflow 输入';
-    }, 1500);
-  } catch (error) {
-    copyButton.textContent = '复制失败';
-    window.setTimeout(() => {
-      copyButton.textContent = '复制 workflow 输入';
-    }, 1500);
+function getRequestError(payload) {
+  if (!payload.user_id) return '请填写 Eventernote 用户 ID。';
+  if (!payload.actor_name) return '请填写艺人名称。';
+  if (!/^\d{4}$/.test(payload.year)) return '请填写 4 位年份。';
+  const year = Number(payload.year);
+  if (year < 2000 || year > 2100) return '请填写 2000-2100 之间的年份。';
+  return '';
+}
+
+function buildIssueUrl(payload) {
+  const title = `[analysis-request] ${payload.user_id} / ${payload.actor_name} / ${payload.year}`;
+  const body = [
+    '<!-- eventernote-attendance-request -->',
+    `user_id: ${payload.user_id}`,
+    `actor_name: ${payload.actor_name}`,
+    `year: ${payload.year}`,
+    '',
+    '> 请不要修改以上三行参数；提交 issue 后会自动触发分析 workflow。',
+  ].join('\n');
+  const url = new URL(issueBaseUrl);
+  url.searchParams.set('template', 'analysis-request.md');
+  url.searchParams.set('title', title);
+  url.searchParams.set('body', body);
+  return url.toString();
+}
+
+function syncRequestState() {
+  const payload = getRequestPayload();
+  const error = getRequestError(payload);
+  openRequestButton.disabled = Boolean(error);
+  requestHint.textContent = error || '将打开 GitHub issue 页面；提交 issue 后会自动运行分析。';
+  if (error) {
+    openRequestButton.removeAttribute('data-href');
+    return;
   }
+  openRequestButton.dataset.href = buildIssueUrl(payload);
 }
 
 function setStatus(kind, text) {
@@ -136,19 +159,11 @@ function renderSummary(result) {
   summary.classList.remove('hidden');
 }
 
-function hydrateForm(result) {
-  if (!userIdInput.value && result.user_id) userIdInput.value = result.user_id;
-  if (!actorNameInput.value && result.requested_actor_name) actorNameInput.value = result.requested_actor_name;
-  if (!yearInput.value && result.year) yearInput.value = String(result.year);
-  updatePreview();
-}
-
 async function loadLatestResult() {
   try {
     const response = await fetch(`./data/latest-result.json?ts=${Date.now()}`, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const result = await response.json();
-    hydrateForm(result);
     renderWarnings(result.warnings || []);
     renderEvents(result.events || []);
 
@@ -162,7 +177,7 @@ async function loadLatestResult() {
 
     if (result.status === 'error') {
       setStatus('error', '失败');
-      statusMessage.textContent = '最近一次分析失败，请检查错误信息并重新运行工作流。';
+      statusMessage.textContent = '最近一次分析失败，请检查错误信息并重新提交分析请求。';
       summary.classList.add('hidden');
       errorPanel.textContent = result.error?.message || '未知错误';
       errorPanel.classList.remove('hidden');
@@ -182,7 +197,15 @@ async function loadLatestResult() {
   }
 }
 
-form.addEventListener('input', updatePreview);
-copyButton.addEventListener('click', copyPreview);
-updatePreview();
+form.addEventListener('input', syncRequestState);
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const url = openRequestButton.dataset.href;
+  if (!url) {
+    syncRequestState();
+    return;
+  }
+  window.open(url, '_blank', 'noopener,noreferrer');
+});
+syncRequestState();
 void loadLatestResult();

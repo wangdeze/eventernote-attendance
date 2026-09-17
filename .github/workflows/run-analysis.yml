@@ -6,18 +6,19 @@ on:
       user_id:
         description: Eventernote 用户 ID
         required: true
-        default: Tokuzawa353567
       actor_name:
         description: 艺人名称（会自动解析到 Eventernote 艺人页）
         required: true
-        default: 鈴木愛奈
       year:
         description: 统计年份
         required: true
-        default: '2025'
+  issues:
+    types:
+      - opened
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: eventernote-attendance-analysis
@@ -31,30 +32,163 @@ jobs:
       - name: Resolve target branch
         id: target-branch
         run: |
-          branch="${GITHUB_REF_NAME}"
-          if [ "${GITHUB_REF_TYPE}" != "branch" ]; then
-            branch="${{ github.event.repository.default_branch }}"
+          branch="${{ github.event.repository.default_branch }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${GITHUB_REF_TYPE}" = "branch" ]; then
+            branch="${GITHUB_REF_NAME}"
           fi
           echo "branch=${branch}" >> "${GITHUB_OUTPUT}"
 
+      - name: Validate and resolve request inputs
+        id: request
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          GITHUB_API_URL: ${{ github.api_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ github.token }}
+          WORKFLOW_USER_ID: ${{ inputs.user_id }}
+          WORKFLOW_ACTOR_NAME: ${{ inputs.actor_name }}
+          WORKFLOW_YEAR: ${{ inputs.year }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+          import urllib.error
+          import urllib.request
+
+          def write_output(key: str, value: str) -> None:
+              with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+                  fh.write(f"{key}={value}\n")
+
+          def validate_year(value: str, digits_message: str, range_message: str) -> None:
+              if not re.fullmatch(r"\d{4}", value):
+                  raise SystemExit(digits_message)
+              year = int(value)
+              if year < 2000 or year > 2100:
+                  raise SystemExit(range_message)
+
+          def has_repository_permission(username: str) -> bool:
+              if not username:
+                  return False
+
+              request = urllib.request.Request(
+                  f"{os.environ['GITHUB_API_URL'].rstrip('/')}/repos/{os.environ['GITHUB_REPOSITORY']}/collaborators/{username}/permission",
+                  headers={
+                      "Accept": "application/vnd.github+json",
+                      "Authorization": "Bearer " + os.environ["GITHUB_TOKEN"],
+                  },
+              )
+              try:
+                  with urllib.request.urlopen(request) as response:
+                      payload = json.load(response)
+              except urllib.error.HTTPError as exc:
+                  if exc.code == 404:
+                      return False
+                  raise
+
+              permission = payload.get("permission") or ""
+              role_name = payload.get("role_name") or ""
+              return permission in {"read", "write", "admin"} or role_name in {"read", "triage", "write", "maintain", "admin"}
+
+          event_name = os.environ["EVENT_NAME"]
+          if event_name == "workflow_dispatch":
+              payload = {
+                  "user_id": os.environ["WORKFLOW_USER_ID"].strip(),
+                  "actor_name": os.environ["WORKFLOW_ACTOR_NAME"].strip(),
+                  "year": os.environ["WORKFLOW_YEAR"].strip(),
+              }
+              missing = [key for key in ("user_id", "actor_name", "year") if not payload.get(key)]
+              if missing:
+                  raise SystemExit(f"Missing required request fields: {', '.join(missing)}")
+
+              validate_year(payload["year"], "Year must be a 4-digit number.", "Year must be between 2000 and 2100.")
+
+              write_output("accepted", "true")
+              write_output("request_like", "false")
+              write_output("rejection_reason", "")
+              for key, value in payload.items():
+                  write_output(key, value)
+              raise SystemExit(0)
+
+          with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as fh:
+              issue = json.load(fh)["issue"]
+
+          title = issue.get("title") or ""
+          body = issue.get("body") or ""
+          request_like = title.startswith("[analysis-request]") or "<!-- eventernote-attendance-request -->" in body
+          if not request_like:
+              write_output("accepted", "false")
+              write_output("request_like", "false")
+              write_output("rejection_reason", "")
+              raise SystemExit(0)
+
+          write_output("request_like", "true")
+          author_association = issue.get("author_association") or ""
+          trusted_associations = {"OWNER", "COLLABORATOR"}
+          requester_login = ((issue.get("user") or {}).get("login") or "").strip()
+          has_access = author_association in trusted_associations
+          if author_association == "MEMBER":
+              has_access = has_repository_permission(requester_login)
+          if not has_access:
+              write_output("accepted", "false")
+              write_output("rejection_reason", "该公开请求入口仅接受受信任的仓库协作者提交。")
+              raise SystemExit(0)
+
+          if not title.startswith("[analysis-request]") or "<!-- eventernote-attendance-request -->" not in body:
+              write_output("accepted", "false")
+              write_output("rejection_reason", "请从 GitHub Pages 页面生成请求，并保留 issue 标题和参数格式。")
+              raise SystemExit(0)
+
+          payload = {}
+          for line in body.splitlines():
+              if ":" not in line:
+                  continue
+              key, value = line.split(":", 1)
+              key = key.strip()
+              if key in {"user_id", "actor_name", "year"}:
+                  payload[key] = value.strip()
+
+          missing = [key for key in ("user_id", "actor_name", "year") if not payload.get(key)]
+          if missing:
+              write_output("accepted", "false")
+              write_output("rejection_reason", f"请求缺少必要参数: {', '.join(missing)}。")
+              raise SystemExit(0)
+
+          try:
+              validate_year(payload["year"], "年份必须是 4 位数字。", "年份必须在 2000 到 2100 之间。")
+          except SystemExit as exc:
+              write_output("accepted", "false")
+              write_output("rejection_reason", str(exc))
+              raise SystemExit(0)
+
+          write_output("accepted", "true")
+          write_output("rejection_reason", "")
+          for key, value in payload.items():
+              write_output(key, value)
+          PY
+
       - name: Checkout repository
+        if: steps.request.outputs.accepted == 'true'
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.target-branch.outputs.branch }}
 
       - name: Set up Python
+        if: steps.request.outputs.accepted == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Install dependencies
+        if: steps.request.outputs.accepted == 'true'
         run: python -m pip install --upgrade pip && pip install -r requirements.txt
 
       - name: Run analyzer
+        if: steps.request.outputs.accepted == 'true'
         env:
-          USER_ID: ${{ inputs.user_id }}
-          ACTOR_NAME: ${{ inputs.actor_name }}
-          YEAR: ${{ inputs.year }}
+          USER_ID: ${{ steps.request.outputs.user_id }}
+          ACTOR_NAME: ${{ steps.request.outputs.actor_name }}
+          YEAR: ${{ steps.request.outputs.year }}
         run: |
           python scripts/fetch_attendance.py \
             --user-id "${USER_ID}" \
@@ -62,19 +196,109 @@ jobs:
             --year "${YEAR}" \
             --output data/latest-result.json
 
-      - name: Commit latest result
-        env:
-          USER_ID: ${{ inputs.user_id }}
-          ACTOR_NAME: ${{ inputs.actor_name }}
-          YEAR: ${{ inputs.year }}
-          TARGET_BRANCH: ${{ steps.target-branch.outputs.branch }}
+      - name: Detect result changes
+        if: steps.request.outputs.accepted == 'true'
+        id: detect-result
         run: |
           if git diff --quiet -- data/latest-result.json; then
-            echo "No result changes to commit."
+            echo "changed=false" >> "${GITHUB_OUTPUT}"
             exit 0
           fi
+          echo "changed=true" >> "${GITHUB_OUTPUT}"
+
+      - name: Read analysis result status
+        if: steps.request.outputs.accepted == 'true'
+        id: result-status
+        run: |
+          python - <<'PY'
+          import json
+          import os
+
+          with open("data/latest-result.json", encoding="utf-8") as fh:
+              result = json.load(fh)
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"status={result.get('status', '')}\n")
+          PY
+
+      - name: Commit latest result
+        if: steps.request.outputs.accepted == 'true' && steps.detect-result.outputs.changed == 'true'
+        env:
+          USER_ID: ${{ steps.request.outputs.user_id }}
+          ACTOR_NAME: ${{ steps.request.outputs.actor_name }}
+          YEAR: ${{ steps.request.outputs.year }}
+          TARGET_BRANCH: ${{ steps.target-branch.outputs.branch }}
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/latest-result.json
           git commit -m "Update attendance result for ${USER_ID} / ${ACTOR_NAME} / ${YEAR}"
           git push origin "HEAD:${TARGET_BRANCH}"
+
+      - name: Comment on analysis request
+        if: always() && github.event_name == 'issues' && steps.request.outputs.request_like == 'true'
+        uses: actions/github-script@v7
+        env:
+          JOB_STATUS: ${{ job.status }}
+          REQUEST_ACCEPTED: ${{ steps.request.outputs.accepted }}
+          REQUEST_LIKE: ${{ steps.request.outputs.request_like }}
+          REJECTION_REASON: ${{ steps.request.outputs.rejection_reason }}
+          RESULT_CHANGED: ${{ steps.detect-result.outputs.changed }}
+          ANALYSIS_STATUS: ${{ steps.result-status.outputs.status }}
+          TARGET_BRANCH: ${{ steps.target-branch.outputs.branch }}
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const resultUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/blob/${process.env.TARGET_BRANCH}/data/latest-result.json`;
+            const requestAccepted = process.env.REQUEST_ACCEPTED === 'true';
+            const isSuccess = process.env.JOB_STATUS === 'success';
+            const resultChanged = process.env.RESULT_CHANGED === 'true';
+            const analysisStatus = process.env.ANALYSIS_STATUS;
+            const body = !requestAccepted
+              ? [
+                  process.env.REJECTION_REASON || '该请求未被接受。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                ].join('\n')
+              : !isSuccess
+              ? [
+                  '分析请求执行失败，请打开 workflow 日志查看详情。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                ].join('\n')
+              : analysisStatus !== 'success'
+              ? [
+                  '分析请求已执行完成，但抓取失败，结果文件中记录了错误信息。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                  `- Result JSON: ${resultUrl}`,
+                ].join('\n')
+              : resultChanged
+              ? [
+                  '分析请求已处理完成，并已更新结果文件。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                  `- Result JSON: ${resultUrl}`,
+                ].join('\n')
+              : [
+                  '分析请求已处理完成；本次结果与当前最新结果一致，因此未生成新的提交，但该请求会按已完成自动关闭。',
+                  '',
+                  `- Workflow: ${runUrl}`,
+                  `- Current Result JSON: ${resultUrl}`,
+                ].join('\n');
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body,
+            });
+
+            if (requestAccepted && isSuccess && analysisStatus === 'success') {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.issue.number,
+                state: 'closed',
+              });
+            }
