@@ -426,6 +426,32 @@ class AnalyzeHandlerTests(unittest.TestCase):
         self.assertEqual(body["status"], "error")
         self.assertEqual(body["error"]["message"], "请求体过大。")
 
+    def test_returns_json_error_for_invalid_utf8_body(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with socket.create_connection(server.server_address, timeout=5) as sock:
+                payload = b"\xff"
+                sock.sendall(
+                    (
+                        "POST /api/analyze HTTP/1.1\r\n"
+                        f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                        "Content-Type: application/json\r\n"
+                        f"Content-Length: {len(payload)}\r\n"
+                        "Connection: close\r\n\r\n"
+                    ).encode("utf-8")
+                    + payload
+                )
+                response = b""
+                while chunk := sock.recv(4096):
+                    response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"400 Bad Request", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "请求体不是合法 JSON。")
+
 
 if __name__ == "__main__":
     unittest.main()

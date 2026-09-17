@@ -80,6 +80,7 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
             )
             return
 
+        original_timeout = self.connection.gettimeout()
         self.connection.settimeout(REQUEST_BODY_TIMEOUT_SECONDS)
         try:
             raw_body = self.rfile.read(content_length)
@@ -89,10 +90,12 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
                 build_error_result("", "", "", AnalyzerError("读取请求体超时。")),
             )
             return
+        finally:
+            self.connection.settimeout(original_timeout)
 
         try:
             payload = json.loads(raw_body.decode("utf-8") or "{}")
-        except json.JSONDecodeError:
+        except (UnicodeDecodeError, json.JSONDecodeError):
             self._send_json(
                 HTTPStatus.BAD_REQUEST,
                 build_error_result("", "", "", AnalyzerError("请求体不是合法 JSON。")),
