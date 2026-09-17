@@ -13,6 +13,7 @@ const errorPanel = document.getElementById('error-panel');
 const eventsBody = document.getElementById('events-body');
 const requestConfigUrl = './data/request-config.json';
 const defaultRequestConfig = {
+  request_mode: 'proxy',
   request_proxy_url: '',
 };
 let requestConfig = { ...defaultRequestConfig };
@@ -49,6 +50,7 @@ function normalizeRequestConfig(value) {
   }
 
   return {
+    request_mode: 'proxy',
     request_proxy_url: typeof value.request_proxy_url === 'string' ? value.request_proxy_url.trim() : '',
   };
 }
