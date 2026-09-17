@@ -97,6 +97,38 @@ input {
   color: var(--muted);
 }
 
+.request-feedback {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.request-feedback.success {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border-color: rgba(4, 120, 87, 0.2);
+}
+
+.request-feedback.error {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  border-color: rgba(185, 28, 28, 0.2);
+}
+
+.request-feedback p {
+  margin: 0;
+}
+
+.request-feedback-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
 button,
 .secondary-button {
   display: inline-flex;
