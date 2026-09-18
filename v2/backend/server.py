@@ -3,8 +3,10 @@ from __future__ import annotations
 import argparse
 import json
 import socket
+import sys
 from http import HTTPStatus
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from ipaddress import ip_address
 from urllib.parse import urlsplit
 
 from scripts.fetch_attendance import AnalyzerError, build_error_result
@@ -161,15 +163,29 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Serve the v2 Eventernote attendance analysis API.")
-    parser.add_argument("--host", default=DEFAULT_HOST, help="Host to bind")
+    parser.add_argument("--host", default=DEFAULT_HOST, help="Host to bind (loopback addresses only)")
     parser.add_argument("--port", type=int, default=DEFAULT_PORT, help="Port to bind")
     parser.add_argument("--allow-origin", default=DEFAULT_ALLOW_ORIGIN, help="Allowed browser Origin for CORS")
     return parser.parse_args(argv)
 
 
+def is_loopback_host(host: str) -> bool:
+    normalized = host.strip().lower()
+    if normalized == "localhost":
+        return True
+    try:
+        return ip_address(normalized).is_loopback
+    except ValueError:
+        return False
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    server = ThreadingHTTPServer((args.host, args.port), AnalyzeHandler)
+    if not is_loopback_host(args.host):
+        print("v2.backend.server 仅支持绑定到本机回环地址；请勿将该轻量 API 直接暴露到公共网络。", file=sys.stderr)
+        return 2
+
+    server = HTTPServer((args.host, args.port), AnalyzeHandler)
     server.allow_origin = args.allow_origin.strip()
     print(f"Serving Eventernote v2 API on http://{args.host}:{args.port}{API_PATH}")
     try:

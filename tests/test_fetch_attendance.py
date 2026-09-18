@@ -1,12 +1,13 @@
 import json
 import http.client
+import io
 import socket
 import tempfile
 import threading
 import time
 import unittest
 from unittest import mock
-from http.server import ThreadingHTTPServer
+from http.server import HTTPServer
 from pathlib import Path
 
 from scripts.fetch_attendance import (
@@ -21,7 +22,7 @@ from scripts.fetch_attendance import (
     parse_event_list,
 )
 from v2.backend.api import build_analysis_response
-from v2.backend.server import AnalyzeHandler
+from v2.backend.server import AnalyzeHandler, is_loopback_host, main
 
 
 class ParseActorSearchResultsTests(unittest.TestCase):
@@ -357,14 +358,14 @@ class ApiResponseTests(unittest.TestCase):
 
 
 class AnalyzeHandlerTests(unittest.TestCase):
-    def start_server(self, *, allow_origin: str = "") -> tuple[ThreadingHTTPServer, threading.Thread]:
-        server = ThreadingHTTPServer(("127.0.0.1", 0), AnalyzeHandler)
+    def start_server(self, *, allow_origin: str = "") -> tuple[HTTPServer, threading.Thread]:
+        server = HTTPServer(("127.0.0.1", 0), AnalyzeHandler)
         server.allow_origin = allow_origin
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
         return server, thread
 
-    def stop_server(self, server: ThreadingHTTPServer, thread: threading.Thread) -> None:
+    def stop_server(self, server: HTTPServer, thread: threading.Thread) -> None:
         server.shutdown()
         server.server_close()
         thread.join(timeout=5)
@@ -575,6 +576,26 @@ class AnalyzeHandlerTests(unittest.TestCase):
         self.assertIn(b"408 Request Timeout", response)
         self.assertEqual(body["status"], "error")
         self.assertEqual(body["error"]["message"], "读取请求体超时。")
+
+
+class ServerStartupTests(unittest.TestCase):
+    def test_accepts_loopback_hosts(self) -> None:
+        self.assertTrue(is_loopback_host("127.0.0.1"))
+        self.assertTrue(is_loopback_host("localhost"))
+        self.assertTrue(is_loopback_host("::1"))
+
+    def test_rejects_non_loopback_host(self) -> None:
+        self.assertFalse(is_loopback_host("0.0.0.0"))
+        self.assertFalse(is_loopback_host("192.168.1.10"))
+        self.assertFalse(is_loopback_host("example.com"))
+
+    def test_main_rejects_public_bind_host(self) -> None:
+        stderr = io.StringIO()
+        with mock.patch("sys.stderr", new=stderr):
+            exit_code = main(["--host", "0.0.0.0", "--port", "8000"])
+
+        self.assertEqual(exit_code, 2)
+        self.assertIn("仅支持绑定到本机回环地址", stderr.getvalue())
 
 
 if __name__ == "__main__":

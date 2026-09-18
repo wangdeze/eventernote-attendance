@@ -9,7 +9,7 @@
 - `style.css`：v2 页面样式
 - `data/runtime-config.json`：前端接口地址配置
 - `backend/api.py`：统一请求校验与 JSON 响应封装
-- `backend/server.py`：可直接运行的 HTTP API
+- `backend/server.py`：仅限可信本机/私有环境使用的轻量 HTTP API
 
 ## 本地运行
 
@@ -29,11 +29,13 @@ python -m http.server 8081 -d v2
 
 如果页面本身通过 HTTPS 打开，则 `analyze_api_url` 也必须是 HTTPS 地址。
 
-如果前端和 API 分域部署，请在 API 启动时显式配置：
+这个内置 `backend/server.py` 仅支持绑定到本机回环地址，适合本地调试或可信私有环境，不应直接暴露到公共网络。若前端和它分域，请在 API 启动时显式配置：
 
 ```bash
 python -m v2.backend.server --host 127.0.0.1 --port 8000 --allow-origin https://<your-frontend-origin>
 ```
+
+如果你把静态前端部署到公网，请在 `v2/data/runtime-config.json` 里把 `analyze_api_url` 指向你自行提供的受控分析 API，而不是直接暴露这个轻量服务。
 
 如果直接以 `file://` 打开 `v2/index.html`，浏览器会发送 `Origin: null`；这种模式下需要显式启动：
 

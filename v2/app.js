@@ -55,6 +55,10 @@ function normalizeRuntimeConfig(value) {
   };
 }
 
+function isLoopbackHost(hostname) {
+  return hostname === '127.0.0.1' || hostname === 'localhost';
+}
+
 function resolveAnalyzeApiUrl() {
   const configured = runtimeConfig.analyze_api_url;
   let candidate = '';
@@ -62,6 +66,12 @@ function resolveAnalyzeApiUrl() {
     candidate = toSafeUrl(configured);
   } else if (window.location.protocol === 'file:') {
     candidate = 'http://127.0.0.1:8000/api/analyze';
+  } else if (
+    window.location.protocol === 'http:'
+    && isLoopbackHost(window.location.hostname)
+    && window.location.port !== '8000'
+  ) {
+    candidate = `http://${window.location.hostname}:8000/api/analyze`;
   } else {
     candidate = `${window.location.origin}/api/analyze`;
   }

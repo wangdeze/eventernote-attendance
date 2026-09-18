@@ -101,7 +101,7 @@
 
 - `v2/index.html`：前端直接提交实时分析请求
 - `v2/backend/api.py`：复用现有 Python 抓取逻辑，输出统一 JSON 响应
-- `v2/backend/server.py`：本地/轻量部署可直接运行的 HTTP API
+- `v2/backend/server.py`：仅限可信本机/私有环境使用的轻量 HTTP API
 - `v2/data/runtime-config.json`：可配置 v2 前端要调用的分析接口地址
 
 ## 本地开发
@@ -125,7 +125,7 @@ python -m v2.backend.server --host 127.0.0.1 --port 8000
 python -m http.server 8081 -d v2
 ```
 
-然后打开 `http://127.0.0.1:8081/`。如果把静态文件发布到任意站点，请在 `v2/data/runtime-config.json` 里配置 `analyze_api_url`；如果前端和 API 不同域，再额外启动服务时传入 `--allow-origin <前端站点 Origin>`。若你坚持直接以 `file://` 打开 `v2/index.html`，则需要把 API 启动为 `python -m v2.backend.server --host 127.0.0.1 --port 8000 --allow-origin null`，以允许浏览器发送的 `Origin: null` 请求。
+然后打开 `http://127.0.0.1:8081/`。这个内置 `v2.backend.server` 仅支持绑定到本机回环地址，适合本地调试或可信私有环境，不应直接暴露到公共网络。若静态前端和它分域，请在启动时传入 `--allow-origin <前端站点 Origin>`；若静态前端部署到公网，请在 `v2/data/runtime-config.json` 里把 `analyze_api_url` 指向你自行提供的受控分析 API，而不是直接暴露这个轻量服务。若你坚持直接以 `file://` 打开 `v2/index.html`，则需要把 API 启动为 `python -m v2.backend.server --host 127.0.0.1 --port 8000 --allow-origin null`，以允许浏览器发送的 `Origin: null` 请求。
 
 ## 结果格式
 
