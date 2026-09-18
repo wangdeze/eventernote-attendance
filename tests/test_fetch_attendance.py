@@ -600,6 +600,7 @@ class ServerStartupTests(unittest.TestCase):
 
     def test_rejects_connection_immediately_when_worker_slots_are_exhausted(self) -> None:
         server = BoundedThreadingHTTPServer(("127.0.0.1", 0), AnalyzeHandler, max_concurrent_requests=1)
+        server.allow_origin = "https://frontend.example"
         request = mock.Mock()
         try:
             server._request_slots.acquire()
@@ -611,6 +612,7 @@ class ServerStartupTests(unittest.TestCase):
 
         request.sendall.assert_called_once()
         self.assertIn(b"503 Service Unavailable", request.sendall.call_args[0][0])
+        self.assertIn(b"Access-Control-Allow-Origin: https://frontend.example", request.sendall.call_args[0][0])
         shutdown_request.assert_called_once_with(request)
 
 

@@ -43,11 +43,7 @@ class BoundedThreadingHTTPServer(ThreadingMixIn, HTTPServer):
     def process_request(self, request, client_address) -> None:
         if not self._request_slots.acquire(blocking=False):
             try:
-                request.sendall(
-                    b"HTTP/1.1 503 Service Unavailable\r\n"
-                    b"Connection: close\r\n"
-                    b"Content-Length: 0\r\n\r\n"
-                )
+                request.sendall(self._build_overloaded_response())
             except OSError:
                 pass
             self.shutdown_request(request)
@@ -65,6 +61,21 @@ class BoundedThreadingHTTPServer(ThreadingMixIn, HTTPServer):
             return
         if self.block_on_close:
             self._threads.append(thread)
+
+    def _build_overloaded_response(self) -> bytes:
+        headers = [
+            "HTTP/1.1 503 Service Unavailable",
+            "Content-Type: application/json; charset=utf-8",
+            "Content-Length: 0",
+            "Connection: close",
+        ]
+        allow_origin = getattr(self, "allow_origin", "")
+        if allow_origin:
+            headers.append("Vary: Origin")
+            headers.append(f"Access-Control-Allow-Origin: {allow_origin}")
+            for key, value in CORS_HEADERS.items():
+                headers.append(f"{key}: {value}")
+        return ("\r\n".join(headers) + "\r\n\r\n").encode("utf-8")
 
     def process_request_thread(self, request, client_address) -> None:
         try:
