@@ -3,7 +3,9 @@ import http.client
 import socket
 import tempfile
 import threading
+import time
 import unittest
+from unittest import mock
 from http.server import ThreadingHTTPServer
 from pathlib import Path
 
@@ -406,6 +408,55 @@ class AnalyzeHandlerTests(unittest.TestCase):
         self.assertEqual(body["status"], "error")
         self.assertEqual(body["error"]["message"], "Content-Length 请求头无效。")
 
+    def test_rejects_request_without_content_length(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with socket.create_connection(server.server_address, timeout=5) as sock:
+                sock.sendall(
+                    (
+                        "POST /api/analyze HTTP/1.1\r\n"
+                        f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                        "Content-Type: application/json\r\n"
+                        "Connection: close\r\n\r\n"
+                        "{}"
+                    ).encode("utf-8")
+                )
+                response = b""
+                while chunk := sock.recv(4096):
+                    response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"411 Length Required", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "请求必须提供 Content-Length 请求头。")
+
+    def test_rejects_chunked_request_body(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with socket.create_connection(server.server_address, timeout=5) as sock:
+                sock.sendall(
+                    (
+                        "POST /api/analyze HTTP/1.1\r\n"
+                        f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                        "Content-Type: application/json\r\n"
+                        "Transfer-Encoding: chunked\r\n"
+                        "Connection: close\r\n\r\n"
+                        "2\r\n{}\r\n0\r\n\r\n"
+                    ).encode("utf-8")
+                )
+                response = b""
+                while chunk := sock.recv(4096):
+                    response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"501 Not Implemented", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "当前仅支持带 Content-Length 的请求体。")
+
     def test_rejects_oversized_request_body(self) -> None:
         server, thread = self.start_server()
         try:
@@ -492,6 +543,38 @@ class AnalyzeHandlerTests(unittest.TestCase):
         self.assertIn(b"400 Bad Request", response)
         self.assertEqual(body["status"], "error")
         self.assertEqual(body["error"]["message"], "请求体长度与 Content-Length 不一致。")
+
+    def test_closes_connection_when_request_body_read_times_out(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with mock.patch("v2.backend.server.REQUEST_BODY_TIMEOUT_SECONDS", 0.1):
+                with mock.patch.object(AnalyzeHandler, "protocol_version", "HTTP/1.1"):
+                    with socket.create_connection(server.server_address, timeout=5) as sock:
+                        sock.sendall(
+                            (
+                                "POST /api/analyze HTTP/1.1\r\n"
+                                f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                                "Content-Type: application/json\r\n"
+                                "Content-Length: 20\r\n"
+                                "Connection: keep-alive\r\n\r\n"
+                                "{"
+                            ).encode("utf-8")
+                        )
+                        time.sleep(0.2)
+                        sock.settimeout(1)
+                        response = b""
+                        while True:
+                            chunk = sock.recv(4096)
+                            if not chunk:
+                                break
+                            response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"408 Request Timeout", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "读取请求体超时。")
 
 
 if __name__ == "__main__":

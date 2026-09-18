@@ -122,9 +122,10 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python -m unittest discover -s tests
 python -m v2.backend.server --host 127.0.0.1 --port 8000
+python -m http.server 8081 -d v2
 ```
 
-然后打开 `v2/index.html`，或把静态文件发布到任意站点，并在 `v2/data/runtime-config.json` 里配置 `analyze_api_url`。如果前端和 API 不同域，再额外启动服务时传入 `--allow-origin <前端站点 Origin>`。
+然后打开 `http://127.0.0.1:8081/`。如果把静态文件发布到任意站点，请在 `v2/data/runtime-config.json` 里配置 `analyze_api_url`；如果前端和 API 不同域，再额外启动服务时传入 `--allow-origin <前端站点 Origin>`。若你坚持直接以 `file://` 打开 `v2/index.html`，则需要把 API 启动为 `python -m v2.backend.server --host 127.0.0.1 --port 8000 --allow-origin null`，以允许浏览器发送的 `Origin: null` 请求。
 
 ## 结果格式
 

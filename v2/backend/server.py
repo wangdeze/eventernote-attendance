@@ -59,8 +59,25 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
             self._send_json(HTTPStatus.FORBIDDEN, build_error_result("", "", "", AnalyzerError("当前来源未被允许访问该接口。")))
             return
 
+        transfer_encoding = (self.headers.get("Transfer-Encoding") or "").strip().lower()
+        if transfer_encoding and transfer_encoding != "identity":
+            self.close_connection = True
+            self._send_json(
+                HTTPStatus.NOT_IMPLEMENTED,
+                build_error_result("", "", "", AnalyzerError("当前仅支持带 Content-Length 的请求体。")),
+            )
+            return
+
+        if "Content-Length" not in self.headers:
+            self.close_connection = True
+            self._send_json(
+                HTTPStatus.LENGTH_REQUIRED,
+                build_error_result("", "", "", AnalyzerError("请求必须提供 Content-Length 请求头。")),
+            )
+            return
+
         try:
-            content_length = int(self.headers.get("Content-Length", "0"))
+            content_length = int(self.headers["Content-Length"])
         except ValueError:
             self._send_json(
                 HTTPStatus.BAD_REQUEST,
@@ -86,6 +103,7 @@ class AnalyzeHandler(BaseHTTPRequestHandler):
         try:
             raw_body = self.rfile.read(content_length)
         except socket.timeout:
+            self.close_connection = True
             self._send_json(
                 HTTPStatus.REQUEST_TIMEOUT,
                 build_error_result("", "", "", AnalyzerError("读取请求体超时。")),

@@ -18,11 +18,12 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python -m v2.backend.server --host 127.0.0.1 --port 8000
+python -m http.server 8081 -d v2
 ```
 
-默认情况下，`v2/index.html` 会请求：
+默认情况下，通过 `http://127.0.0.1:8081/` 打开的页面会请求：
 
-- `http://127.0.0.1:8000/api/analyze`（本地直接打开文件时）
+- `http://127.0.0.1:8000/api/analyze`（本地 HTTP 访问时）
 - `<当前站点>/api/analyze`（同域部署时）
 - `v2/data/runtime-config.json` 中配置的 `analyze_api_url`（显式覆盖时）
 
@@ -32,4 +33,10 @@ python -m v2.backend.server --host 127.0.0.1 --port 8000
 
 ```bash
 python -m v2.backend.server --host 127.0.0.1 --port 8000 --allow-origin https://<your-frontend-origin>
+```
+
+如果直接以 `file://` 打开 `v2/index.html`，浏览器会发送 `Origin: null`；这种模式下需要显式启动：
+
+```bash
+python -m v2.backend.server --host 127.0.0.1 --port 8000 --allow-origin null
 ```
