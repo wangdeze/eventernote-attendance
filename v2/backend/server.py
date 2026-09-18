@@ -63,7 +63,8 @@ class BoundedThreadingHTTPServer(ThreadingMixIn, HTTPServer):
             self.handle_error(request, client_address)
             self.shutdown_request(request)
             return
-        self._threads.append(thread)
+        if self.block_on_close:
+            self._threads.append(thread)
 
     def process_request_thread(self, request, client_address) -> None:
         try:

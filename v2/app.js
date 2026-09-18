@@ -63,6 +63,13 @@ function formatHostForUrl(hostname) {
   return hostname.includes(':') && !hostname.startsWith('[') ? `[${hostname}]` : hostname;
 }
 
+function getEffectivePort(location) {
+  if (location.port) return location.port;
+  if (location.protocol === 'http:') return '80';
+  if (location.protocol === 'https:') return '443';
+  return '';
+}
+
 function resolveAnalyzeApiUrl() {
   const configured = runtimeConfig.analyze_api_url;
   let candidate = '';
@@ -73,7 +80,7 @@ function resolveAnalyzeApiUrl() {
   } else if (
     window.location.protocol === 'http:'
     && isLoopbackHost(window.location.hostname)
-    && window.location.port !== '8000'
+    && getEffectivePort(window.location) === '8081'
   ) {
     candidate = `http://${formatHostForUrl(window.location.hostname)}:8000/api/analyze`;
   } else {
