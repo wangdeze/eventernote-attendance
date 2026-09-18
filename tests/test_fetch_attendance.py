@@ -1,17 +1,28 @@
 import json
+import http.client
+import io
+import socket
 import tempfile
+import threading
+import time
 import unittest
+from unittest import mock
+from http.server import HTTPServer
 from pathlib import Path
 
 from scripts.fetch_attendance import (
     ActorCandidate,
+    AnalyzerError,
     EventRecord,
     EventernoteClient,
     main,
     match_events,
+    parse_year,
     parse_actor_search_results,
     parse_event_list,
 )
+from v2.backend.api import build_analysis_response
+from v2.backend.server import AnalyzeHandler, BoundedThreadingHTTPServer, is_loopback_host, main
 
 
 class ParseActorSearchResultsTests(unittest.TestCase):
@@ -254,6 +265,356 @@ class MainTests(unittest.TestCase):
         self.assertEqual(result["status"], "error")
         self.assertEqual(result["year"], "20xx")
         self.assertEqual(result["error"]["type"], "AnalyzerError")
+
+
+class ParseYearTests(unittest.TestCase):
+    def test_rejects_year_out_of_supported_range(self) -> None:
+        with self.assertRaises(AnalyzerError):
+            parse_year("1999")
+
+
+class StubAnalyzeClient(EventernoteClient):
+    def __init__(self) -> None:
+        super().__init__(min_delay=0, max_delay=0)
+
+    def resolve_actor(self, actor_name: str) -> ActorCandidate:
+        return ActorCandidate(id="11198", name=actor_name, url="https://www.eventernote.com/actors/suzuki-aina/11198")
+
+    def fetch_actor_events(self, actor: ActorCandidate, year: int) -> tuple[list[EventRecord], list[str]]:
+        return (
+            [
+                EventRecord(
+                    id="100",
+                    date=f"{year}-03-15",
+                    title="Aqours Event",
+                    venue="Tokyo Dome",
+                    url="https://www.eventernote.com/events/100",
+                    actors=(actor.name,),
+                )
+            ],
+            [],
+        )
+
+    def fetch_user_events(self, user_id: str, year: int) -> tuple[list[EventRecord], list[str]]:
+        return (
+            [
+                EventRecord(
+                    id="100",
+                    date=f"{year}-03-15",
+                    title="Aqours Event",
+                    venue="Tokyo Dome",
+                    url="https://www.eventernote.com/events/100",
+                    actors=("鈴木愛奈",),
+                )
+            ],
+            [],
+        )
+
+
+class BrokenAnalyzeClient(EventernoteClient):
+    def __init__(self) -> None:
+        super().__init__(min_delay=0, max_delay=0)
+
+    def resolve_actor(self, actor_name: str) -> ActorCandidate:
+        raise AnalyzerError("上游抓取失败")
+
+
+class ApiResponseTests(unittest.TestCase):
+    def test_rejects_missing_request_fields(self) -> None:
+        status_code, result = build_analysis_response({"user_id": "", "actor_name": "鈴木愛奈", "year": "2025"})
+
+        self.assertEqual(status_code, 400)
+        self.assertEqual(result["status"], "error")
+        self.assertEqual(result["error"]["type"], "AnalyzerError")
+
+    def test_returns_live_analysis_payload(self) -> None:
+        status_code, result = build_analysis_response(
+            {"user_id": "Tokuzawa353567", "actor_name": "鈴木愛奈", "year": "2025"},
+            client=StubAnalyzeClient(),
+        )
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(result["status"], "success")
+        self.assertEqual(result["attended_events"], 1)
+        self.assertEqual(result["total_actor_events"], 1)
+        self.assertEqual(result["attendance_rate"], 1.0)
+
+    def test_rejects_non_object_payload(self) -> None:
+        status_code, result = build_analysis_response("not-a-dict")
+
+        self.assertEqual(status_code, 400)
+        self.assertEqual(result["status"], "error")
+        self.assertEqual(result["error"]["type"], "AnalyzerError")
+
+    def test_returns_bad_gateway_for_upstream_failure(self) -> None:
+        status_code, result = build_analysis_response(
+            {"user_id": "Tokuzawa353567", "actor_name": "鈴木愛奈", "year": "2025"},
+            client=BrokenAnalyzeClient(),
+        )
+
+        self.assertEqual(status_code, 502)
+        self.assertEqual(result["status"], "error")
+        self.assertEqual(result["error"]["type"], "AnalyzerError")
+
+
+class AnalyzeHandlerTests(unittest.TestCase):
+    def start_server(self, *, allow_origin: str = "") -> tuple[HTTPServer, threading.Thread]:
+        server = BoundedThreadingHTTPServer(("127.0.0.1", 0), AnalyzeHandler)
+        server.allow_origin = allow_origin
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        return server, thread
+
+    def stop_server(self, server: HTTPServer, thread: threading.Thread) -> None:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)
+
+    def test_returns_json_error_for_malformed_json_body(self) -> None:
+        server, thread = self.start_server()
+        try:
+            connection = http.client.HTTPConnection(*server.server_address)
+            connection.request("POST", "/api/analyze", body="{", headers={"Content-Type": "application/json"})
+            response = connection.getresponse()
+            body = json.loads(response.read().decode("utf-8"))
+        finally:
+            connection.close()
+            self.stop_server(server, thread)
+
+        self.assertEqual(response.status, 400)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "请求体不是合法 JSON。")
+
+    def test_returns_json_error_for_invalid_content_length(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with socket.create_connection(server.server_address, timeout=5) as sock:
+                sock.sendall(
+                    (
+                        "POST /api/analyze HTTP/1.1\r\n"
+                        f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                        "Content-Type: application/json\r\n"
+                        "Content-Length: abc\r\n"
+                        "Connection: close\r\n\r\n"
+                    ).encode("utf-8")
+                )
+                response = b""
+                while chunk := sock.recv(4096):
+                    response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"400 Bad Request", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "Content-Length 请求头无效。")
+
+    def test_rejects_request_without_content_length(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with socket.create_connection(server.server_address, timeout=5) as sock:
+                sock.sendall(
+                    (
+                        "POST /api/analyze HTTP/1.1\r\n"
+                        f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                        "Content-Type: application/json\r\n"
+                        "Connection: close\r\n\r\n"
+                        "{}"
+                    ).encode("utf-8")
+                )
+                response = b""
+                while chunk := sock.recv(4096):
+                    response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"411 Length Required", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "请求必须提供 Content-Length 请求头。")
+
+    def test_rejects_chunked_request_body(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with socket.create_connection(server.server_address, timeout=5) as sock:
+                sock.sendall(
+                    (
+                        "POST /api/analyze HTTP/1.1\r\n"
+                        f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                        "Content-Type: application/json\r\n"
+                        "Transfer-Encoding: chunked\r\n"
+                        "Connection: close\r\n\r\n"
+                        "2\r\n{}\r\n0\r\n\r\n"
+                    ).encode("utf-8")
+                )
+                response = b""
+                while chunk := sock.recv(4096):
+                    response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"501 Not Implemented", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "当前仅支持带 Content-Length 的请求体。")
+
+    def test_rejects_oversized_request_body(self) -> None:
+        server, thread = self.start_server()
+        try:
+            connection = http.client.HTTPConnection(*server.server_address)
+            connection.request(
+                "POST",
+                "/api/analyze",
+                body="x" * (16 * 1024 + 1),
+                headers={"Content-Type": "application/json"},
+            )
+            response = connection.getresponse()
+            body = json.loads(response.read().decode("utf-8"))
+        finally:
+            connection.close()
+            self.stop_server(server, thread)
+
+        self.assertEqual(response.status, 413)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "请求体过大。")
+
+    def test_returns_json_error_for_invalid_utf8_body(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with socket.create_connection(server.server_address, timeout=5) as sock:
+                payload = b"\xff"
+                sock.sendall(
+                    (
+                        "POST /api/analyze HTTP/1.1\r\n"
+                        f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                        "Content-Type: application/json\r\n"
+                        f"Content-Length: {len(payload)}\r\n"
+                        "Connection: close\r\n\r\n"
+                    ).encode("utf-8")
+                    + payload
+                )
+                response = b""
+                while chunk := sock.recv(4096):
+                    response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"400 Bad Request", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "请求体不是合法 JSON。")
+
+    def test_rejects_missing_origin_when_origin_is_configured(self) -> None:
+        server, thread = self.start_server(allow_origin="https://frontend.example")
+        try:
+            connection = http.client.HTTPConnection(*server.server_address)
+            connection.request("POST", "/api/analyze", body="{}", headers={"Content-Type": "application/json"})
+            response = connection.getresponse()
+            body = json.loads(response.read().decode("utf-8"))
+        finally:
+            connection.close()
+            self.stop_server(server, thread)
+
+        self.assertEqual(response.status, 403)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "当前来源未被允许访问该接口。")
+
+    def test_rejects_truncated_request_body(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with socket.create_connection(server.server_address, timeout=5) as sock:
+                sock.sendall(
+                    (
+                        "POST /api/analyze HTTP/1.1\r\n"
+                        f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                        "Content-Type: application/json\r\n"
+                        "Content-Length: 20\r\n"
+                        "Connection: close\r\n\r\n"
+                        "{\"user_id\":"
+                    ).encode("utf-8")
+                )
+                sock.shutdown(socket.SHUT_WR)
+                response = b""
+                while chunk := sock.recv(4096):
+                    response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"400 Bad Request", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "请求体长度与 Content-Length 不一致。")
+
+    def test_closes_connection_when_request_body_read_times_out(self) -> None:
+        server, thread = self.start_server()
+        try:
+            with mock.patch("v2.backend.server.REQUEST_BODY_TIMEOUT_SECONDS", 0.1):
+                with mock.patch.object(AnalyzeHandler, "protocol_version", "HTTP/1.1"):
+                    with socket.create_connection(server.server_address, timeout=5) as sock:
+                        sock.sendall(
+                            (
+                                "POST /api/analyze HTTP/1.1\r\n"
+                                f"Host: {server.server_address[0]}:{server.server_address[1]}\r\n"
+                                "Content-Type: application/json\r\n"
+                                "Content-Length: 20\r\n"
+                                "Connection: keep-alive\r\n\r\n"
+                                "{"
+                            ).encode("utf-8")
+                        )
+                        time.sleep(0.2)
+                        sock.settimeout(1)
+                        response = b""
+                        while True:
+                            chunk = sock.recv(4096)
+                            if not chunk:
+                                break
+                            response += chunk
+        finally:
+            self.stop_server(server, thread)
+
+        body = json.loads(response.split(b"\r\n\r\n", 1)[1].decode("utf-8"))
+        self.assertIn(b"408 Request Timeout", response)
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["error"]["message"], "读取请求体超时。")
+
+
+class ServerStartupTests(unittest.TestCase):
+    def test_accepts_loopback_hosts(self) -> None:
+        self.assertTrue(is_loopback_host("127.0.0.1"))
+        self.assertTrue(is_loopback_host("localhost"))
+        self.assertTrue(is_loopback_host("::1"))
+        self.assertTrue(is_loopback_host("[::1]"))
+
+    def test_rejects_non_loopback_host(self) -> None:
+        self.assertFalse(is_loopback_host("0.0.0.0"))
+        self.assertFalse(is_loopback_host("192.168.1.10"))
+        self.assertFalse(is_loopback_host("example.com"))
+
+    def test_main_rejects_public_bind_host(self) -> None:
+        stderr = io.StringIO()
+        with mock.patch("sys.stderr", new=stderr):
+            exit_code = main(["--host", "0.0.0.0", "--port", "8000"])
+
+        self.assertEqual(exit_code, 2)
+        self.assertIn("仅支持绑定到本机回环地址", stderr.getvalue())
+
+    def test_rejects_connection_immediately_when_worker_slots_are_exhausted(self) -> None:
+        server = BoundedThreadingHTTPServer(("127.0.0.1", 0), AnalyzeHandler, max_concurrent_requests=1)
+        server.allow_origin = "https://frontend.example"
+        request = mock.Mock()
+        try:
+            server._request_slots.acquire()
+            with mock.patch.object(server, "shutdown_request") as shutdown_request:
+                server.process_request(request, ("127.0.0.1", 12345))
+        finally:
+            server._request_slots.release()
+            server.server_close()
+
+        request.sendall.assert_called_once()
+        self.assertIn(b"503 Service Unavailable", request.sendall.call_args[0][0])
+        self.assertIn(b"Access-Control-Allow-Origin: https://frontend.example", request.sendall.call_args[0][0])
+        self.assertIn("服务繁忙，请稍后重试。".encode("utf-8"), request.sendall.call_args[0][0])
+        shutdown_request.assert_called_once_with(request)
 
 
 if __name__ == "__main__":

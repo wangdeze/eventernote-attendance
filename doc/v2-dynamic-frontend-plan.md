@@ -59,3 +59,20 @@ Serverless 函数（Cloudflare Worker）
 | 触发方式 | 手动进入 Actions 页面运行 | 网页直接调用，无需跳转 |
 | 响应速度 | 分钟级（排队 + 执行 + 提交） | 秒级（同步返回结果） |
 | 权限要求 | 需要 GitHub 账号且有仓库权限 | 前端任何人可用（可加简单口令限制） |
+
+## 4. 当前仓库内的 v2 起步实现
+
+为了先启动升级并复用现有 Python 抓取逻辑，仓库内先落地一版“动态前端 + HTTP API”：
+
+1. 根目录继续保留 v1.0 基线，不破坏现有 GitHub Actions 流程
+2. 新增 `v2/index.html`，前端直接向分析接口发起 `POST /api/analyze`
+3. 新增 `v2/backend/api.py`，把输入校验和统一 JSON 响应封装出来
+4. 新增 `v2/backend/server.py`，提供本地和轻量部署都可直接复用的 HTTP 服务入口
+
+这样可以先完成：
+
+- 页面内直接发起分析
+- 结果同步返回并渲染
+- 后端不再依赖写回 `data/latest-result.json`
+
+后续如果要严格切到 Cloudflare Worker，只需要让 Worker 继续遵守同一个 HTTP/JSON 协议，或作为前置网关转发到该分析接口即可。

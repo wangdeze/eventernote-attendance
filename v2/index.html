@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventernote 出勤率分析 v2</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <header class="hero">
+        <p class="eyebrow">v2 动态前端 + HTTP API</p>
+        <h1>Eventernote 出勤率分析</h1>
+        <p class="description">
+          当前根目录页面保留为 v1.0 基线；本页开始按 v2 方案切换为“前端直接调用分析接口并实时展示结果”。
+        </p>
+      </header>
+
+      <section class="card">
+        <div class="section-title-row">
+          <h2>开始分析</h2>
+          <span id="status-pill" class="pill">待分析</span>
+        </div>
+        <p id="status-message" class="muted">请填写参数后直接发起一次实时分析。</p>
+        <form id="request-form" class="grid-form">
+          <label>
+            <span>Eventernote 用户 ID</span>
+            <input id="user-id" name="user_id" type="text" autocomplete="off" required />
+          </label>
+          <label>
+            <span>艺人名称</span>
+            <input id="actor-name" name="actor_name" type="text" autocomplete="off" required />
+          </label>
+          <label>
+            <span>年份</span>
+            <input id="year" name="year" type="number" min="2000" max="2100" inputmode="numeric" required />
+          </label>
+          <div class="actions">
+            <button id="run-analysis" type="submit">开始分析</button>
+          </div>
+          <p id="api-hint" class="form-note">正在加载 v2 接口配置…</p>
+          <div id="request-feedback" class="request-feedback hidden"></div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>分析结果</h2>
+        <div id="summary" class="summary hidden">
+          <div>
+            <span>用户 ID</span>
+            <strong id="summary-user-id">-</strong>
+          </div>
+          <div>
+            <span>艺人名称</span>
+            <strong id="summary-actor-name">-</strong>
+          </div>
+          <div>
+            <span>年份</span>
+            <strong id="summary-year">-</strong>
+          </div>
+          <div>
+            <span>全年活动总数</span>
+            <strong id="summary-total">-</strong>
+          </div>
+          <div>
+            <span>已出席活动数</span>
+            <strong id="summary-attended">-</strong>
+          </div>
+          <div>
+            <span>出勤率</span>
+            <strong id="summary-rate">-</strong>
+          </div>
+        </div>
+        <div id="error-panel" class="error-panel hidden"></div>
+        <ul id="warnings" class="warnings hidden"></ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title-row">
+          <h2>活动明细</h2>
+          <a href="../index.html" aria-label="返回 v1.0 GitHub Actions 页面">返回 v1.0 页面（GitHub Actions 版）</a>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>状态</th>
+                <th>日期</th>
+                <th>活动</th>
+                <th>会场</th>
+              </tr>
+            </thead>
+            <tbody id="events-body">
+              <tr>
+                <td colspan="4" class="muted">尚未执行分析。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
