@@ -598,6 +598,21 @@ class ServerStartupTests(unittest.TestCase):
         self.assertEqual(exit_code, 2)
         self.assertIn("仅支持绑定到本机回环地址", stderr.getvalue())
 
+    def test_rejects_connection_immediately_when_worker_slots_are_exhausted(self) -> None:
+        server = BoundedThreadingHTTPServer(("127.0.0.1", 0), AnalyzeHandler, max_concurrent_requests=1)
+        request = mock.Mock()
+        try:
+            server._request_slots.acquire()
+            with mock.patch.object(server, "shutdown_request") as shutdown_request:
+                server.process_request(request, ("127.0.0.1", 12345))
+        finally:
+            server._request_slots.release()
+            server.server_close()
+
+        request.sendall.assert_called_once()
+        self.assertIn(b"503 Service Unavailable", request.sendall.call_args[0][0])
+        shutdown_request.assert_called_once_with(request)
+
 
 if __name__ == "__main__":
     unittest.main()

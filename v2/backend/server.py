@@ -41,7 +41,17 @@ class BoundedThreadingHTTPServer(ThreadingMixIn, HTTPServer):
         self._request_slots = threading.BoundedSemaphore(max_concurrent_requests)
 
     def process_request(self, request, client_address) -> None:
-        self._request_slots.acquire()
+        if not self._request_slots.acquire(blocking=False):
+            try:
+                request.sendall(
+                    b"HTTP/1.1 503 Service Unavailable\r\n"
+                    b"Connection: close\r\n"
+                    b"Content-Length: 0\r\n\r\n"
+                )
+            except OSError:
+                pass
+            self.shutdown_request(request)
+            return
         try:
             super().process_request(request, client_address)
         except Exception:
