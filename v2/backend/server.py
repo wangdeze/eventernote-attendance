@@ -202,6 +202,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def is_loopback_host(host: str) -> bool:
     normalized = host.strip().lower()
+    if normalized.startswith("[") and normalized.endswith("]"):
+        normalized = normalized[1:-1]
     if normalized == "localhost":
         return True
     try:

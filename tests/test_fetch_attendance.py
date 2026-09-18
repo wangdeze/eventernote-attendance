@@ -583,6 +583,7 @@ class ServerStartupTests(unittest.TestCase):
         self.assertTrue(is_loopback_host("127.0.0.1"))
         self.assertTrue(is_loopback_host("localhost"))
         self.assertTrue(is_loopback_host("::1"))
+        self.assertTrue(is_loopback_host("[::1]"))
 
     def test_rejects_non_loopback_host(self) -> None:
         self.assertFalse(is_loopback_host("0.0.0.0"))

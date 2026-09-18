@@ -56,7 +56,11 @@ function normalizeRuntimeConfig(value) {
 }
 
 function isLoopbackHost(hostname) {
-  return hostname === '127.0.0.1' || hostname === 'localhost';
+  return hostname === '127.0.0.1' || hostname === 'localhost' || hostname === '::1' || hostname === '[::1]';
+}
+
+function formatHostForUrl(hostname) {
+  return hostname.includes(':') && !hostname.startsWith('[') ? `[${hostname}]` : hostname;
 }
 
 function resolveAnalyzeApiUrl() {
@@ -71,7 +75,7 @@ function resolveAnalyzeApiUrl() {
     && isLoopbackHost(window.location.hostname)
     && window.location.port !== '8000'
   ) {
-    candidate = `http://${window.location.hostname}:8000/api/analyze`;
+    candidate = `http://${formatHostForUrl(window.location.hostname)}:8000/api/analyze`;
   } else {
     candidate = `${window.location.origin}/api/analyze`;
   }
