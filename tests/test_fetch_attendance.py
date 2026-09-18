@@ -613,6 +613,7 @@ class ServerStartupTests(unittest.TestCase):
         request.sendall.assert_called_once()
         self.assertIn(b"503 Service Unavailable", request.sendall.call_args[0][0])
         self.assertIn(b"Access-Control-Allow-Origin: https://frontend.example", request.sendall.call_args[0][0])
+        self.assertIn("服务繁忙，请稍后重试。".encode("utf-8"), request.sendall.call_args[0][0])
         shutdown_request.assert_called_once_with(request)
 
 
