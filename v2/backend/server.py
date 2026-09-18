@@ -4,9 +4,11 @@ import argparse
 import json
 import socket
 import sys
+import threading
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from ipaddress import ip_address
+from socketserver import ThreadingMixIn
 from urllib.parse import urlsplit
 
 from scripts.fetch_attendance import AnalyzerError, build_error_result
@@ -18,10 +20,39 @@ DEFAULT_ALLOW_ORIGIN = ""
 API_PATH = "/api/analyze"
 MAX_REQUEST_BODY_BYTES = 16 * 1024
 REQUEST_BODY_TIMEOUT_SECONDS = 15
+MAX_CONCURRENT_REQUESTS = 4
 CORS_HEADERS = {
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
 }
+
+
+class BoundedThreadingHTTPServer(ThreadingMixIn, HTTPServer):
+    daemon_threads = True
+
+    def __init__(
+        self,
+        server_address: tuple[str, int],
+        request_handler_class: type[BaseHTTPRequestHandler],
+        *,
+        max_concurrent_requests: int = MAX_CONCURRENT_REQUESTS,
+    ) -> None:
+        super().__init__(server_address, request_handler_class)
+        self._request_slots = threading.BoundedSemaphore(max_concurrent_requests)
+
+    def process_request(self, request, client_address) -> None:
+        self._request_slots.acquire()
+        try:
+            super().process_request(request, client_address)
+        except Exception:
+            self._request_slots.release()
+            raise
+
+    def process_request_thread(self, request, client_address) -> None:
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self._request_slots.release()
 
 
 class AnalyzeHandler(BaseHTTPRequestHandler):
@@ -185,7 +216,7 @@ def main(argv: list[str] | None = None) -> int:
         print("v2.backend.server 仅支持绑定到本机回环地址；请勿将该轻量 API 直接暴露到公共网络。", file=sys.stderr)
         return 2
 
-    server = HTTPServer((args.host, args.port), AnalyzeHandler)
+    server = BoundedThreadingHTTPServer((args.host, args.port), AnalyzeHandler)
     server.allow_origin = args.allow_origin.strip()
     print(f"Serving Eventernote v2 API on http://{args.host}:{args.port}{API_PATH}")
     try:

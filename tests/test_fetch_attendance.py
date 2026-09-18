@@ -22,7 +22,7 @@ from scripts.fetch_attendance import (
     parse_event_list,
 )
 from v2.backend.api import build_analysis_response
-from v2.backend.server import AnalyzeHandler, is_loopback_host, main
+from v2.backend.server import AnalyzeHandler, BoundedThreadingHTTPServer, is_loopback_host, main
 
 
 class ParseActorSearchResultsTests(unittest.TestCase):
@@ -359,7 +359,7 @@ class ApiResponseTests(unittest.TestCase):
 
 class AnalyzeHandlerTests(unittest.TestCase):
     def start_server(self, *, allow_origin: str = "") -> tuple[HTTPServer, threading.Thread]:
-        server = HTTPServer(("127.0.0.1", 0), AnalyzeHandler)
+        server = BoundedThreadingHTTPServer(("127.0.0.1", 0), AnalyzeHandler)
         server.allow_origin = allow_origin
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
