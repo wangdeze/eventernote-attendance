@@ -8,7 +8,7 @@ import threading
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from ipaddress import ip_address
-from socketserver import ThreadingMixIn
+from socketserver import ThreadingMixIn, _Threads
 from urllib.parse import urlsplit
 
 from scripts.fetch_attendance import AnalyzerError, build_error_result
@@ -52,11 +52,18 @@ class BoundedThreadingHTTPServer(ThreadingMixIn, HTTPServer):
                 pass
             self.shutdown_request(request)
             return
+        if self.block_on_close:
+            vars(self).setdefault("_threads", _Threads())
+        thread = threading.Thread(target=self.process_request_thread, args=(request, client_address))
+        thread.daemon = self.daemon_threads
         try:
-            super().process_request(request, client_address)
+            thread.start()
         except Exception:
             self._request_slots.release()
-            raise
+            self.handle_error(request, client_address)
+            self.shutdown_request(request)
+            return
+        self._threads.append(thread)
 
     def process_request_thread(self, request, client_address) -> None:
         try:
