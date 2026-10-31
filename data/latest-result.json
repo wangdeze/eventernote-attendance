@@ -1,255 +1,1431 @@
 {
   "status": "success",
-  "generated_at": "2026-10-23T07:30:21+00:00",
-  "requested_actor_name": "鈴木愛奈",
+  "generated_at": "2026-10-31T11:29:05+00:00",
+  "requested_actor_name": "小林愛香",
   "user_id": "Tokuzawa353567",
-  "actor_name": "鈴木愛奈",
-  "actor_id": "11198",
-  "actor_url": "https://www.eventernote.com/actors/%E9%88%B4%E6%9C%A8%E6%84%9B%E5%A5%88/11198",
+  "actor_name": "小林愛香",
+  "actor_id": "15437",
+  "actor_url": "https://www.eventernote.com/actors/%E5%B0%8F%E6%9E%97%E6%84%9B%E9%A6%99/15437",
   "year": 2026,
-  "total_actor_events": 31,
-  "attended_events": 16,
-  "attendance_rate": 0.5161,
+  "total_actor_events": 128,
+  "attended_events": 6,
+  "attendance_rate": 0.0469,
   "warnings": [],
   "events": [
     {
-      "id": "459911",
-      "date": "2026-01-20",
-      "title": "鈴木愛奈「Ai catwalk｣ POPUP STORE Ai catwalk会員限定購入特典 お話し会 1/20回",
-      "venue": "渋谷モディ",
-      "url": "https://www.eventernote.com/events/459911",
+      "id": "445793",
+      "date": "2026-01-11",
+      "title": "新田恵海のえみゅーじっく♪ふらっぐ☆ つんらじ11周年イヤー 公開録音イベント 夜の部",
+      "venue": "ハーモニースクエア3F ハーモニーホール",
+      "url": "https://www.eventernote.com/events/445793",
       "actors": [
-        "鈴木愛奈"
+        "新田恵海",
+        "小林愛香"
       ],
       "attended": false
     },
     {
-      "id": "453509",
-      "date": "2026-01-23",
-      "title": "Special Live Event Let’s have fun together",
-      "venue": "KT Zepp Yokohama",
-      "url": "https://www.eventernote.com/events/453509",
+      "id": "445794",
+      "date": "2026-01-11",
+      "title": "新田恵海のえみゅーじっく♪ふらっぐ☆ つんらじ11周年イヤー 公開録音イベント 昼の部",
+      "venue": "ハーモニースクエア3F ハーモニーホール",
+      "url": "https://www.eventernote.com/events/445794",
       "actors": [
-        "浅井七海",
-        "Maajuu",
-        "絵森彩",
-        "小越春花",
-        "来栖りん",
-        "斉藤朱夏",
-        "鈴木愛奈",
-        "宮野芹",
-        "LINKL PLANET",
-        "天川れみ",
-        "荒井芽依",
-        "尾本侑樹奈",
-        "佐藤咲菜",
-        "鈴木華凜",
-        "東恩納瑠花",
-        "宮﨑菜々"
+        "新田恵海",
+        "小林愛香"
       ],
       "attended": false
     },
     {
-      "id": "459912",
-      "date": "2026-01-25",
-      "title": "鈴木愛奈「Ai catwalk｣ POPUP STORE Ai catwalk会員限定購入特典 お話し会 1/25回",
-      "venue": "渋谷モディ",
-      "url": "https://www.eventernote.com/events/459912",
+      "id": "434030",
+      "date": "2026-01-12",
+      "title": "【出演者変更】カードファイト!! ヴァンガード 15th Anniversary ブシロード新春大発表会2026",
+      "venue": "Kanadevia Hall(TOKYO DOME CITY HALL)",
+      "url": "https://www.eventernote.com/events/434030",
       "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": true
-    },
-    {
-      "id": "450432",
-      "date": "2026-02-22",
-      "title": "いきわらとリンラジのにゃんだふるな1日 第1部 いきわらイベント",
-      "venue": "日本橋浜町PLAZA MAAM",
-      "url": "https://www.eventernote.com/events/450432",
-      "actors": [
-        "鈴木愛奈",
-        "花井美春"
-      ],
-      "attended": true
-    },
-    {
-      "id": "453144",
-      "date": "2026-02-22",
-      "title": "いきわらとリンラジのにゃんだふるな1日 第2部 リンラジイベント",
-      "venue": "日本橋浜町PLAZA MAAM",
-      "url": "https://www.eventernote.com/events/453144",
-      "actors": [
-        "鈴木愛奈",
-        "花井美春"
-      ],
-      "attended": true
-    },
-    {
-      "id": "453145",
-      "date": "2026-02-22",
-      "title": "いきわらとリンラジのにゃんだふるな1日 第3部 リンラジイベント",
-      "venue": "日本橋浜町PLAZA MAAM",
-      "url": "https://www.eventernote.com/events/453145",
-      "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": true
-    },
-    {
-      "id": "452183",
-      "date": "2026-03-08",
-      "title": "鈴木愛奈がYATTEKURU【第1部】",
-      "venue": "あるあるCity 7Fホール",
-      "url": "https://www.eventernote.com/events/452183",
-      "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": true
-    },
-    {
-      "id": "452184",
-      "date": "2026-03-08",
-      "title": "鈴木愛奈がYATTEKURU【第2部】",
-      "venue": "あるあるCity 7Fホール",
-      "url": "https://www.eventernote.com/events/452184",
-      "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": true
-    },
-    {
-      "id": "461957",
-      "date": "2026-03-14",
-      "title": "「鈴木愛奈 写真集 Crossing【Ai catwalk 通常版】」写真集サイン会 1冊券回",
-      "venue": "!_東京都内某所",
-      "url": "https://www.eventernote.com/events/461957",
-      "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": true
-    },
-    {
-      "id": "461956",
-      "date": "2026-03-14",
-      "title": "「鈴木愛奈 写真集 Crossing【Ai catwalk 通常版】」写真集サイン会 3冊券回",
-      "venue": "!_東京都内某所",
-      "url": "https://www.eventernote.com/events/461956",
-      "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": false
-    },
-    {
-      "id": "461959",
-      "date": "2026-03-14",
-      "title": "『【1冊券】鈴木愛奈写真集 Crossing』写真集サイン会 インフォスクエア回",
-      "venue": "!_東京都内某所",
-      "url": "https://www.eventernote.com/events/461959",
-      "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": false
-    },
-    {
-      "id": "461958",
-      "date": "2026-03-14",
-      "title": "『【3冊券】鈴木愛奈写真集 Crossing』写真集サイン会 インフォスクエア回",
-      "venue": "!_東京都内某所",
-      "url": "https://www.eventernote.com/events/461958",
-      "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": false
-    },
-    {
-      "id": "460142",
-      "date": "2026-03-15",
-      "title": "飯田里穂ファンミーティングvol.19 飯田里穂25th Anniversary Party 25th Anniversary EVENT",
-      "venue": "東京カルチャーカルチャー",
-      "url": "https://www.eventernote.com/events/460142",
-      "actors": [
-        "飯田里穂",
+        "西尾夕香",
+        "真野拓実",
+        "棚橋弘至",
+        "羊宮妃那",
+        "青木陽菜",
+        "佐々木李子",
+        "高尾奏音",
+        "夢限大みゅーたいぷ",
+        "仲町あられ",
+        "宮永ののか",
+        "峰月律",
+        "藤都子",
+        "千石ユノ",
+        "河内美里",
+        "星守紗凪",
+        "佐倉初",
+        "鶴見萌",
+        "あわつまい",
+        "梅原サエリ",
+        "山﨑悠稀",
+        "今村望",
+        "赤城凛空",
+        "磯村優花",
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "深川瑠華",
+        "立石凛",
+        "千春",
+        "進藤あまね",
+        "夏吉ゆうこ",
         "天津飯大郎",
-        "鈴木愛奈"
+        "小山百代",
+        "佐藤日向",
+        "岩田陽葵",
+        "安納サオリ",
+        "玖麗さやか",
+        "上谷沙弥",
+        "笹森裕貴",
+        "福井巴也",
+        "大友海",
+        "川上将大",
+        "松澤ネキ(松澤千晶)",
+        "潘めぐみ",
+        "信澤収",
+        "立花日菜",
+        "渡瀬結月",
+        "伊藤彩沙",
+        "ミズノナツコ",
+        "蓮ノ空女学院スクールアイドルクラブ",
+        "野中ここな",
+        "RealRomantic",
+        "浪川大輔",
+        "鈴木愛菜",
+        "ウルフアロン",
+        "豊田萌絵",
+        "宮田俊哉",
+        "佐々木未来",
+        "愛美",
+        "MyGO!!!!!",
+        "Ave Mujica"
+      ],
+      "attended": false
+    },
+    {
+      "id": "436987",
+      "date": "2026-02-01",
+      "title": "【出演者変更】リスアニ！LIVE 2026 SUNDAY STAGE",
+      "venue": "幕張メッセ イベントホール",
+      "url": "https://www.eventernote.com/events/436987",
+      "actors": [
+        "angela",
+        "オーイシマサヨシ(大石昌良)",
+        "ClariS",
+        "鈴木このみ",
+        "CHiCO with HoneyWorks",
+        "DayRe:",
+        "Guilty Kiss",
+        "逢田梨香子",
+        "小林愛香",
+        "Saint Snow",
+        "田野アサミ",
+        "佐藤日向",
+        "CHiCO",
+        "橘美來",
+        "相川奏多",
+        "宮沢小春",
+        "夏目ここな",
+        "日向もか"
       ],
       "attended": true
     },
     {
-      "id": "461960",
+      "id": "448362",
+      "date": "2026-02-20",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』愛知公演 2/20 13:00",
+      "venue": "東海市芸術劇場",
+      "url": "https://www.eventernote.com/events/448362",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448361",
+      "date": "2026-02-20",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』愛知公演 2/20 19:00",
+      "venue": "東海市芸術劇場",
+      "url": "https://www.eventernote.com/events/448361",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448363",
+      "date": "2026-02-21",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』愛知公演 2/21 13:00",
+      "venue": "東海市芸術劇場",
+      "url": "https://www.eventernote.com/events/448363",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448366",
+      "date": "2026-02-21",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』愛知公演 2/21 18:00",
+      "venue": "東海市芸術劇場",
+      "url": "https://www.eventernote.com/events/448366",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448364",
+      "date": "2026-02-22",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』愛知公演 2/22 13:00",
+      "venue": "東海市芸術劇場",
+      "url": "https://www.eventernote.com/events/448364",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448365",
+      "date": "2026-02-22",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』愛知公演 2/22 18:00",
+      "venue": "東海市芸術劇場",
+      "url": "https://www.eventernote.com/events/448365",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448367",
+      "date": "2026-02-23",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』愛知公演 2/23 12:00",
+      "venue": "東海市芸術劇場",
+      "url": "https://www.eventernote.com/events/448367",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448368",
+      "date": "2026-02-23",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』愛知公演 2/23 17:00",
+      "venue": "東海市芸術劇場",
+      "url": "https://www.eventernote.com/events/448368",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448369",
+      "date": "2026-02-27",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』東京公演 2/27",
+      "venue": "スタァライト劇場",
+      "url": "https://www.eventernote.com/events/448369",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448371",
+      "date": "2026-02-28",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』東京公演 2/28 13:00",
+      "venue": "スタァライト劇場",
+      "url": "https://www.eventernote.com/events/448371",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448370",
+      "date": "2026-02-28",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』東京公演 2/28 18:00",
+      "venue": "スタァライト劇場",
+      "url": "https://www.eventernote.com/events/448370",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448372",
+      "date": "2026-03-01",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』東京公演 3/1 12:00",
+      "venue": "スタァライト劇場",
+      "url": "https://www.eventernote.com/events/448372",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "448373",
+      "date": "2026-03-01",
+      "title": "【出演者変更】舞台『推しが武道館いってくれたら死ぬ』東京公演 3/1 17:00",
+      "venue": "スタァライト劇場",
+      "url": "https://www.eventernote.com/events/448373",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏",
+        "小山百代",
+        "伊藤虹々美",
+        "杉本りいな",
+        "西井美桜",
+        "篠原京香",
+        "井田玲音名",
+        "河内美里",
+        "北川愛乃",
+        "赤堀君江",
+        "小島ことり",
+        "瓦谷龍之",
+        "鈴木愛菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "445727",
+      "date": "2026-03-07",
+      "title": "VOICE KIT Festival 2026 ～春のFUNまつり ～supported by animelo 夜公演",
+      "venue": "なかのZERO 大ホール",
+      "url": "https://www.eventernote.com/events/445727",
+      "actors": [
+        "椎名へきる",
+        "上坂すみれ",
+        "南條愛乃",
+        "井澤詩織",
+        "前島亜美",
+        "駒形友梨",
+        "角元明日香",
+        "小林愛香",
+        "南早紀",
+        "吉武千颯"
+      ],
+      "attended": false
+    },
+    {
+      "id": "445726",
+      "date": "2026-03-07",
+      "title": "VOICE KIT Festival 2026 ～春のFUNまつり～ supported by animelo 昼公演",
+      "venue": "なかのZERO 大ホール",
+      "url": "https://www.eventernote.com/events/445726",
+      "actors": [
+        "椎名へきる",
+        "上坂すみれ",
+        "南條愛乃",
+        "井澤詩織",
+        "前島亜美",
+        "駒形友梨",
+        "角元明日香",
+        "小林愛香",
+        "南早紀",
+        "吉武千颯"
+      ],
+      "attended": false
+    },
+    {
+      "id": "459153",
+      "date": "2026-03-15",
+      "title": "小林愛香の公開公開リハーサル4 夜",
+      "venue": "有楽町朝日ホール",
+      "url": "https://www.eventernote.com/events/459153",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "456869",
+      "date": "2026-03-15",
+      "title": "小林愛香の公開公開リハーサル4 昼",
+      "venue": "有楽町朝日ホール",
+      "url": "https://www.eventernote.com/events/456869",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "464761",
+      "date": "2026-03-21",
+      "title": "「小林愛香 2026.4-2027.3 卓上カレンダー」発売記念イベント ＜第1部＞",
+      "venue": "書泉ブックタワー",
+      "url": "https://www.eventernote.com/events/464761",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "464762",
+      "date": "2026-03-21",
+      "title": "「小林愛香 2026.4-2027.3 卓上カレンダー」発売記念イベント ＜第2部＞",
+      "venue": "書泉ブックタワー",
+      "url": "https://www.eventernote.com/events/464762",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "452187",
       "date": "2026-03-22",
-      "title": "『鈴木愛奈写真集 Crossing』発売記念イベント アニメイト・ゲーマーズ回",
-      "venue": "!_東京都内某所",
-      "url": "https://www.eventernote.com/events/461960",
+      "title": "小林愛香と南早紀がYATTEKURU【第1部】",
+      "venue": "あるあるCity 7Fホール",
+      "url": "https://www.eventernote.com/events/452187",
       "actors": [
-        "鈴木愛奈"
+        "小林愛香",
+        "南早紀"
       ],
       "attended": false
     },
     {
-      "id": "461812",
+      "id": "452188",
+      "date": "2026-03-22",
+      "title": "小林愛香と南早紀がYATTEKURU【第2部】",
+      "venue": "あるあるCity 7Fホール",
+      "url": "https://www.eventernote.com/events/452188",
+      "actors": [
+        "小林愛香",
+        "南早紀"
+      ],
+      "attended": false
+    },
+    {
+      "id": "459915",
+      "date": "2026-03-28",
+      "title": "「AnimeJapan 2026」WHITE STAGE「魔法少女リリカルなのは EXCEEDS Gun Blaze Vengeance」スペシャルステージ",
+      "venue": "東京ビッグサイト(東京国際展示場)",
+      "url": "https://www.eventernote.com/events/459915",
+      "actors": [
+        "橘杏咲",
+        "結川あさき",
+        "千春",
+        "小林愛香",
+        "伊藤彩沙",
+        "青木陽菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "462621",
+      "date": "2026-04-01",
+      "title": "［Otona Project 第六十七弾］演劇ユニット【爆走おとな小学生】第二十六回全校集会 \"朗読×ACT\"theater『アイディール・セミナー/Replay session』①第1セッション",
+      "venue": "CBGKシブゲキ!!",
+      "url": "https://www.eventernote.com/events/462621",
+      "actors": [
+        "小林愛香",
+        "秋本帆華",
+        "内山悠里菜",
+        "七瀬つむぎ",
+        "吉瀬真珠",
+        "月なぎさ(姫なぎさ)",
+        "立石凛",
+        "大渕野々花",
+        "山岸理子",
+        "古仲可奈",
+        "大澤萌々",
+        "井川勇樹",
+        "加藤光大",
+        "石原美沙紀",
+        "花塚廉太郎",
+        "三島京華",
+        "星野美夢",
+        "鷲尾修斗",
+        "日高里緒",
+        "小森結梨",
+        "蔵田尚樹",
+        "草野太一",
+        "湊竜也",
+        "橋爪亮磨",
+        "山本晃樹",
+        "桃原華恋",
+        "北村夏未"
+      ],
+      "attended": false
+    },
+    {
+      "id": "462622",
+      "date": "2026-04-01",
+      "title": "［Otona Project 第六十七弾］演劇ユニット【爆走おとな小学生】第二十六回全校集会 \"朗読×ACT\"theater『アイディール・セミナー/Replay session』②第2セッション",
+      "venue": "CBGKシブゲキ!!",
+      "url": "https://www.eventernote.com/events/462622",
+      "actors": [
+        "小林愛香",
+        "秋本帆華",
+        "内山悠里菜",
+        "七瀬つむぎ",
+        "吉瀬真珠",
+        "月なぎさ(姫なぎさ)",
+        "立石凛",
+        "大渕野々花",
+        "山岸理子",
+        "古仲可奈",
+        "大澤萌々",
+        "井川勇樹",
+        "加藤光大",
+        "石原美沙紀",
+        "花塚廉太郎",
+        "三島京華",
+        "星野美夢",
+        "鷲尾修斗",
+        "日高里緒",
+        "小森結梨",
+        "蔵田尚樹",
+        "草野太一",
+        "湊竜也",
+        "橋爪亮磨",
+        "山本晃樹",
+        "桃原華恋",
+        "北村夏未"
+      ],
+      "attended": false
+    },
+    {
+      "id": "462623",
       "date": "2026-04-02",
-      "title": "勇者との密会〜ライブスペシャル2026〜東京",
-      "venue": "SHIBUYA CLUB QUATTRO",
-      "url": "https://www.eventernote.com/events/461812",
+      "title": "［Otona Project 第六十七弾］演劇ユニット【爆走おとな小学生】第二十六回全校集会 \"朗読×ACT\"theater『アイディール・セミナー/Replay session』③第3セッション",
+      "venue": "CBGKシブゲキ!!",
+      "url": "https://www.eventernote.com/events/462623",
       "actors": [
-        "鈴木愛奈"
+        "小林愛香",
+        "秋本帆華",
+        "谷真理佳",
+        "七瀬つむぎ",
+        "森下来奈",
+        "月なぎさ(姫なぎさ)",
+        "立石凛",
+        "大渕野々花",
+        "山岸理子",
+        "古仲可奈",
+        "大澤萌々",
+        "井川勇樹",
+        "加藤光大",
+        "石原美沙紀",
+        "花塚廉太郎",
+        "三島京華",
+        "星野美夢",
+        "鷲尾修斗",
+        "日高里緒",
+        "橋本侑芽",
+        "蔵田尚樹",
+        "西海龍人",
+        "湊竜也",
+        "橋爪亮磨",
+        "山本晃樹",
+        "桃原華恋",
+        "北村夏未"
       ],
       "attended": false
     },
     {
-      "id": "461961",
+      "id": "449953",
+      "date": "2026-04-04",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 香川",
+      "venue": "高松festhalle(フェストハレ)",
+      "url": "https://www.eventernote.com/events/449953",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "449954",
+      "date": "2026-04-05",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 広島",
+      "venue": "広島CLUB QUATTRO",
+      "url": "https://www.eventernote.com/events/449954",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "449955",
+      "date": "2026-04-11",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 愛知",
+      "venue": "名古屋ボトムライン(THE BOTTOM LINE)",
+      "url": "https://www.eventernote.com/events/449955",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "449956",
       "date": "2026-04-12",
-      "title": "『鈴木愛奈写真集 Crossing』発売記念イベント TSUTAYA EBISUBASHI回 1部",
-      "venue": "TSUTAYA EBISUBASHI",
-      "url": "https://www.eventernote.com/events/461961",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 静岡",
+      "venue": "LIVE ROXY SHIZUOKA",
+      "url": "https://www.eventernote.com/events/449956",
       "actors": [
-        "鈴木愛奈"
+        "小林愛香"
       ],
       "attended": false
     },
     {
-      "id": "461962",
-      "date": "2026-04-12",
-      "title": "『鈴木愛奈写真集 Crossing』発売記念イベント TSUTAYA EBISUBASHI回 2部",
-      "venue": "TSUTAYA EBISUBASHI",
-      "url": "https://www.eventernote.com/events/461962",
+      "id": "449957",
+      "date": "2026-04-18",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 大阪",
+      "venue": "心斎橋BIGCAT",
+      "url": "https://www.eventernote.com/events/449957",
       "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": false
-    },
-    {
-      "id": "461963",
-      "date": "2026-04-12",
-      "title": "『鈴木愛奈写真集 Crossing』発売記念イベント TSUTAYA EBISUBASHI回 3部",
-      "venue": "TSUTAYA EBISUBASHI",
-      "url": "https://www.eventernote.com/events/461963",
-      "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": false
-    },
-    {
-      "id": "461813",
-      "date": "2026-04-16",
-      "title": "勇者との密会〜ライブスペシャル2026〜大阪",
-      "venue": "梅田CLUB QUATTRO",
-      "url": "https://www.eventernote.com/events/461813",
-      "actors": [
-        "鈴木愛奈"
+        "小林愛香"
       ],
       "attended": true
     },
     {
-      "id": "477182",
-      "date": "2026-05-10",
-      "title": "本社襲撃！パチサバト in SANYO本社",
-      "venue": "日本橋三洋グループビル",
-      "url": "https://www.eventernote.com/events/477182",
+      "id": "449959",
+      "date": "2026-04-19",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 福岡",
+      "venue": "福岡DRUM Be-1",
+      "url": "https://www.eventernote.com/events/449959",
       "actors": [
-        "鈴木愛奈",
-        "山田親之條",
-        "栁瀬一樹"
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "455239",
+      "date": "2026-04-25",
+      "title": "ラブライブ！サンシャイン!! Aqours Finale LoveLive! ～永久stage～ Blu-ray Memorial BOX＆『Aqours Documentary』Blu-ray発売記念リリースイベント 夜公演",
+      "venue": "!_東京都内某所",
+      "url": "https://www.eventernote.com/events/455239",
+      "actors": [
+        "Aqours",
+        "小林愛香",
+        "高槻かなこ"
+      ],
+      "attended": false
+    },
+    {
+      "id": "455238",
+      "date": "2026-04-25",
+      "title": "ラブライブ！サンシャイン!! Aqours Finale LoveLive! ～永久stage～ Blu-ray Memorial BOX＆『Aqours Documentary』Blu-ray発売記念リリースイベント 昼公演",
+      "venue": "!_東京都内某所",
+      "url": "https://www.eventernote.com/events/455238",
+      "actors": [
+        "Aqours",
+        "小林愛香",
+        "高槻かなこ"
+      ],
+      "attended": false
+    },
+    {
+      "id": "449960",
+      "date": "2026-05-02",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 宮城",
+      "venue": "仙台Rensa",
+      "url": "https://www.eventernote.com/events/449960",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "449961",
+      "date": "2026-05-09",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 埼玉",
+      "venue": "HEAVEN'S ROCKさいたま新都心VJ-3",
+      "url": "https://www.eventernote.com/events/449961",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "449962",
+      "date": "2026-05-10",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 栃木",
+      "venue": "HEAVEN'S ROCK宇都宮VJ-2",
+      "url": "https://www.eventernote.com/events/449962",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "430941",
+      "date": "2026-05-13",
+      "title": "Girls Live Action「降臨SOUL 〜六文銭ノ誓イ〜 」5/13",
+      "venue": "六行会ホール",
+      "url": "https://www.eventernote.com/events/430941",
+      "actors": [
+        "大滝紗緒里",
+        "本西彩希帆",
+        "高井千帆",
+        "山﨑悠稀",
+        "長月明日香",
+        "高見彩己子",
+        "絃ユリナ",
+        "平瀬美里",
+        "藤井彩加",
+        "栞菜",
+        "草場愛",
+        "星守紗凪",
+        "森青葉",
+        "中村朱里",
+        "隈本茉莉奈",
+        "佐々木優佳里",
+        "安藤千伽奈",
+        "桐下愛未(姫崎愛未)",
+        "石井文夏",
+        "石井陽菜",
+        "浜浦彩乃",
+        "伊藤勇姫",
+        "佐々木千花",
+        "堀川恵利",
+        "盛一季美香",
+        "倭香",
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "457414",
+      "date": "2026-05-14",
+      "title": "Girls Live Action「降臨SOUL 〜六文銭ノ誓イ〜 」5/14 13:30",
+      "venue": "六行会ホール",
+      "url": "https://www.eventernote.com/events/457414",
+      "actors": [
+        "大滝紗緒里",
+        "本西彩希帆",
+        "高井千帆",
+        "山﨑悠稀",
+        "長月明日香",
+        "高見彩己子",
+        "絃ユリナ",
+        "平瀬美里",
+        "藤井彩加",
+        "栞菜",
+        "草場愛",
+        "星守紗凪",
+        "森青葉",
+        "中村朱里",
+        "隈本茉莉奈",
+        "佐々木優佳里",
+        "安藤千伽奈",
+        "桐下愛未(姫崎愛未)",
+        "石井文夏",
+        "石井陽菜",
+        "浜浦彩乃",
+        "伊藤勇姫",
+        "佐々木千花",
+        "堀川恵利",
+        "盛一季美香",
+        "倭香",
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "457413",
+      "date": "2026-05-14",
+      "title": "Girls Live Action「降臨SOUL 〜六文銭ノ誓イ〜 」5/14 18:30",
+      "venue": "六行会ホール",
+      "url": "https://www.eventernote.com/events/457413",
+      "actors": [
+        "大滝紗緒里",
+        "本西彩希帆",
+        "高井千帆",
+        "山﨑悠稀",
+        "長月明日香",
+        "高見彩己子",
+        "絃ユリナ",
+        "平瀬美里",
+        "藤井彩加",
+        "栞菜",
+        "草場愛",
+        "星守紗凪",
+        "森青葉",
+        "中村朱里",
+        "隈本茉莉奈",
+        "佐々木優佳里",
+        "安藤千伽奈",
+        "桐下愛未(姫崎愛未)",
+        "石井文夏",
+        "石井陽菜",
+        "浜浦彩乃",
+        "伊藤勇姫",
+        "佐々木千花",
+        "堀川恵利",
+        "盛一季美香",
+        "倭香",
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "466976",
+      "date": "2026-05-23",
+      "title": "Say U Fan Festival vol.1",
+      "venue": "MYUNGHWA LIVE HALL",
+      "url": "https://www.eventernote.com/events/466976",
+      "actors": [
+        "南條愛乃",
+        "DIALOGUE＋",
+        "内山悠里菜",
+        "稗田寧々",
+        "守屋亨香",
+        "緒方佑奈",
+        "鷹村彩花",
+        "飯塚麻結",
+        "村上まなつ",
+        "伊達さゆり",
+        "前田佳織里",
+        "スピラ・スピカ",
+        "幹葉",
+        "安月名莉子",
+        "いとうかなこ",
+        "小林愛香",
+        "小山百代"
+      ],
+      "attended": false
+    },
+    {
+      "id": "449963",
+      "date": "2026-05-30",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 神奈川",
+      "venue": "Yokohama Bay Hall",
+      "url": "https://www.eventernote.com/events/449963",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "470956",
+      "date": "2026-06-03",
+      "title": "［Otona Project 第六十九弾］演劇ユニット【爆走おとな小学生】第二十七回全校集会 \"朗読×ACT\"theater『アイディール・セミナー/2nd session-Replay-』①第1セッション",
+      "venue": "こくみん共済 coop ホール／スペース・ゼロ",
+      "url": "https://www.eventernote.com/events/470956",
+      "actors": [
+        "小林愛香",
+        "谷真理佳",
+        "百花(ファントムシータ)",
+        "美雨(ファントムシータ)",
+        "小田えりな",
+        "鳴海まい",
+        "阿部寿世",
+        "鷲尾修斗",
+        "石原美沙紀",
+        "石井萌々果",
+        "小山内花凜",
+        "古仲可奈",
+        "佐藤美波",
+        "大澤萌々",
+        "井川勇樹",
+        "加藤光大",
+        "花塚廉太郎",
+        "三島京華",
+        "星野美夢",
+        "橋爪亮磨",
+        "桃原華恋",
+        "吉瀬真珠",
+        "橘花怜",
+        "長澤茉里奈",
+        "高田舟",
+        "秋本帆華",
+        "成瀬敦志",
+        "大升豪",
+        "望月輝透",
+        "北村夏未",
+        "倉橋伶奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "470960",
+      "date": "2026-06-05",
+      "title": "［Otona Project 第六十九弾］演劇ユニット【爆走おとな小学生】第二十七回全校集会 \"朗読×ACT\"theater『アイディール・セミナー/2nd session-Replay-』③第3セッション",
+      "venue": "こくみん共済 coop ホール／スペース・ゼロ",
+      "url": "https://www.eventernote.com/events/470960",
+      "actors": [
+        "谷真理佳",
+        "百花(ファントムシータ)",
+        "美雨(ファントムシータ)",
+        "小田えりな",
+        "大渕野々花",
+        "真野美月",
+        "堂島颯人",
+        "石原美沙紀",
+        "石井萌々果",
+        "小山内花凜",
+        "古仲可奈",
+        "佐藤美波",
+        "大澤萌々",
+        "井川勇樹",
+        "加藤光大",
+        "花塚廉太郎",
+        "三島京華",
+        "星野美夢",
+        "橋爪亮磨",
+        "桃原華恋",
+        "吉瀬真珠",
+        "橘花怜",
+        "高田舟",
+        "小林愛香",
+        "鈴木萌花",
+        "日向朔公",
+        "薬師寺李有",
+        "大升豪",
+        "望月輝透",
+        "北村夏未",
+        "倉橋伶奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "470961",
+      "date": "2026-06-05",
+      "title": "［Otona Project 第六十九弾］演劇ユニット【爆走おとな小学生】第二十七回全校集会 \"朗読×ACT\"theater『アイディール・セミナー/2nd session-Replay-』④第4セッション",
+      "venue": "こくみん共済 coop ホール／スペース・ゼロ",
+      "url": "https://www.eventernote.com/events/470961",
+      "actors": [
+        "谷真理佳",
+        "百花(ファントムシータ)",
+        "美雨(ファントムシータ)",
+        "小田えりな",
+        "大渕野々花",
+        "真野美月",
+        "堂島颯人",
+        "石原美沙紀",
+        "石井萌々果",
+        "小山内花凜",
+        "古仲可奈",
+        "佐藤美波",
+        "大澤萌々",
+        "井川勇樹",
+        "加藤光大",
+        "花塚廉太郎",
+        "三島京華",
+        "星野美夢",
+        "橋爪亮磨",
+        "桃原華恋",
+        "吉瀬真珠",
+        "橘花怜",
+        "高田舟",
+        "小林愛香",
+        "鈴木萌花",
+        "日向朔公",
+        "薬師寺李有",
+        "大升豪",
+        "望月輝透",
+        "北村夏未",
+        "倉橋伶奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "470965",
+      "date": "2026-06-06",
+      "title": "［Otona Project 第六十九弾］演劇ユニット【爆走おとな小学生】第二十七回全校集会 \"朗読×ACT\"theater『アイディール・セミナー/2nd session-Replay-』⑤第5セッション",
+      "venue": "こくみん共済 coop ホール／スペース・ゼロ",
+      "url": "https://www.eventernote.com/events/470965",
+      "actors": [
+        "小林愛香",
+        "内山悠里菜",
+        "山岸理子",
+        "福嶋晴菜",
+        "大渕野々花",
+        "阿部寿世",
+        "鷲尾修斗",
+        "石原美沙紀",
+        "石井萌々果",
+        "小山内花凜",
+        "古仲可奈",
+        "佐藤美波",
+        "大澤萌々",
+        "井川勇樹",
+        "加藤光大",
+        "花塚廉太郎",
+        "三島京華",
+        "星野美夢",
+        "橋爪亮磨",
+        "桃原華恋",
+        "高田舟",
+        "鈴木萌花",
+        "田中有紀",
+        "日向朔公",
+        "堺萌香",
+        "NATSU(WHITE SCORPION)",
+        "薬師寺李有",
+        "大升豪",
+        "望月輝透",
+        "北村夏未",
+        "倉橋伶奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "470966",
+      "date": "2026-06-06",
+      "title": "［Otona Project 第六十九弾］演劇ユニット【爆走おとな小学生】第二十七回全校集会 \"朗読×ACT\"theater『アイディール・セミナー/2nd session-Replay-』⑥第6セッション",
+      "venue": "こくみん共済 coop ホール／スペース・ゼロ",
+      "url": "https://www.eventernote.com/events/470966",
+      "actors": [
+        "小林愛香",
+        "内山悠里菜",
+        "山岸理子",
+        "福嶋晴菜",
+        "大渕野々花",
+        "阿部寿世",
+        "鷲尾修斗",
+        "石原美沙紀",
+        "石井萌々果",
+        "小山内花凜",
+        "古仲可奈",
+        "佐藤美波",
+        "大澤萌々",
+        "井川勇樹",
+        "加藤光大",
+        "花塚廉太郎",
+        "三島京華",
+        "星野美夢",
+        "橋爪亮磨",
+        "桃原華恋",
+        "高田舟",
+        "鈴木萌花",
+        "田中有紀",
+        "日向朔公",
+        "堺萌香",
+        "NATSU(WHITE SCORPION)",
+        "薬師寺李有",
+        "大升豪",
+        "望月輝透",
+        "北村夏未",
+        "倉橋伶奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "478665",
+      "date": "2026-06-07",
+      "title": "舞台『推しが武道館いってくれたら死ぬ』８K上映会 舞台あいさつ 愛知・イオンシネマ大高会場 14:10",
+      "venue": "イオンシネマ大高",
+      "url": "https://www.eventernote.com/events/478665",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏"
+      ],
+      "attended": false
+    },
+    {
+      "id": "478666",
+      "date": "2026-06-07",
+      "title": "舞台『推しが武道館いってくれたら死ぬ』８K上映会 舞台あいさつ 愛知・イオンシネマ大高会場 14:20",
+      "venue": "イオンシネマ大高",
+      "url": "https://www.eventernote.com/events/478666",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏"
+      ],
+      "attended": false
+    },
+    {
+      "id": "478664",
+      "date": "2026-06-07",
+      "title": "舞台『推しが武道館いってくれたら死ぬ』８K上映会 舞台あいさつ 愛知・イオンシネマ大高会場 18:00",
+      "venue": "イオンシネマ大高",
+      "url": "https://www.eventernote.com/events/478664",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "原優寧",
+        "倉島杏実",
+        "大村杏"
+      ],
+      "attended": false
+    },
+    {
+      "id": "469472",
+      "date": "2026-06-09",
+      "title": "MUSIC AWARDS JAPAN WEEK SPECIAL LIVE リスアニ！LIVE on TOKYO ANIME MUSIC HIGHLIGHTS",
+      "venue": "TOYOTA ARENA TOKYO(トヨタアリーナ東京)",
+      "url": "https://www.eventernote.com/events/469472",
+      "actors": [
+        "オーイシマサヨシ(大石昌良)",
+        "TrySail",
+        "麻倉もも",
+        "雨宮天",
+        "夏川椎菜",
+        "Guilty Kiss",
+        "逢田梨香子",
+        "小林愛香",
+        "Saint Snow",
+        "田野アサミ",
+        "佐藤日向",
+        "アイドルマスターシャイニーカラーズ",
+        "CoMETIK",
+        "川口莉奈",
+        "三川華月",
+        "小澤麗那",
+        "MyGO!!!!!",
+        "羊宮妃那",
+        "立石凛",
+        "青木陽菜",
+        "小日向美香",
+        "林鼓子",
+        "TeddyLoid"
+      ],
+      "attended": false
+    },
+    {
+      "id": "455432",
+      "date": "2026-06-13",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST ぼーなす☆すてーじ in OKINAWA 1日目",
+      "venue": "リザンシーパークホテル谷茶ベイ",
+      "url": "https://www.eventernote.com/events/455432",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "449964",
+      "date": "2026-06-13",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST 沖縄",
+      "venue": "ミュージックタウン音市場",
+      "url": "https://www.eventernote.com/events/449964",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": true
+    },
+    {
+      "id": "455433",
+      "date": "2026-06-14",
+      "title": "AIKA KOBAYASHI LIVE HOUSE TOUR 2026 CANDY QUEST ぼーなす☆すてーじ in OKINAWA 2日目",
+      "venue": "!_沖縄県内某所",
+      "url": "https://www.eventernote.com/events/455433",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": true
+    },
+    {
+      "id": "478661",
+      "date": "2026-06-20",
+      "title": "舞台『推しが武道館いってくれたら死ぬ』８K上映会 舞台あいさつ 岡山・イオンシネマ岡山会場 10:20",
+      "venue": "イオンシネマ岡山",
+      "url": "https://www.eventernote.com/events/478661",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "鈴木愛菜",
+        "原優寧",
+        "倉島杏実",
+        "大村杏"
+      ],
+      "attended": false
+    },
+    {
+      "id": "478662",
+      "date": "2026-06-20",
+      "title": "舞台『推しが武道館いってくれたら死ぬ』８K上映会 舞台あいさつ 岡山・イオンシネマ岡山会場 14:10",
+      "venue": "イオンシネマ岡山",
+      "url": "https://www.eventernote.com/events/478662",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "鈴木愛菜",
+        "原優寧",
+        "倉島杏実",
+        "大村杏"
+      ],
+      "attended": false
+    },
+    {
+      "id": "478663",
+      "date": "2026-06-20",
+      "title": "舞台『推しが武道館いってくれたら死ぬ』８K上映会 舞台あいさつ 岡山・イオンシネマ岡山会場 18:00",
+      "venue": "イオンシネマ岡山",
+      "url": "https://www.eventernote.com/events/478663",
+      "actors": [
+        "小林愛香",
+        "佐藤佳穂",
+        "青木莉樺",
+        "野村実代",
+        "鈴木愛菜",
+        "原優寧",
+        "倉島杏実",
+        "大村杏"
+      ],
+      "attended": false
+    },
+    {
+      "id": "478492",
+      "date": "2026-06-21",
+      "title": "「魔法少女リリカルなのは EXCEEDS Gun Blaze Vengeance」第1話&第2話先行上映会",
+      "venue": "丸の内ピカデリー2",
+      "url": "https://www.eventernote.com/events/478492",
+      "actors": [
+        "橘杏咲",
+        "結川あさき",
+        "千春",
+        "小林愛香",
+        "伊藤彩沙",
+        "青木陽菜"
+      ],
+      "attended": false
+    },
+    {
+      "id": "471110",
+      "date": "2026-06-24",
+      "title": "小林愛香オフィシャルファンクラブ「and」会員限定イベント ― 小林愛香 新曲お披露目会『and more』―",
+      "venue": "!_東京都内某所",
+      "url": "https://www.eventernote.com/events/471110",
+      "actors": [
+        "小林愛香",
+        "澄川龍一"
       ],
       "attended": false
     },
@@ -331,85 +1507,1012 @@
       "attended": true
     },
     {
-      "id": "475318",
-      "date": "2026-07-16",
-      "title": "鈴⽊愛奈 勇者との密会〜ライブスペシャル2026〜 ≪Birthday Encore≫",
-      "venue": "渋谷WWW X",
-      "url": "https://www.eventernote.com/events/475318",
+      "id": "478073",
+      "date": "2026-07-09",
+      "title": "ミュージック・リーディング・シアター ／ アメツチ生演奏朗読劇 ホームズ＆アドラー The Final Problem 7/9 14:00",
+      "venue": "Theater H",
+      "url": "https://www.eventernote.com/events/478073",
       "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": true
-    },
-    {
-      "id": "486989",
-      "date": "2026-09-13",
-      "title": "勇者との密会 vol.8 1部",
-      "venue": "スタァライト劇場",
-      "url": "https://www.eventernote.com/events/486989",
-      "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": true
-    },
-    {
-      "id": "486990",
-      "date": "2026-09-13",
-      "title": "勇者との密会 vol.8 2部",
-      "venue": "スタァライト劇場",
-      "url": "https://www.eventernote.com/events/486990",
-      "actors": [
-        "鈴木愛奈"
-      ],
-      "attended": true
-    },
-    {
-      "id": "491144",
-      "date": "2026-09-27",
-      "title": "TVアニメ「FX戦士くるみちゃん」第1話先行上映会 ～ほんわかゆるふわJDによるちょっとアブナイ(!?)FXのTVアニメ上映会がすたーと！～",
-      "venue": "池袋HUMAXシネマズ",
-      "url": "https://www.eventernote.com/events/491144",
-      "actors": [
-        "鈴木愛奈",
-        "瀬戸麻沙美",
-        "伊藤彩沙"
+        "緑川光",
+        "林翔太",
+        "小林愛香",
+        "門田”JAW”晃介",
+        "草尾毅",
+        "天野浩成"
       ],
       "attended": false
     },
     {
-      "id": "492727",
-      "date": "2026-10-18",
-      "title": "マチ★アソビ vol.31 2日目「『FX戦士くるみちゃん』 『邪神ちゃんドロップキック』 スペシャルコラボステージ」",
-      "venue": "新町橋東公園ステージ",
-      "url": "https://www.eventernote.com/events/492727",
+      "id": "478074",
+      "date": "2026-07-09",
+      "title": "ミュージック・リーディング・シアター ／ アメツチ生演奏朗読劇 ホームズ＆アドラー The Final Problem 7/9 19:00",
+      "venue": "Theater H",
+      "url": "https://www.eventernote.com/events/478074",
       "actors": [
-        "鈴木愛奈",
-        "栁瀬一樹",
-        "根本侑果"
+        "緑川光",
+        "林翔太",
+        "小林愛香",
+        "門田”JAW”晃介",
+        "草尾毅",
+        "天野浩成"
       ],
-      "attended": true
+      "attended": false
     },
     {
-      "id": "495757",
-      "date": "2026-10-18",
-      "title": "マチ★アソビ vol.31 2日目「邪神ちゃん物販特典会」",
-      "venue": "しんまちボードウォーク(パラソルショップ)",
-      "url": "https://www.eventernote.com/events/495757",
+      "id": "481669",
+      "date": "2026-07-12",
+      "title": "「ぽっかるシンフォニー」【1部】",
+      "venue": "三越劇場",
+      "url": "https://www.eventernote.com/events/481669",
       "actors": [
-        "鈴木愛奈",
-        "小見川千明",
-        "小坂井祐莉絵"
+        "志村健一",
+        "藍井エイル",
+        "小林愛香"
       ],
-      "attended": true
+      "attended": false
     },
     {
-      "id": "496049",
-      "date": "2026-11-08",
-      "title": "第14幕 とまこまいコスプレフェスタ『邪神ちゃんドロップキックX』コスプレトークショー with COSPLAY MODE",
-      "venue": "グランドホテルニュー王子",
-      "url": "https://www.eventernote.com/events/496049",
+      "id": "482936",
+      "date": "2026-07-13",
+      "title": "あげつち商店街・ヨハネ誕生祭2026",
+      "venue": "沼津リバーサイドホテル",
+      "url": "https://www.eventernote.com/events/482936",
       "actors": [
-        "鈴木愛奈"
+        "小林愛香",
+        "高槻かなこ",
+        "頼重秀一"
+      ],
+      "attended": false
+    },
+    {
+      "id": "471458",
+      "date": "2026-07-19",
+      "title": "Shibuya LOVEZ OPENING SERIES「Lantis DAYZ」DAY.2",
+      "venue": "Shibuya LOVEZ(シブヤ ラブズ)",
+      "url": "https://www.eventernote.com/events/471458",
+      "actors": [
+        "ARCANA PROJECT",
+        "桜野羽咲",
+        "花宮ハナ(トリアエズ・ハナ)",
+        "相田詩音",
+        "天野ひかる",
+        "蔀祐佳",
+        "吉乃櫻",
+        "いきづらい部！",
+        "綾咲穂音",
+        "遠藤璃菜",
+        "宮野芹",
+        "藤野こころ",
+        "佐々木李子",
+        "ZAQ",
+        "田中有紀",
+        "虹ヶ咲学園スクールアイドル同好会",
+        "相良茉優",
+        "村上奈津実",
+        "田中ちえ美",
+        "アイドルマスターシャイニーカラーズ",
+        "noctchill",
+        "和久井優",
+        "土屋李央",
+        "田嶌紗蘭",
+        "岡咲美保",
+        "H△G",
+        "MindaRyn",
+        "前橋ウィッチーズ",
+        "春日さくら",
+        "咲川ひなの",
+        "本村玲奈",
+        "三波春香",
+        "百瀬帆南",
+        "岬なこ",
+        "吹野クワガタ",
+        "椿本匡賜",
+        "櫻井陸来",
+        "北村望",
+        "藍井エイル",
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "485552",
+      "date": "2026-07-20",
+      "title": "YIPYIP 26SS サイン＆ミニトークイベント ①部",
+      "venue": "原宿WAG",
+      "url": "https://www.eventernote.com/events/485552",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "485553",
+      "date": "2026-07-20",
+      "title": "YIPYIP 26SS サイン＆ミニトークイベント ②部",
+      "venue": "原宿WAG",
+      "url": "https://www.eventernote.com/events/485553",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "480648",
+      "date": "2026-07-27",
+      "title": "［Otona Project 第七十弾］演劇ユニット【爆走おとな小学生】第二十八回全校集会 \"朗読×ACT\"『アイディール・セミナー/Final session-Replay-』⑤第5セッション",
+      "venue": "シアター1010",
+      "url": "https://www.eventernote.com/events/480648",
+      "actors": [
+        "石原美沙紀",
+        "赤坂麻凪",
+        "石井萌々果",
+        "篠原望",
+        "小越春花",
+        "髙橋彩香",
+        "佐藤美波",
+        "大澤萌々",
+        "大橋篤",
+        "井川勇樹",
+        "加藤光大",
+        "花塚廉太郎",
+        "三島京華",
+        "星野美夢",
+        "橋爪亮磨",
+        "松谷海里",
+        "桃原華恋",
+        "北村夏未",
+        "倉橋伶奈",
+        "八神日胡",
+        "坂倉花",
+        "高尾奏音",
+        "やみえん",
+        "正木郁",
+        "鈴木萌花",
+        "小林愛香",
+        "山岸理子",
+        "鳴海まい",
+        "真野美月",
+        "原田彩楓",
+        "星野晴海",
+        "佐倉薫",
+        "石田みなみ",
+        "古仲可奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "480649",
+      "date": "2026-07-27",
+      "title": "［Otona Project 第七十弾］演劇ユニット【爆走おとな小学生】第二十八回全校集会 \"朗読×ACT\"『アイディール・セミナー/Final session-Replay-』⑥第6セッション",
+      "venue": "シアター1010",
+      "url": "https://www.eventernote.com/events/480649",
+      "actors": [
+        "石原美沙紀",
+        "赤坂麻凪",
+        "石井萌々果",
+        "篠原望",
+        "小越春花",
+        "髙橋彩香",
+        "佐藤美波",
+        "大澤萌々",
+        "大橋篤",
+        "井川勇樹",
+        "加藤光大",
+        "花塚廉太郎",
+        "三島京華",
+        "星野美夢",
+        "橋爪亮磨",
+        "松谷海里",
+        "桃原華恋",
+        "北村夏未",
+        "倉橋伶奈",
+        "八神日胡",
+        "坂倉花",
+        "高尾奏音",
+        "やみえん",
+        "正木郁",
+        "鈴木萌花",
+        "小林愛香",
+        "山岸理子",
+        "鳴海まい",
+        "真野美月",
+        "原田彩楓",
+        "星野晴海",
+        "佐倉薫",
+        "石田みなみ",
+        "古仲可奈"
+      ],
+      "attended": false
+    },
+    {
+      "id": "486865",
+      "date": "2026-07-31",
+      "title": "七月二十九日、君に還る日 7/31 12:30",
+      "venue": "武蔵野芸能劇場",
+      "url": "https://www.eventernote.com/events/486865",
+      "actors": [
+        "小林愛香",
+        "山口渓",
+        "杉江大志"
+      ],
+      "attended": false
+    },
+    {
+      "id": "486864",
+      "date": "2026-08-01",
+      "title": "七月二十九日、君に還る日 8/1 12:30",
+      "venue": "武蔵野芸能劇場",
+      "url": "https://www.eventernote.com/events/486864",
+      "actors": [
+        "前田優輝",
+        "小林愛香",
+        "山口渓"
+      ],
+      "attended": false
+    },
+    {
+      "id": "486867",
+      "date": "2026-08-01",
+      "title": "七月二十九日、君に還る日 8/1 15:30",
+      "venue": "武蔵野芸能劇場",
+      "url": "https://www.eventernote.com/events/486867",
+      "actors": [
+        "小林愛香",
+        "山口渓",
+        "小椋涼介"
+      ],
+      "attended": false
+    },
+    {
+      "id": "486366",
+      "date": "2026-08-11",
+      "title": "第69回オールスター競輪GⅠ ラジオドラマ「さよなら☆競輪おじさん」出演声優 上坂すみれ＆小林愛香スペシャルトークショー①",
+      "venue": "松山競輪場",
+      "url": "https://www.eventernote.com/events/486366",
+      "actors": [
+        "上坂すみれ",
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "486367",
+      "date": "2026-08-11",
+      "title": "第69回オールスター競輪GⅠ ラジオドラマ「さよなら☆競輪おじさん」出演声優 上坂すみれ＆小林愛香スペシャルトークショー②",
+      "venue": "松山競輪場",
+      "url": "https://www.eventernote.com/events/486367",
+      "actors": [
+        "上坂すみれ",
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "487456",
+      "date": "2026-08-15",
+      "title": "Japan Festival Canada Aika Kobayashi Special Fanmeet & Fansign 【Concert】",
+      "venue": "開場 19:00 開演 20:00 終演 21:00",
+      "url": "https://www.eventernote.com/events/487456",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "487455",
+      "date": "2026-08-15",
+      "title": "Japan Festival Canada Aika Kobayashi Special Fanmeet & Fansign 【Fanmeet】",
+      "venue": "開場 11:00 開演 12:15 終演 13:30",
+      "url": "https://www.eventernote.com/events/487455",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "487457",
+      "date": "2026-08-15",
+      "title": "Japan Festival Canada Aika Kobayashi Special Fanmeet & Fansign 【Fansign】",
+      "venue": "開場 21:00 開演 21:15 終演 22:45",
+      "url": "https://www.eventernote.com/events/487457",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "488063",
+      "date": "2026-08-22",
+      "title": "小林愛香「BLUE MAGIC」発売記念イベント in もりのみやキューズモールBASE [1部]",
+      "venue": "もりのみやキューズモールBASE BASEパーク",
+      "url": "https://www.eventernote.com/events/488063",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "488064",
+      "date": "2026-08-22",
+      "title": "小林愛香「BLUE MAGIC」発売記念イベント in もりのみやキューズモールBASE [2部]",
+      "venue": "もりのみやキューズモールBASE BASEパーク",
+      "url": "https://www.eventernote.com/events/488064",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "488059",
+      "date": "2026-08-23",
+      "title": "小林愛香「BLUE MAGIC」発売記念イベント in アニメイト大阪日本橋【第1部】",
+      "venue": "アニメイト大阪日本橋 5Fイベントホール",
+      "url": "https://www.eventernote.com/events/488059",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "488060",
+      "date": "2026-08-23",
+      "title": "小林愛香「BLUE MAGIC」発売記念イベント in アニメイト大阪日本橋【第2部】",
+      "venue": "アニメイト大阪日本橋 5Fイベントホール",
+      "url": "https://www.eventernote.com/events/488060",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "489463",
+      "date": "2026-08-29",
+      "title": "グミの家2026 ゲストステージ",
+      "venue": "二子玉川ライズ スタジオ & ホール",
+      "url": "https://www.eventernote.com/events/489463",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "488065",
+      "date": "2026-08-30",
+      "title": "小林愛香「BLUE MAGIC」発売記念フリーライブ in アスナル金山【第1部】",
+      "venue": "アスナル金山 明日なる！広場",
+      "url": "https://www.eventernote.com/events/488065",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "488066",
+      "date": "2026-08-30",
+      "title": "小林愛香「BLUE MAGIC」発売記念フリーライブ in アスナル金山【第2部】",
+      "venue": "アスナル金山 明日なる！広場",
+      "url": "https://www.eventernote.com/events/488066",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "488067",
+      "date": "2026-09-05",
+      "title": "小林愛香「BLUE MAGIC」発売記念ミニライブ＆特典お渡し会＠AKIHABARAゲーマーズ本店【第1部】",
+      "venue": "AKIHABARAゲーマーズ本店",
+      "url": "https://www.eventernote.com/events/488067",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "488068",
+      "date": "2026-09-05",
+      "title": "小林愛香「BLUE MAGIC」発売記念ミニライブ＆特典お渡し会＠AKIHABARAゲーマーズ本店【第2部】",
+      "venue": "AKIHABARAゲーマーズ本店",
+      "url": "https://www.eventernote.com/events/488068",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "478489",
+      "date": "2026-09-06",
+      "title": "ラブライブ！スーパースター!! Liella! 結女体育祭 2日目 夜の部",
+      "venue": "東京体育館 メインアリーナ",
+      "url": "https://www.eventernote.com/events/478489",
+      "actors": [
+        "Liella!",
+        "伊達さゆり",
+        "Liyuu(黎獄)",
+        "岬なこ",
+        "ペイトン尚未",
+        "青山なぎさ",
+        "鈴原希実",
+        "薮島朱音",
+        "大熊和奏",
+        "絵森彩",
+        "結那",
+        "坂倉花",
+        "Aqours",
+        "斉藤朱夏",
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "465384",
+      "date": "2026-09-06",
+      "title": "ラブライブ！スーパースター!! Liella! 結女体育祭 2日目 昼の部",
+      "venue": "東京体育館 メインアリーナ",
+      "url": "https://www.eventernote.com/events/465384",
+      "actors": [
+        "Liella!",
+        "伊達さゆり",
+        "Liyuu(黎獄)",
+        "岬なこ",
+        "ペイトン尚未",
+        "青山なぎさ",
+        "鈴原希実",
+        "薮島朱音",
+        "大熊和奏",
+        "絵森彩",
+        "結那",
+        "坂倉花",
+        "Aqours",
+        "斉藤朱夏",
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "488069",
+      "date": "2026-09-13",
+      "title": "小林愛香「BLUE MAGIC」発売記念フリーライブ in ららぽーと沼津【第1部】",
+      "venue": "ららぽーと沼津",
+      "url": "https://www.eventernote.com/events/488069",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "488070",
+      "date": "2026-09-13",
+      "title": "小林愛香「BLUE MAGIC」発売記念フリーライブ in ららぽーと沼津【第2部】",
+      "venue": "ららぽーと沼津",
+      "url": "https://www.eventernote.com/events/488070",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490949",
+      "date": "2026-09-16",
+      "title": "小林愛香「BLUE MAGIC」発売記念イベント in 汐留シオサイト",
+      "venue": "汐留シオサイト地下歩道",
+      "url": "https://www.eventernote.com/events/490949",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490950",
+      "date": "2026-09-18",
+      "title": "小林愛香「BLUE MAGIC」発売記念フリーライブ in サンシャインシティ 噴水広場",
+      "venue": "池袋サンシャインシティ アルパB1F 噴水広場",
+      "url": "https://www.eventernote.com/events/490950",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490951",
+      "date": "2026-09-19",
+      "title": "小林愛香「BLUE MAGIC」発売記念ミニライブ＆特典お渡し会in namco TOKYO【第1部】",
+      "venue": "namco TOKYO",
+      "url": "https://www.eventernote.com/events/490951",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490952",
+      "date": "2026-09-19",
+      "title": "小林愛香「BLUE MAGIC」発売記念ミニライブ＆特典お渡し会in namco TOKYO【第2部】",
+      "venue": "namco TOKYO",
+      "url": "https://www.eventernote.com/events/490952",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490953",
+      "date": "2026-09-20",
+      "title": "小林愛香「BLUE MAGIC」発売記念ミニライブ＆特典お渡し会 in タワーレコード渋谷【第1部】",
+      "venue": "タワーレコード渋谷店5Fイベントスペース",
+      "url": "https://www.eventernote.com/events/490953",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490954",
+      "date": "2026-09-20",
+      "title": "小林愛香「BLUE MAGIC」発売記念ミニライブ＆特典お渡し会 in タワーレコード渋谷【第2部】",
+      "venue": "タワーレコード渋谷店5Fイベントスペース",
+      "url": "https://www.eventernote.com/events/490954",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490955",
+      "date": "2026-09-26",
+      "title": "小林愛香「BLUE MAGIC」発売＆「小林愛香がYATTEKURU」開催記念特典お渡し会 in あるあるCity",
+      "venue": "あるあるCity 7Fホール",
+      "url": "https://www.eventernote.com/events/490955",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "485291",
+      "date": "2026-09-26",
+      "title": "小林愛香がYATTEKURU【第1部】",
+      "venue": "あるあるCity 7Fホール",
+      "url": "https://www.eventernote.com/events/485291",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "485292",
+      "date": "2026-09-26",
+      "title": "小林愛香がYATTEKURU【第2部】",
+      "venue": "あるあるCity 7Fホール",
+      "url": "https://www.eventernote.com/events/485292",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490956",
+      "date": "2026-10-03",
+      "title": "小林愛香「BLUE MAGIC」発売記念ミニライブ＆特典お渡し会 in ヴィレッジヴァンガード渋谷本店【第1部】",
+      "venue": "ヴィレッジヴァンガード渋谷本店 B2Fイベントスペース",
+      "url": "https://www.eventernote.com/events/490956",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490957",
+      "date": "2026-10-03",
+      "title": "小林愛香「BLUE MAGIC」発売記念ミニライブ＆特典お渡し会 in ヴィレッジヴァンガード渋谷本店【第2部】",
+      "venue": "ヴィレッジヴァンガード渋谷本店 B2Fイベントスペース",
+      "url": "https://www.eventernote.com/events/490957",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490958",
+      "date": "2026-10-04",
+      "title": "小林愛香「BLUE MAGIC」発売記念イベント in アニメイト池袋本店【第1部】",
+      "venue": "アニメイト池袋本店 9F animate hall BLACK",
+      "url": "https://www.eventernote.com/events/490958",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490959",
+      "date": "2026-10-04",
+      "title": "小林愛香「BLUE MAGIC」発売記念イベント in アニメイト池袋本店【第2部】",
+      "venue": "アニメイト池袋本店 9F animate hall BLACK",
+      "url": "https://www.eventernote.com/events/490959",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490960",
+      "date": "2026-10-10",
+      "title": "小林愛香「BLUE MAGIC」発売記念ミニライブ＆サイン会in 沼津・千本プラザ【第1部】",
+      "venue": "千本プラザ",
+      "url": "https://www.eventernote.com/events/490960",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490961",
+      "date": "2026-10-10",
+      "title": "小林愛香「BLUE MAGIC」発売記念ミニライブ＆サイン会in 沼津・千本プラザ【第2部】",
+      "venue": "千本プラザ",
+      "url": "https://www.eventernote.com/events/490961",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490962",
+      "date": "2026-10-11",
+      "title": "小林愛香「BLUE MAGIC」発売記念フリーライブ in 横浜ワールドポーターズ【第1部】",
+      "venue": "横浜ワールドポーターズ",
+      "url": "https://www.eventernote.com/events/490962",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "490963",
+      "date": "2026-10-11",
+      "title": "小林愛香「BLUE MAGIC」発売記念フリーライブ in 横浜ワールドポーターズ【第2部】",
+      "venue": "横浜ワールドポーターズ",
+      "url": "https://www.eventernote.com/events/490963",
+      "actors": [
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "493285",
+      "date": "2026-10-16",
+      "title": "鷲崎健のアコギFUN！クラブ #115",
+      "venue": "白金高輪SELENE b2",
+      "url": "https://www.eventernote.com/events/493285",
+      "actors": [
+        "鷲崎健",
+        "内田稔",
+        "青木佑磨",
+        "市川太一(学園祭学園)",
+        "小林愛香",
+        "紫月杏朱彩",
+        "吉武千颯"
+      ],
+      "attended": false
+    },
+    {
+      "id": "486512",
+      "date": "2026-10-17",
+      "title": "ポッドキャストメンバーシップ1周年合同イベント「小林愛香のきゃんがきゅんと」×「野中ここなのノナカの野望」第1部：「小林愛香のきゃんがきゅんと」",
+      "venue": "The Garden Hall(恵比寿ザ・ガーデンホール)",
+      "url": "https://www.eventernote.com/events/486512",
+      "actors": [
+        "小林愛香",
+        "野中ここな"
+      ],
+      "attended": false
+    },
+    {
+      "id": "486513",
+      "date": "2026-10-17",
+      "title": "ポッドキャストメンバーシップ1周年合同イベント「小林愛香のきゃんがきゅんと」×「野中ここなのノナカの野望」第2部：「野中ここなのノナカの野望」",
+      "venue": "The Garden Hall(恵比寿ザ・ガーデンホール)",
+      "url": "https://www.eventernote.com/events/486513",
+      "actors": [
+        "野中ここな",
+        "小林愛香"
+      ],
+      "attended": false
+    },
+    {
+      "id": "481788",
+      "date": "2026-10-23",
+      "title": "AIKA BIRTHDAY 2026 \"INVITATION\" 第1部",
+      "venue": "全電通労働会館 多目的ホール",
+      "url": "https://www.eventernote.com/events/481788",
+      "actors": [
+        "小林愛香",
+        "ひぐちけい"
+      ],
+      "attended": false
+    },
+    {
+      "id": "481789",
+      "date": "2026-10-23",
+      "title": "AIKA BIRTHDAY 2026 \"INVITATION\" 第2部",
+      "venue": "全電通労働会館 多目的ホール",
+      "url": "https://www.eventernote.com/events/481789",
+      "actors": [
+        "小林愛香",
+        "ひぐちけい"
+      ],
+      "attended": false
+    },
+    {
+      "id": "464371",
+      "date": "2026-11-14",
+      "title": "LoveLive! Series 15th Anniversary ラブライブ！フェス Day.1",
+      "venue": "バンテリンドーム ナゴヤ(ナゴヤドーム)",
+      "url": "https://www.eventernote.com/events/464371",
+      "actors": [
+        "μ’s",
+        "新田恵海",
+        "内田彩",
+        "飯田里穂",
+        "Pile",
+        "徳井青空",
+        "Aqours",
+        "伊波杏樹",
+        "逢田梨香子",
+        "斉藤朱夏",
+        "小林愛香",
+        "高槻かなこ",
+        "虹ヶ咲学園スクールアイドル同好会",
+        "大西亜玖璃",
+        "相良茉優",
+        "前田佳織里",
+        "久保田未夢",
+        "村上奈津実",
+        "鬼頭明里",
+        "指出毬亜",
+        "田中ちえ美",
+        "小泉萌香",
+        "内田秀",
+        "法元明菜",
+        "矢野妃菜喜",
+        "Liella!",
+        "伊達さゆり",
+        "Liyuu(黎獄)",
+        "岬なこ",
+        "ペイトン尚未",
+        "青山なぎさ",
+        "鈴原希実",
+        "薮島朱音",
+        "大熊和奏",
+        "絵森彩",
+        "結那",
+        "坂倉花",
+        "蓮ノ空女学院スクールアイドルクラブ",
+        "楡井希実",
+        "野中ここな",
+        "花宮初奈",
+        "佐々木琴子",
+        "菅叶和",
+        "月音こな",
+        "櫻井陽菜",
+        "葉山風花",
+        "来栖りん",
+        "三宅美羽",
+        "進藤あまね",
+        "いきづらい部！",
+        "綾咲穂音",
+        "遠藤璃菜",
+        "宮野芹",
+        "藤野こころ",
+        "坂野愛羽",
+        "瀬古梨愛",
+        "奥村優季",
+        "天沢朱音",
+        "小戸森穂花",
+        "涼ノ瀬葵音",
+        "スクールアイドルミュージカル",
+        "堀内まり菜",
+        "宮本佳林",
+        "浅井七海",
+        "南野巴那",
+        "杏ジュリア",
+        "及川結依",
+        "清水理子",
+        "井上音生",
+        "由良朱合",
+        "村山結香",
+        "久保ユリカ"
+      ],
+      "attended": false
+    },
+    {
+      "id": "464372",
+      "date": "2026-11-15",
+      "title": "LoveLive! Series 15th Anniversary ラブライブ！フェス Day.2",
+      "venue": "バンテリンドーム ナゴヤ(ナゴヤドーム)",
+      "url": "https://www.eventernote.com/events/464372",
+      "actors": [
+        "μ’s",
+        "新田恵海",
+        "内田彩",
+        "飯田里穂",
+        "Pile",
+        "徳井青空",
+        "Aqours",
+        "伊波杏樹",
+        "逢田梨香子",
+        "斉藤朱夏",
+        "小林愛香",
+        "高槻かなこ",
+        "虹ヶ咲学園スクールアイドル同好会",
+        "大西亜玖璃",
+        "相良茉優",
+        "前田佳織里",
+        "久保田未夢",
+        "村上奈津実",
+        "鬼頭明里",
+        "指出毬亜",
+        "田中ちえ美",
+        "小泉萌香",
+        "内田秀",
+        "法元明菜",
+        "矢野妃菜喜",
+        "Liella!",
+        "伊達さゆり",
+        "Liyuu(黎獄)",
+        "岬なこ",
+        "ペイトン尚未",
+        "青山なぎさ",
+        "鈴原希実",
+        "薮島朱音",
+        "大熊和奏",
+        "絵森彩",
+        "結那",
+        "坂倉花",
+        "蓮ノ空女学院スクールアイドルクラブ",
+        "楡井希実",
+        "野中ここな",
+        "花宮初奈",
+        "佐々木琴子",
+        "菅叶和",
+        "月音こな",
+        "櫻井陽菜",
+        "葉山風花",
+        "来栖りん",
+        "三宅美羽",
+        "進藤あまね",
+        "いきづらい部！",
+        "綾咲穂音",
+        "遠藤璃菜",
+        "宮野芹",
+        "藤野こころ",
+        "坂野愛羽",
+        "瀬古梨愛",
+        "奥村優季",
+        "天沢朱音",
+        "小戸森穂花",
+        "涼ノ瀬葵音",
+        "スクールアイドルミュージカル",
+        "堀内まり菜",
+        "宮本佳林",
+        "浅井七海",
+        "南野巴那",
+        "杏ジュリア",
+        "及川結依",
+        "清水理子",
+        "井上音生",
+        "由良朱合",
+        "村山結香",
+        "久保ユリカ"
+      ],
+      "attended": false
+    },
+    {
+      "id": "494947",
+      "date": "2026-11-20",
+      "title": "上坂すみれの土曜闇鍋劇場 presents「さよなら☆競輪おじさん」ファンミーティング 競輪発祥の日スペシャル【夜の部】",
+      "venue": "TOKYO FM HALL",
+      "url": "https://www.eventernote.com/events/494947",
+      "actors": [
+        "上坂すみれ",
+        "小林愛香",
+        "Machico"
+      ],
+      "attended": false
+    },
+    {
+      "id": "494945",
+      "date": "2026-11-20",
+      "title": "上坂すみれの土曜闇鍋劇場 presents「さよなら☆競輪おじさん」ファンミーティング 競輪発祥の日スペシャル【昼の部】",
+      "venue": "TOKYO FM HALL",
+      "url": "https://www.eventernote.com/events/494945",
+      "actors": [
+        "上坂すみれ",
+        "小林愛香",
+        "Machico"
+      ],
+      "attended": false
+    },
+    {
+      "id": "493584",
+      "date": "2026-11-29",
+      "title": "LISANI！TAIPEI 2026 SUNDAY STAGE",
+      "venue": "Legacy MaX",
+      "url": "https://www.eventernote.com/events/493584",
+      "actors": [
+        "麻倉もも",
+        "小林愛香",
+        "伊達さゆり",
+        "陽高真白",
+        "岬なこ"
+      ],
+      "attended": false
+    },
+    {
+      "id": "498313",
+      "date": "2026-12-07",
+      "title": "VOICE KITトークイベント ～リテイクなんて知りません！～Vol.4 1部",
+      "venue": "LOFT/PLUS ONE(ロフトプラスワン)",
+      "url": "https://www.eventernote.com/events/498313",
+      "actors": [
+        "小林愛香",
+        "駒形友梨",
+        "吉武千颯"
+      ],
+      "attended": false
+    },
+    {
+      "id": "498314",
+      "date": "2026-12-07",
+      "title": "VOICE KITトークイベント ～リテイクなんて知りません！～Vol.4 2部",
+      "venue": "LOFT/PLUS ONE(ロフトプラスワン)",
+      "url": "https://www.eventernote.com/events/498314",
+      "actors": [
+        "小林愛香",
+        "駒形友梨",
+        "吉武千颯"
+      ],
+      "attended": false
+    },
+    {
+      "id": "494106",
+      "date": "2026-12-09",
+      "title": "朗読劇『綴結』12/9",
+      "venue": "六行会ホール",
+      "url": "https://www.eventernote.com/events/494106",
+      "actors": [
+        "豊田萌絵",
+        "小林愛香",
+        "青木陽菜",
+        "咲川ひなの"
+      ],
+      "attended": false
+    },
+    {
+      "id": "494108",
+      "date": "2026-12-10",
+      "title": "朗読劇『綴結』12/10 14:00",
+      "venue": "六行会ホール",
+      "url": "https://www.eventernote.com/events/494108",
+      "actors": [
+        "逢田梨香子",
+        "小林愛香",
+        "青木陽菜",
+        "村上奈津実"
+      ],
+      "attended": false
+    },
+    {
+      "id": "494107",
+      "date": "2026-12-10",
+      "title": "朗読劇『綴結』12/10 19:00",
+      "venue": "六行会ホール",
+      "url": "https://www.eventernote.com/events/494107",
+      "actors": [
+        "逢田梨香子",
+        "小林愛香",
+        "青木陽菜",
+        "村上奈津実"
       ],
       "attended": false
     }
