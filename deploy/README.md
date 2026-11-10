@@ -21,7 +21,7 @@ sudo install -d -m 755 -o deploy -g deploy /srv/eventernote
 不要把访问令牌写入 clone URL 或聊天）：
 
 ```bash
-git clone https://github.com/wangdeze/eventernote-attendance.git /srv/eventernote/app
+git clone --branch v2 --single-branch https://github.com/wangdeze/eventernote-attendance.git /srv/eventernote/app
 python3 -m venv /srv/eventernote/venv
 /srv/eventernote/venv/bin/pip install -r /srv/eventernote/app/deploy/requirements.txt
 install -d -m 755 /srv/eventernote/www/data
