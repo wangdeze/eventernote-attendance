@@ -10,6 +10,12 @@
 - `data/runtime-config.json`：前端接口地址配置
 - `backend/api.py`：统一请求校验与 JSON 响应封装
 - `backend/server.py`：仅限可信本机/私有环境使用的轻量 HTTP API
+- `backend/wsgi.py`：生产 WSGI 入口，配合 Gunicorn 和受认证保护的 Nginx 使用
+
+## 私人服务器部署
+
+Ubuntu 24.04、Nginx HTTPS、账号密码保护和 systemd 的部署步骤见
+[`deploy/README.md`](../deploy/README.md)。不要直接暴露本地调试服务器。
 
 ## 本地运行
 
