@@ -97,6 +97,9 @@
 
 ## v2 升级入口
 
+自有 Ubuntu 服务器上的 HTTPS 私人站点部署见 [部署说明](deploy/README.md)，
+使用 Gunicorn、Nginx 账号密码保护和 systemd，不直接暴露调试 API。
+
 `v2/` 目录开始实现文档中的动态版本：
 
 - `v2/index.html`：前端直接提交实时分析请求
