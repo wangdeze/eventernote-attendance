@@ -1,0 +1,22 @@
+[Unit]
+Description=Eventernote attendance API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=deploy
+Group=deploy
+WorkingDirectory=/srv/eventernote/app
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/srv/eventernote/venv/bin/gunicorn --bind 127.0.0.1:8000 --workers 2 --worker-class sync --timeout 600 --backlog 8 --access-logfile - --error-logfile - v2.backend.wsgi:application
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
